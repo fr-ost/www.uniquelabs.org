@@ -1,0 +1,17 @@
+{
+  "name": "xcg-license-backend",
+  "version": "3.0.0",
+  "description": "Server-backed license key system (revoke, limits, device limits, expiry, kill switch) + OpenAI proxy + admin dashboard + anonymous telemetry for the AI Comment Generator for X extension. By Shahriar Ahmed.",
+  "author": "Shahriar Ahmed",
+  "license": "UNLICENSED",
+  "private": true,
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "express": "^4.19.2",
+    "pg": "^8.11.5",
+    "geoip-lite": "^1.4.10"
+  }
+}
