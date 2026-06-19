@@ -262,12 +262,17 @@ app.post("/api/v1/license/checkin", async (req, res) => {
     }
     if (!r.ok) return res.json({ ok: false, reason: r.reason });
 
+    const lim = Number(r.license.daily_limit);
+    const usedToday = (String(r.license.usage_date).slice(0, 10) === todayStr()) ? Number(r.license.usage_count) : 0;
     res.json({
       ok: true,
       daysLeft: r.daysLeft,
       label: r.license.label || null,
-      dailyLimit: Number(r.license.daily_limit),
+      dailyLimit: lim,
       deviceLimit: Number(r.license.device_limit),
+      used: usedToday,
+      remaining: lim < 0 ? null : Math.max(0, lim - usedToday),
+      unlimited: lim < 0,
       announce: cfg.announce || "",
       announceLink: cfg.announce_link || "",
       minVersion: cfg.min_version || "",
