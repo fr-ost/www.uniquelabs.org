@@ -52,9 +52,13 @@ const NEW_KEY_DEVICE_LIMIT = Number.isFinite(Number(process.env.NEW_KEY_DEVICE_L
 const OPENAI_ENDPOINT = "https://api.openai.com/v1/chat/completions";
 
 // Generation is fully locked server-side. Clients cannot influence any of this.
-const GEN_MAX_MESSAGES    = 6;     // most messages a request may contain
-const GEN_MAX_TOTAL_CHARS = 6000;  // total prompt characters allowed (bounds cost)
-const GEN_RATE_PER_MIN    = 15;    // per-key generations per minute (burst guard)
+// The prompt-size cap must be comfortably larger than the extension's own
+// prompt (style rules + task + anti-repeat history + the tweet), which runs to
+// several thousand characters. Both are env-tunable so you never need a code
+// change to adjust them - set them in Railway > Variables and restart.
+const GEN_MAX_MESSAGES    = Math.max(2, Number(process.env.GEN_MAX_MESSAGES) || 8);
+const GEN_MAX_TOTAL_CHARS = Math.max(2000, Number(process.env.GEN_MAX_TOTAL_CHARS) || 16000);
+const GEN_RATE_PER_MIN    = Math.max(1, Number(process.env.GEN_RATE_PER_MIN) || 15); // per-key burst guard
 
 if (!DATABASE_URL) { console.error("FATAL: DATABASE_URL not set."); process.exit(1); }
 if (!OPENAI_API_KEY) console.warn("WARNING: OPENAI_API_KEY not set - generation will fail until you add it.");

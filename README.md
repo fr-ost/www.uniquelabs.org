@@ -38,6 +38,8 @@ from the dashboard.
    - `NEW_KEY_DAILY_LIMIT` (default 50), `NEW_KEY_DEVICE_LIMIT` (default 1) -
      defaults applied when you create a key without specifying them.
    - `MAX_OUTPUT_TOKENS` (optional, default 200).
+   - `GEN_MAX_TOTAL_CHARS` (optional, default 16000) - max prompt size. Raise it
+     if you ever see "That post is too long to process".
    - `INGEST_KEY` (optional) - deterrent key for the telemetry endpoint.
 5. Deploy. The server creates all tables on boot. Open the Railway URL and append
    `/healthz` to confirm it returns `{"ok":true}`.
