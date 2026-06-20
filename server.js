@@ -36,8 +36,13 @@
 const path = require("path");
 const crypto = require("crypto");
 const express = require("express");
-const { Pool } = require("pg");
+const { Pool, types } = require("pg");
 const geoip = require("geoip-lite");
+
+// Return DATE columns (OID 1082) as plain 'YYYY-MM-DD' strings instead of JS Date
+// objects. Without this, String(usage_date) yields "Fri Jun 20 2026..." and the
+// daily "used today" comparison never matches, so usage always reads 0.
+types.setTypeParser(1082, (v) => v);
 
 const PORT             = process.env.PORT || 3000;
 const DATABASE_URL     = process.env.DATABASE_URL || "";
