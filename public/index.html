@@ -383,9 +383,9 @@
     async function refresh(initial){
       try{
         const res = await fetch("/api/v1/stats", { headers: headers() });
-        if(res.status===401) return false;
-        const d = await res.json();
-        if(!d.ok) return false;
+        if(res.status===401){ $("updatedAt").textContent="dashboard key required"; showGate(); return false; }
+        const d = await res.json().catch(()=>({}));
+        if(!d || !d.ok){ $("updatedAt").textContent="server error - check logs"; return false; }
         render(d);
         lastUpdate=Date.now();
         $("updatedAt").textContent="updated just now";

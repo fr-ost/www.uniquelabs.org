@@ -534,7 +534,7 @@ app.get("/api/v1/stats", async (req, res) => {
       q(`SELECT COALESCE(NULLIF(button,''),'n/a') button, count(*)::bigint comments FROM events WHERE ${C} GROUP BY button`),
       q(`SELECT COALESCE(NULLIF(os,''),'unknown') os, count(*)::bigint comments FROM events WHERE ${C} GROUP BY os ORDER BY comments DESC`),
       q(`SELECT COALESCE(NULLIF(browser,''),'unknown') browser, count(*)::bigint comments FROM events WHERE ${C} GROUP BY browser ORDER BY comments DESC`),
-      q(`SELECT to_char(date_trunc('day', ts),'YYYY-MM-DD') day, count(*)::bigint comments, COALESCE(sum(tokens_in+tokens_out),0)::bigint tokens FROM events WHERE ${C} AND ts >= now() - interval '30 days' GROUP BY 1 ORDER BY 1`),
+      q(`SELECT to_char(date_trunc('day', ts),'YYYY-MM-DD') AS day, count(*)::bigint comments, COALESCE(sum(tokens_in+tokens_out),0)::bigint tokens FROM events WHERE ${C} AND ts >= now() - interval '30 days' GROUP BY 1 ORDER BY 1`),
       q(`SELECT to_char(ts,'YYYY-MM-DD"T"HH24:MI:SS"Z"') ts, COALESCE(country,'??') country, COALESCE(model,'unknown') model, COALESCE(source,'unknown') source, COALESCE(NULLIF(button,''),'n/a') button, COALESCE(NULLIF(os,''),'unknown') os, COALESCE(NULLIF(browser,''),'unknown') browser, tokens_in, tokens_out FROM events WHERE ${C} ORDER BY ts DESC LIMIT 20`),
       q(`SELECT count(*)::bigint total,
                 count(*) FILTER (WHERE status='active')::bigint active,
