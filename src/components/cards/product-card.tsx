@@ -86,7 +86,11 @@ export function ProductCard({
       </div>
 
       {feature && product.cover ? (
-        <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-xl border border-white/10 bg-ink-800">
+        <div
+          className="relative mt-8 overflow-hidden rounded-xl border border-white/10 bg-ink-800"
+          // Use the cover's own proportions (e.g. a 1400×560 store banner) so nothing is cropped.
+          style={{ aspectRatio: product.cover.width && product.cover.height ? `${product.cover.width} / ${product.cover.height}` : "16 / 9" }}
+        >
           <MediaImage
             media={product.cover}
             fill
