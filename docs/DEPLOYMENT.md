@@ -8,7 +8,7 @@ PostgreSQL database. It needs **no database access at build time**.
 | Hosting | Persistent local disk? | Use |
 | --- | --- | --- |
 | Railway, Render, Fly.io, Heroku-style containers | No (ephemeral) | **PostgreSQL** (managed) |
-| Vercel / serverless | No | PostgreSQL (Neon, Supabase, …) |
+| Vercel / serverless | No | PostgreSQL (Neon, Supabase, …) — see Option D |
 | VPS with a persistent disk | Yes | PostgreSQL (recommended for backups) |
 
 This project uses PostgreSQL in all environments. The previous deployment of
@@ -95,6 +95,51 @@ location /api/admin/imports/ {
 The server calls `pro-api.coinmarketcap.com` (market data) and
 `s2.coinmarketcap.com` (coin logos, proxied to visitors). If your host
 restricts egress, allow both. Browsers never contact them.
+
+## Option D — Vercel
+
+The site, admin and Market Intelligence run on Vercel. Vercel limits request
+bodies to 4.5 MB and its serverless instances don't share files, so **large
+Claude/X archive imports should be run from a local copy** connected to the
+production database (see below). Media uploads default to 4 MB on Vercel.
+Vercel's free Hobby plan is for personal, non-commercial use — check whether
+your use needs Pro.
+
+1. **Database.** Project → *Storage* → create a **Neon** (Postgres) database
+   and connect it to the project for Production and Preview. This adds
+   `DATABASE_URL` (pooled — used by the app) and `DATABASE_URL_UNPOOLED`
+   (direct — used for migrations). Another provider works too: set
+   `DATABASE_URL` to its pooled connection string and `DIRECT_DATABASE_URL`
+   to the direct one. If your integration only created `POSTGRES_*`
+   variables, add `DATABASE_URL` with the value of `POSTGRES_URL`.
+2. **Environment variables** (*Settings → Environment Variables*, tick
+   Production and Preview):
+   - `APP_SECRET` — 32+ random characters
+     (`node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"`)
+   - `SITE_URL` — `https://www.uniquelabs.org`
+   - `ADMIN_SETUP_TOKEN` — 24+ random characters (temporary, step 4)
+   - `TRUSTED_PROXY_COUNT` — `1`
+   - `CMC_API_KEY` — recommended (Market Intelligence)
+3. **Deploy.** Leave *Build Command* on its default: Vercel then runs
+   `npm run vercel-build` (`scripts/vercel-build.mjs`), which checks the
+   settings above, applies database migrations on **production** deployments
+   (previews skip them unless `RUN_MIGRATIONS=true`) and builds the app.
+   Redeploy from *Deployments* (or push a commit) after adding variables.
+4. **First admin.** Open `/admin/setup` on the deployment, enter the setup
+   token, your name, email and a strong password. Then delete
+   `ADMIN_SETUP_TOKEN` from the environment variables and redeploy.
+5. **Domains.** *Settings → Domains*: add `www.uniquelabs.org` and
+   `uniquelabs.org`, choose to redirect the apex to `www`, and create the DNS
+   records Vercel shows at your registrar. Preview URLs (`*.vercel.app`) are
+   served with `noindex` automatically.
+6. **Check.** `/api/health` returns `{"ok":true,"database":"up"}`, `/intelligence` shows
+   prices, and Admin → Intelligence lists every dataset as “OK”.
+
+**Importing large archives on Vercel:** clone the repository, `npm install`,
+create `.env` with the production `DATABASE_URL` (the direct/unpooled one is
+fine), run `npm run dev`, sign in at `http://localhost:3000/admin` with your
+owner account and import there. The candidates are written to the production
+database and appear in the live admin for review.
 
 ## Domain configuration (www vs apex)
 

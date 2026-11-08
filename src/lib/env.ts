@@ -8,6 +8,9 @@ import { z } from "zod";
  * secrets. Every server entry point that needs configuration calls `env()`.
  */
 
+/** True when running on Vercel (build or serverless runtime). */
+export const ON_VERCEL = process.env.VERCEL === "1" || process.env.VERCEL === "true";
+
 const booleanString = z
   .enum(["true", "false", "1", "0", ""])
   .optional()
@@ -33,9 +36,11 @@ const schema = z
     TRUSTED_PROXY_COUNT: z.coerce.number().int().min(0).max(5).default(1),
     MEDIA_STORAGE: z.enum(["database", "filesystem"]).default("database"),
     MEDIA_DIR: z.string().default("./storage/media"),
-    MEDIA_MAX_UPLOAD_MB: z.coerce.number().positive().max(50).default(10),
+    // Vercel functions reject request bodies over 4.5 MB, so uploads default
+    // to 4 MB there; self-hosted servers allow more.
+    MEDIA_MAX_UPLOAD_MB: z.coerce.number().positive().max(50).default(ON_VERCEL ? 4 : 10),
     IMPORT_TMP_DIR: z.string().optional(),
-    IMPORT_MAX_UPLOAD_MB: z.coerce.number().int().positive().max(8192).default(2048),
+    IMPORT_MAX_UPLOAD_MB: z.coerce.number().int().positive().max(8192).default(ON_VERCEL ? 4 : 2048),
     CANONICAL_REDIRECT: booleanString,
     // CoinMarketCap (Market Intelligence). Optional: without a key the keyless
     // public API is used. The base URL override is for tests/local mocks.

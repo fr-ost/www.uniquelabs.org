@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { ShieldCheck } from "lucide-react";
-import { JobsTable } from "@/components/admin/import-pages";
+import { JobsTable, ServerlessImportNotice } from "@/components/admin/import-pages";
 import { ImportUploader } from "@/components/admin/import-uploader";
 import { AdminButtonLink, AdminPageHeader, Panel } from "@/components/admin/ui";
 import { prisma } from "@/lib/db";
-import { env } from "@/lib/env";
+import { env, ON_VERCEL } from "@/lib/env";
 import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "Claude history import" };
@@ -22,6 +22,7 @@ export default async function ClaudeImportPage() {
         description="Find products you've actually launched in your Claude conversation history. Ideas and plans are classified separately — nothing is published without your approval."
         actions={pending ? <AdminButtonLink href="/admin/candidates/products" variant="primary">Review {pending} candidate{pending === 1 ? "" : "s"}</AdminButtonLink> : null}
       />
+      {ON_VERCEL ? <ServerlessImportNotice /> : null}
       <div className="grid gap-6 lg:grid-cols-[1fr_22rem]">
         <Panel title="Upload your export">
           <ImportUploader

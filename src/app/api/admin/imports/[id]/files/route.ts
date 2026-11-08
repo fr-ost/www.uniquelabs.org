@@ -7,7 +7,7 @@ import { jobDir, safeUploadName, saveUploadStream, UploadTooLargeError } from "@
 import type { StoredFile } from "@/lib/importers/pipeline";
 
 export const dynamic = "force-dynamic";
-export const maxDuration = 3600;
+export const maxDuration = 300; // the highest limit every Vercel plan accepts; ignored when self-hosting
 
 const MAX_FILES_PER_JOB = 25;
 

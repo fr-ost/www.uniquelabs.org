@@ -31,7 +31,9 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
-  output: "standalone",
+  // Self-hosting (Docker, Railway, VPS) runs the standalone server. Vercel
+  // builds its own serverless output, so standalone is skipped there.
+  output: process.env.VERCEL ? undefined : "standalone",
   poweredByHeader: false,
   reactStrictMode: true,
   // Don't write an AGENTS.md into the repository on `next dev`.

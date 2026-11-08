@@ -14,7 +14,9 @@ function createPrismaClient() {
   }
   const adapter = new PrismaPg({
     connectionString,
-    max: Number(process.env.DATABASE_POOL_SIZE ?? 10),
+    // Serverless platforms run many small instances: keep each pool small
+    // (and use your provider's pooled connection string).
+    max: Number(process.env.DATABASE_POOL_SIZE ?? (process.env.VERCEL ? 5 : 10)),
   });
   return new PrismaClient({
     adapter,

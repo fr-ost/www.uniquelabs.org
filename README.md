@@ -123,7 +123,7 @@ docs/                architecture, deployment, admin guide, imports
 ## Documentation
 
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — architecture, data model, design system, security model
-- [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) — Railway / Docker / VPS, environment, domain, backups
+- [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) — Railway / Docker / VPS / Vercel, environment, domain, backups
 - [docs/ADMIN.md](docs/ADMIN.md) — first admin account and day-to-day content management
 - [docs/IMPORTS.md](docs/IMPORTS.md) — Claude export & X archive imports, classification rules, privacy
 - [docs/INTELLIGENCE.md](docs/INTELLIGENCE.md) — market data sources, API key, caching & credits, curation

@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { ShieldCheck } from "lucide-react";
-import { JobsTable } from "@/components/admin/import-pages";
+import { JobsTable, ServerlessImportNotice } from "@/components/admin/import-pages";
 import { ImportUploader } from "@/components/admin/import-uploader";
 import { AdminButtonLink, AdminPageHeader, Panel } from "@/components/admin/ui";
 import { prisma } from "@/lib/db";
-import { env } from "@/lib/env";
+import { env, ON_VERCEL } from "@/lib/env";
 import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "Import X Archive" };
@@ -22,6 +22,7 @@ export default async function XImportPage() {
         description="Discover collaboration and partnership announcements in your X/Twitter archive. Mentions, replies, retweets and thank-you posts are not treated as collaborations."
         actions={pending ? <AdminButtonLink href="/admin/candidates/collaborations" variant="primary">Review {pending} candidate{pending === 1 ? "" : "s"}</AdminButtonLink> : null}
       />
+      {ON_VERCEL ? <ServerlessImportNotice /> : null}
       <div className="grid gap-6 lg:grid-cols-[1fr_22rem]">
         <Panel title="Upload your archive">
           <ImportUploader

@@ -5,7 +5,7 @@ import { apiErrorResponse, ApiError, requireApiAdmin } from "@/lib/auth/api";
 import { runImportJob, type StoredFile } from "@/lib/importers/pipeline";
 
 export const dynamic = "force-dynamic";
-export const maxDuration = 3600;
+export const maxDuration = 300; // the highest limit every Vercel plan accepts; ignored when self-hosting
 
 /**
  * Queues an import and processes it in the background after the response is
