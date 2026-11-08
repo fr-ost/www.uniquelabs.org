@@ -282,6 +282,8 @@ export function MediaField({
   );
 }
 
+let shotSequence = 0;
+
 interface ShotItem {
   key: string;
   media: PickedMedia;
@@ -310,7 +312,7 @@ export function MediaListField({
   const fieldError = useFieldError(name);
 
   const add = (media: PickedMedia[]) =>
-    setItems((current) => [...current, ...media.map((m) => ({ key: `${m.id}-${Math.random().toString(36).slice(2)}`, media: m, caption: "" }))]);
+    setItems((current) => [...current, ...media.map((m) => ({ key: `${m.id}-${(shotSequence += 1)}`, media: m, caption: "" }))]);
 
   const move = (index: number, delta: number) =>
     setItems((current) => {

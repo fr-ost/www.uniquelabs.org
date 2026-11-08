@@ -28,7 +28,7 @@ export function ApproveProductForm({
       ) : null}
       <TextInput name="name" label="Product name" defaultValue={values.name} maxLength={120} />
       <TextArea name="summary" label="Short description" defaultValue={values.summary} rows={3} maxLength={320} />
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <TextInput name="websiteUrl" label="Website" type="url" defaultValue={values.websiteUrl} optional />
         <TextInput name="primaryCtaUrl" label="Install / store link" type="url" defaultValue={values.primaryCtaUrl} optional />
         <Select name="stage" label="Product status" defaultValue={values.stage} options={opts(RELEASE_STAGE_ADMIN_LABELS)} />
@@ -64,7 +64,7 @@ export function ApproveCollaborationForm({
       ) : null}
       <TextInput name="title" label="Title" defaultValue={values.title} maxLength={160} />
       <TextArea name="summary" label="Summary" defaultValue={values.summary} rows={3} maxLength={400} />
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Select name="category" label="Category" defaultValue={values.category} options={opts(COLLABORATION_CATEGORY_LABELS)} />
         <TextInput name="date" label="Date" defaultValue={values.date} optional placeholder="YYYY-MM-DD" />
         <TextInput name="partnerName" label="Partner name" defaultValue={values.partnerName} maxLength={120} />

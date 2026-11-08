@@ -21,8 +21,6 @@ export function JourneyTimeline({ milestones }: { milestones: MilestoneDTO[] }) 
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 70%", "end 60%"] });
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 });
 
-  let lastYear: number | null = null;
-
   return (
     <ol ref={ref} className="relative">
       {/* Track + animated progress */}
@@ -35,8 +33,8 @@ export function JourneyTimeline({ milestones }: { milestones: MilestoneDTO[] }) 
 
       {milestones.map((milestone, index) => {
         const year = yearOf(milestone.date);
-        const showYear = year !== lastYear;
-        lastYear = year;
+        const previous = milestones[index - 1];
+        const showYear = !previous || yearOf(previous.date) !== year;
         const right = index % 2 === 1;
         return (
           <li key={milestone.id} id={showYear ? `year-${year}` : undefined} className="relative scroll-mt-40">
@@ -47,7 +45,7 @@ export function JourneyTimeline({ milestones }: { milestones: MilestoneDTO[] }) 
                 </span>
               </div>
             ) : null}
-            <div className="relative grid pb-14 md:grid-cols-2 md:gap-16 md:pb-20">
+            <div className="relative grid grid-cols-1 pb-14 md:grid-cols-2 md:gap-16 md:pb-20">
               <span
                 aria-hidden
                 className="absolute top-2 left-[0.6875rem] z-10 flex h-5 w-5 -translate-x-1/2 items-center justify-center rounded-full border border-signal-500/60 bg-ink-900 md:left-1/2"

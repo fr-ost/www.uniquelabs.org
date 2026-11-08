@@ -84,7 +84,7 @@ export default async function AboutPage() {
       />
 
       <div className="container-site">
-        <div className="grid gap-10 py-10 lg:grid-cols-12 lg:py-16">
+        <div className="grid grid-cols-1 gap-10 py-10 lg:grid-cols-12 lg:py-16">
           <aside className="hidden lg:col-span-3 lg:block">
             <nav aria-label="On this page" className="sticky top-[calc(var(--header-height)+2.5rem)]">
               <p className="text-eyebrow text-ink-500">On this page</p>
@@ -116,7 +116,7 @@ export default async function AboutPage() {
                 className="scroll-mt-32 border-t border-white/[0.07] py-14 md:py-20"
               >
                 <p className="text-eyebrow text-signal-400">{indexLabel(chapters.length + 1)}</p>
-                <div className="mt-6 grid gap-4 md:grid-cols-2">
+                <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
                   {company.mission ? (
                     <Reveal className="surface-card relative overflow-hidden p-7 md:p-8">
                       <p className="text-eyebrow text-ink-400">Our mission</p>
@@ -144,7 +144,7 @@ export default async function AboutPage() {
 
       {company.approach || company.longTermDirection ? (
         <div className="container-site">
-          <div className="grid gap-10 py-10 lg:grid-cols-12 lg:py-16">
+          <div className="grid grid-cols-1 gap-10 py-10 lg:grid-cols-12 lg:py-16">
             <div className="lg:col-span-8 lg:col-start-5">
               <Chapter
                 id="approach"

@@ -77,7 +77,7 @@ export function ContactForm({ formToken, defaultType }: { formToken: string; def
         </div>
       ) : null}
 
-      <div className="grid gap-6 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <Field label="Name" htmlFor={fid("name")} error={errors.name}>
           <input
             id={fid("name")}

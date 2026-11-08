@@ -68,7 +68,7 @@ export default async function WhatWeDoPage() {
                 <article
                   key={capability.id}
                   id={capability.slug}
-                  className="grid scroll-mt-32 items-center gap-10 lg:grid-cols-12 lg:gap-16"
+                  className="grid grid-cols-1 scroll-mt-32 items-center gap-10 lg:grid-cols-12 lg:gap-16"
                   aria-labelledby={`${capability.slug}-title`}
                 >
                   <Reveal className={cn("lg:col-span-6", flip && "lg:order-2 lg:col-start-7")}>
@@ -127,7 +127,7 @@ export default async function WhatWeDoPage() {
       {company.approach || howWeWork.length > 0 ? (
         <section className="relative overflow-hidden bg-paper-100 text-paper-900" aria-labelledby="how-title">
           <div aria-hidden className="grid-lines-paper mask-fade-radial pointer-events-none absolute inset-0 opacity-70" />
-          <div className="container-site relative grid gap-12 py-20 md:py-32 lg:grid-cols-12 lg:gap-10">
+          <div className="container-site relative grid grid-cols-1 gap-12 py-20 md:py-32 lg:grid-cols-12 lg:gap-10">
             <div className="lg:col-span-5">
               <Eyebrow tone="paper">How we work</Eyebrow>
               <h2 id="how-title" className="text-display-md mt-6 max-w-[14ch] text-paper-900">
@@ -135,7 +135,7 @@ export default async function WhatWeDoPage() {
               </h2>
               {company.approach ? <Markdown source={company.approach} className="prose-paper mt-8" /> : null}
             </div>
-            <ol className="grid gap-px self-start overflow-hidden rounded-[var(--radius-panel)] border border-paper-900/12 bg-paper-900/12 sm:grid-cols-2 lg:col-span-6 lg:col-start-7">
+            <ol className="grid grid-cols-1 gap-px self-start overflow-hidden rounded-[var(--radius-panel)] border border-paper-900/12 bg-paper-900/12 sm:grid-cols-2 lg:col-span-6 lg:col-start-7">
               {howWeWork.map((principle, index) => (
                 <li key={principle.id} className="bg-paper-100 p-7">
                   <span className="font-mono text-xs text-signal-700">{indexLabel(index + 1)}</span>
@@ -160,7 +160,7 @@ export default async function WhatWeDoPage() {
               </div>
               <TextLink href="/products">All products</TextLink>
             </div>
-            <ul className="mt-10 grid gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-3">
+            <ul className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-3">
               {products.map((product) => (
                 <li key={product.id}>
                   <ProductCard product={product} />

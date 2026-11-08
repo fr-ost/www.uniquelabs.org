@@ -22,7 +22,7 @@ export function NamedItemForm({
 }) {
   return (
     <AdminForm action={action} submitLabel={submitLabel} sticky={false}>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <TextInput name="name" label={nameLabel} defaultValue={values.name} maxLength={60} />
         <TextInput name="slug" label="Slug" defaultValue={values.slug} optional hint="Generated from the name if empty." />
       </div>
@@ -42,7 +42,7 @@ export function PrincipleForm({
 }) {
   return (
     <AdminForm action={action} submitLabel={submitLabel} sticky={false}>
-      <div className="grid gap-4 sm:grid-cols-[1fr_12rem]">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-[1fr_12rem]">
         <TextInput name="title" label="Title" defaultValue={values.title} maxLength={80} />
         <Select name="status" label="Visibility" defaultValue={values.status} options={statusOptions} />
       </div>
@@ -62,7 +62,7 @@ export function SocialLinkForm({
 }) {
   return (
     <AdminForm action={action} submitLabel={submitLabel} sticky={false}>
-      <div className="grid gap-4 sm:grid-cols-[12rem_1fr]">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-[12rem_1fr]">
         <Select
           name="platform"
           label="Platform"
@@ -71,7 +71,7 @@ export function SocialLinkForm({
         />
         <TextInput name="url" label="Profile URL" type="url" defaultValue={values.url} placeholder="https://" />
       </div>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <TextInput name="label" label="Custom label" defaultValue={values.label} optional hint="Defaults to the platform name." />
         <Checkbox name="visible" label="Show on the website" defaultChecked={values.visible} className="sm:pt-7" />
       </div>

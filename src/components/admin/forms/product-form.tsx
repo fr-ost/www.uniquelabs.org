@@ -63,13 +63,13 @@ export function ProductForm({
   return (
     <AdminForm action={action} submitLabel={isNew ? "Create product" : "Save product"}>
       <FormSection title="Basics" description="How the product appears in the directory and on cards.">
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <TextInput name="name" label="Product name" defaultValue={values.name} maxLength={120} />
           <TextInput name="slug" label="URL slug" defaultValue={values.slug} optional hint="Leave empty to generate from the name." />
         </div>
         <TextInput name="tagline" label="Tagline" defaultValue={values.tagline} optional maxLength={160} />
         <TextArea name="summary" label="Short description" defaultValue={values.summary} rows={3} maxLength={320} hint="Shown on product cards and in search results." />
-        <div className="grid gap-5 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
           <Select name="categoryId" label="Category" defaultValue={values.categoryId} options={categories} emptyLabel="No category" optional />
           <Select name="stage" label="Product status" defaultValue={values.stage} options={options(RELEASE_STAGE_ADMIN_LABELS)} />
           <Select name="pricing" label="Pricing" defaultValue={values.pricing} options={options(PRICING_LABELS)} />
@@ -78,7 +78,7 @@ export function ProductForm({
       </FormSection>
 
       <FormSection title="Media" description="Logo, hero image and screenshots. Images are optimised automatically and metadata is stripped.">
-        <div className="grid gap-6 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <MediaField name="logoId" label="Logo" defaultMedia={values.logo} hint="Square PNG/SVG works best." />
           <MediaField name="coverId" label="Hero image" defaultMedia={values.cover} aspect="wide" hint="Shown on the product page and featured cards (16:9)." />
         </div>
@@ -94,7 +94,7 @@ export function ProductForm({
 
       <FormSection title="Availability" description="Where people can get the product. Only verified release dates are shown publicly.">
         <TextInput name="websiteUrl" label="Product website" type="url" defaultValue={values.websiteUrl} optional placeholder="https://" />
-        <div className="grid gap-5 sm:grid-cols-[1fr_14rem]">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-[1fr_14rem]">
           <TextInput name="primaryCtaUrl" label="Install / open link" type="url" defaultValue={values.primaryCtaUrl} optional placeholder="https://chromewebstore.google.com/detail/…" />
           <TextInput name="primaryCtaLabel" label="Button label" defaultValue={values.primaryCtaLabel} optional placeholder="Add to Chrome" />
         </div>
@@ -110,7 +110,7 @@ export function ProductForm({
       </FormSection>
 
       <FormSection title="Appearance & SEO">
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <TextInput name="accentColor" label="Accent colour" defaultValue={values.accentColor} optional placeholder="#ff6b35" hint="Used for the card glow and page highlights." />
           <Checkbox name="featured" label="Feature on the homepage" defaultChecked={values.featured} />
         </div>

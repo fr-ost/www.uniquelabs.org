@@ -429,7 +429,7 @@ export function DateWithPrecision({
 
 export function FormSection({ title, description, children }: { title: string; description?: ReactNode; children: ReactNode }) {
   return (
-    <section className="grid gap-6 border-b border-white/[0.06] pb-8 last:border-b-0 lg:grid-cols-3 lg:gap-10">
+    <section className="grid grid-cols-1 gap-6 border-b border-white/[0.06] pb-8 last:border-b-0 lg:grid-cols-3 lg:gap-10">
       <div>
         <h2 className="text-sm font-semibold text-ink-50">{title}</h2>
         {description ? <p className="mt-1.5 text-xs leading-relaxed text-ink-400">{description}</p> : null}

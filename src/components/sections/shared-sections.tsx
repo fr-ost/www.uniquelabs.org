@@ -34,7 +34,7 @@ export function DirectionStrip({ className }: { className?: string }) {
         aria-hidden
         className="absolute top-[0.6875rem] right-0 left-0 hidden h-px bg-gradient-to-r from-signal-500 via-white/15 to-white/5 md:block"
       />
-      <ol className="grid gap-10 md:grid-cols-3 md:gap-8">
+      <ol className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
         {DIRECTION.map((step, index) => (
           <Reveal as="li" key={step.title} delay={index * 120} className="relative">
             <span
@@ -73,7 +73,7 @@ export function PrinciplesSection({
     <section className="relative overflow-hidden bg-paper-100 text-paper-900" aria-labelledby="principles-title">
       <div aria-hidden className="grid-lines-paper mask-fade-radial pointer-events-none absolute inset-0 opacity-70" />
       <div className="container-site relative py-24 md:py-36">
-        <div className="grid gap-6 lg:grid-cols-12 lg:gap-10">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-3 lg:pt-3">
             <Eyebrow index={index} tone="paper">
               Our philosophy
@@ -87,7 +87,7 @@ export function PrinciplesSection({
           </div>
         </div>
 
-        <ol className="mt-16 grid gap-px overflow-hidden rounded-[var(--radius-panel)] border border-paper-900/12 bg-paper-900/12 sm:grid-cols-2 lg:mt-24 lg:grid-cols-4">
+        <ol className="mt-16 grid grid-cols-1 gap-px overflow-hidden rounded-[var(--radius-panel)] border border-paper-900/12 bg-paper-900/12 sm:grid-cols-2 lg:mt-24 lg:grid-cols-4">
           {principles.map((principle, i) => (
             <Reveal
               as="li"

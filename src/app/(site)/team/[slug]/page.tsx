@@ -46,7 +46,7 @@ export default async function TeamMemberPage({ params }: { params: Params }) {
         <div aria-hidden className="grid-lines mask-fade-radial pointer-events-none absolute inset-0 opacity-50" />
         <div className="container-site relative">
           <Breadcrumbs items={[{ name: "Team", path: "/team" }, { name: member.name, path: `/team/${member.slug}` }]} />
-          <div className="mt-12 grid gap-12 lg:grid-cols-12 lg:gap-10">
+          <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-10">
             <div className="lg:col-span-5">
               <div className="relative aspect-[4/5] overflow-hidden rounded-[var(--radius-panel)] border border-white/10 bg-ink-800">
                 {member.photo ? (
@@ -97,7 +97,7 @@ export default async function TeamMemberPage({ params }: { params: Params }) {
                 </ul>
               ) : null}
 
-              <dl className="mt-10 grid gap-6 border-t border-white/[0.08] pt-8 sm:grid-cols-2">
+              <dl className="mt-10 grid grid-cols-1 gap-6 border-t border-white/[0.08] pt-8 sm:grid-cols-2">
                 {member.joined ? (
                   <div>
                     <dt className="text-eyebrow text-ink-500">Joined</dt>

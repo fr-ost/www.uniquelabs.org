@@ -113,7 +113,7 @@ export function PageHero({
         className="pointer-events-none absolute -top-40 right-[-10%] h-[36rem] w-[36rem] rounded-full bg-[radial-gradient(circle,rgba(255,107,53,0.16),transparent_62%)] blur-2xl"
       />
       <div className="container-site relative">
-        <div className="grid gap-10 lg:grid-cols-12">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
           <div className={aside ? "lg:col-span-8" : "lg:col-span-10"}>
             <Eyebrow className="animate-fade-in">{eyebrow}</Eyebrow>
             <h1 className="text-display-lg mt-7 max-w-[16ch] animate-fade-up text-ink-50 [animation-delay:80ms]">

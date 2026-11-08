@@ -14,7 +14,7 @@ export function CompanyForm({ action, values }: { action: Action; values: Values
   return (
     <AdminForm action={action} submitLabel="Save company information">
       <FormSection title="Identity" description="Company name and short descriptions used across the site and in search results.">
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <TextInput name="name" label="Company name" defaultValue={str(values.name)} maxLength={80} />
           <TextInput name="legalName" label="Legal name" defaultValue={str(values.legalName)} optional hint="Used in legal pages if set." />
         </div>
@@ -36,7 +36,7 @@ export function CompanyForm({ action, values }: { action: Action; values: Values
         <TextInput name="heroEyebrow" label="Eyebrow label" defaultValue={str(values.heroEyebrow)} optional maxLength={80} />
         <TextInput name="heroHeadline" label="Headline" defaultValue={str(values.heroHeadline)} maxLength={120} hint="A trailing full stop becomes the signal-orange dot." />
         <TextArea name="heroDescription" label="Supporting description" defaultValue={str(values.heroDescription)} rows={3} maxLength={400} />
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <TextInput name="primaryCtaLabel" label="Primary button" defaultValue={str(values.primaryCtaLabel)} maxLength={40} />
           <TextInput name="secondaryCtaLabel" label="Secondary button" defaultValue={str(values.secondaryCtaLabel)} maxLength={40} />
         </div>
@@ -46,7 +46,7 @@ export function CompanyForm({ action, values }: { action: Action; values: Values
       <FormSection title="About page" description="Markdown supported. Leave a section empty to hide it. Don't include facts you can't verify.">
         <MarkdownArea name="whoWeAre" label="Who we are" defaultValue={str(values.whoWeAre)} optional rows={6} />
         <MarkdownArea name="whyWeExist" label="Why we exist" defaultValue={str(values.whyWeExist)} optional rows={5} />
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <TextArea name="mission" label="Mission" defaultValue={str(values.mission)} rows={4} optional maxLength={1000} />
           <TextArea name="vision" label="Vision" defaultValue={str(values.vision)} rows={4} optional maxLength={1000} />
         </div>
@@ -71,7 +71,7 @@ export function ContactInfoForm({ action, values }: { action: Action; values: Va
         <Checkbox name="contactFormEnabled" label="Enable the contact form" defaultChecked={bool(values.contactFormEnabled)} />
       </FormSection>
       <FormSection title="Email addresses">
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <TextInput name="contactEmail" label="Official company email" type="email" defaultValue={str(values.contactEmail)} optional />
           <TextInput name="generalEmail" label="General inquiries" type="email" defaultValue={str(values.generalEmail)} optional />
           <TextInput name="businessEmail" label="Business inquiries" type="email" defaultValue={str(values.businessEmail)} optional />
@@ -83,7 +83,7 @@ export function ContactInfoForm({ action, values }: { action: Action; values: Va
         <TextInput name="country" label="Country" defaultValue={str(values.country)} optional />
         <TextInput name="addressLine1" label="Address line 1" defaultValue={str(values.addressLine1)} optional />
         <TextInput name="addressLine2" label="Address line 2" defaultValue={str(values.addressLine2)} optional />
-        <div className="grid gap-5 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
           <TextInput name="city" label="City" defaultValue={str(values.city)} optional />
           <TextInput name="region" label="Region / state" defaultValue={str(values.region)} optional />
           <TextInput name="postalCode" label="Postal code" defaultValue={str(values.postalCode)} optional />
@@ -109,7 +109,7 @@ export function SeoForm({ action, values }: { action: Action; values: Values }) 
       </FormSection>
       <FormSection title="Indexing & verification">
         <Checkbox name="allowIndexing" label="Allow search engines to index the website" defaultChecked={bool(values.allowIndexing)} hint="Untick to add noindex and disallow crawling (useful before launch)." />
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <TextInput name="googleSiteVerification" label="Google Search Console code" defaultValue={str(values.googleSiteVerification)} optional />
           <TextInput name="bingSiteVerification" label="Bing Webmaster code" defaultValue={str(values.bingSiteVerification)} optional />
         </div>
@@ -139,7 +139,7 @@ export function LegalForm({ action, values }: { action: Action; values: Values }
 export function NewAdminUserForm({ action }: { action: Action }) {
   return (
     <AdminForm action={action} submitLabel="Create account" sticky={false}>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <TextInput name="name" label="Name" />
         <TextInput name="email" label="Email" type="email" />
         <Select name="role" label="Role" defaultValue="EDITOR" options={[{ value: "EDITOR", label: "Editor — manages content" }, { value: "OWNER", label: "Owner — full access" }]} />
@@ -153,7 +153,7 @@ export function PasswordForm({ action }: { action: Action }) {
   return (
     <AdminForm action={action} submitLabel="Change password" sticky={false}>
       <TextInput name="current" label="Current password" type="password" />
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <TextInput name="password" label="New password" type="password" hint="At least 12 characters." />
         <TextInput name="confirm" label="Confirm new password" type="password" />
       </div>

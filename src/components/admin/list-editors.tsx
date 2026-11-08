@@ -7,11 +7,12 @@ import { inputClass, useFieldError } from "@/components/admin/form";
 import { LINK_KIND_LABELS } from "@/lib/labels";
 import { cn } from "@/lib/utils";
 
+let keySequence = 0;
+const nextKey = () => `n${(keySequence += 1)}`;
+
 function useList<T>(initial: T[]) {
-  const [items, setItems] = useState<Array<T & { _key: string }>>(
-    initial.map((item, index) => ({ ...item, _key: `i${index}-${Math.random().toString(36).slice(2, 8)}` })),
-  );
-  const add = (item: T) => setItems((current) => [...current, { ...item, _key: `n${Date.now()}-${current.length}` }]);
+  const [items, setItems] = useState<Array<T & { _key: string }>>(() => initial.map((item, index) => ({ ...item, _key: `i${index}` })));
+  const add = (item: T) => setItems((current) => [...current, { ...item, _key: nextKey() }]);
   const update = (key: string, patch: Partial<T>) =>
     setItems((current) => current.map((item) => (item._key === key ? { ...item, ...patch } : item)));
   const remove = (key: string) => setItems((current) => current.filter((item) => item._key !== key));
@@ -121,7 +122,7 @@ export function LinkListField({
       ) : (
         <ol className="mt-3 space-y-2">
           {list.items.map((item, index) => (
-            <li key={item._key} className="grid gap-2 rounded-xl border border-white/10 bg-ink-950/40 p-3 sm:grid-cols-[10rem_1fr_1.4fr_auto] sm:items-center">
+            <li key={item._key} className="grid grid-cols-1 gap-2 rounded-xl border border-white/10 bg-ink-950/40 p-3 sm:grid-cols-[10rem_1fr_1.4fr_auto] sm:items-center">
               <select value={item.kind} onChange={(e) => list.update(item._key, { kind: e.target.value })} aria-label="Link type" className={inputClass}>
                 {Object.entries(LINK_KIND_LABELS).map(([value, label]) => (
                   <option key={value} value={value}>

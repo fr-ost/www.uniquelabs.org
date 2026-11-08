@@ -56,7 +56,7 @@ export function TeamMemberForm({
     <AdminForm action={action} submitLabel={isNew ? "Add team member" : "Save team member"}>
       <FormSection title="Profile" description="Only add real people with their consent. Nothing here is public until published.">
         <MediaField name="photoId" label="Profile photo" defaultMedia={values.photo} aspect="portrait" hint="Portrait orientation (4:5) works best. EXIF/GPS metadata is removed." />
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <TextInput name="name" label="Full name" defaultValue={values.name} maxLength={120} />
           <TextInput name="position" label="Position" defaultValue={values.position} maxLength={120} />
           <TextInput name="slug" label="Profile URL slug" defaultValue={values.slug} optional />
@@ -79,7 +79,7 @@ export function TeamMemberForm({
         />
       </FormSection>
       <FormSection title="Links">
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <TextInput name="linkedinUrl" label="LinkedIn" type="url" defaultValue={values.linkedinUrl} optional />
           <TextInput name="xUrl" label="X (Twitter)" type="url" defaultValue={values.xUrl} optional />
           <TextInput name="githubUrl" label="GitHub" type="url" defaultValue={values.githubUrl} optional />
@@ -87,7 +87,7 @@ export function TeamMemberForm({
         </div>
       </FormSection>
       <FormSection title="Display">
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <Select name="memberType" label="Membership" defaultValue={values.memberType} options={[{ value: "CURRENT", label: "Current team member" }, { value: "FORMER", label: "Former team member" }]} />
           <Select name="status" label="Visibility" defaultValue={values.status} options={statusOptions} />
         </div>
@@ -132,7 +132,7 @@ export function MilestoneForm({
     <AdminForm action={action} submitLabel={isNew ? "Add milestone" : "Save milestone"}>
       <FormSection title="Milestone" description="Every milestone must be based on a verified record.">
         <DateWithPrecision label="Date" dateName="date" precisionName="datePrecision" defaultDate={values.date} defaultPrecision={values.datePrecision} required />
-        <div className="grid gap-5 sm:grid-cols-[1fr_14rem]">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-[1fr_14rem]">
           <TextInput name="title" label="Title" defaultValue={values.title} maxLength={160} />
           <Select name="kind" label="Type" defaultValue={values.kind} options={Object.entries(MILESTONE_KIND_LABELS).map(([value, label]) => ({ value, label }))} />
         </div>
@@ -141,11 +141,11 @@ export function MilestoneForm({
         <MediaField name="imageId" label="Image" defaultMedia={values.image} aspect="wide" />
       </FormSection>
       <FormSection title="Relations & source">
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <Select name="productId" label="Related product" defaultValue={values.productId} options={products} emptyLabel="None" optional />
           <Select name="collaborationId" label="Related collaboration" defaultValue={values.collaborationId} options={collaborations} emptyLabel="None" optional />
         </div>
-        <div className="grid gap-5 sm:grid-cols-[1fr_14rem]">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-[1fr_14rem]">
           <TextInput name="sourceUrl" label="External source" type="url" defaultValue={values.sourceUrl} optional placeholder="https://" />
           <TextInput name="sourceLabel" label="Source label" defaultValue={values.sourceLabel} optional placeholder="Announcement" />
         </div>
@@ -184,7 +184,7 @@ export function CapabilityForm({
   return (
     <AdminForm action={action} submitLabel={isNew ? "Add focus area" : "Save focus area"}>
       <FormSection title="Focus area" description="Describe areas of focus honestly — what you do and intend, not claims of past results.">
-        <div className="grid gap-5 sm:grid-cols-[1fr_12rem]">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-[1fr_12rem]">
           <TextInput name="title" label="Title" defaultValue={values.title} maxLength={120} />
           <Select name="icon" label="Icon" defaultValue={values.icon} options={CAPABILITY_ICONS.map((icon) => ({ value: icon, label: icon }))} />
         </div>

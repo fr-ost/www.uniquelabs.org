@@ -49,7 +49,7 @@ export function HomeHero({ company }: { company: CompanyDTO }) {
       />
       <div className="grain pointer-events-none absolute inset-0" aria-hidden />
 
-      <div className="container-site relative grid min-h-[min(100svh,62rem)] items-center gap-6 pt-[calc(var(--header-height)+2.5rem)] pb-10 lg:grid-cols-12 lg:gap-10 lg:pb-16">
+      <div className="container-site relative grid grid-cols-1 min-h-[min(100svh,62rem)] items-center gap-6 pt-[calc(var(--header-height)+2.5rem)] pb-10 lg:grid-cols-12 lg:gap-10 lg:pb-16">
         <div className="relative z-10 lg:col-span-7">
           {company.heroEyebrow ? (
             <Eyebrow className="animate-fade-in">{company.heroEyebrow}</Eyebrow>

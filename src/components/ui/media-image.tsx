@@ -25,9 +25,9 @@ export function MediaImage({
   alt?: string;
 }) {
   const isSvg = media.mimeType === "image/svg+xml";
+  const altText = alt ?? media.alt;
   const common = {
     src: media.url,
-    alt: alt ?? media.alt,
     className: cn(fill ? "object-cover" : "h-auto", className),
     unoptimized: isSvg,
     priority,
@@ -35,7 +35,7 @@ export function MediaImage({
     sizes: sizes ?? (fill ? "100vw" : undefined),
   };
   if (fill) {
-    return <Image {...common} fill />;
+    return <Image {...common} alt={altText} fill />;
   }
-  return <Image {...common} width={media.width ?? 1200} height={media.height ?? 800} />;
+  return <Image {...common} alt={altText} width={media.width ?? 1200} height={media.height ?? 800} />;
 }

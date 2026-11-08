@@ -50,12 +50,12 @@ export function CollaborationForm({
   return (
     <AdminForm action={action} submitLabel={isNew ? "Create collaboration" : "Save collaboration"}>
       <FormSection title="Basics">
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <TextInput name="title" label="Title" defaultValue={values.title} maxLength={160} />
           <TextInput name="slug" label="URL slug" defaultValue={values.slug} optional hint="Generated from the title if empty." />
         </div>
         <TextArea name="summary" label="Summary" defaultValue={values.summary} rows={3} maxLength={400} />
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <Select
             name="category"
             label="Category"
@@ -75,7 +75,7 @@ export function CollaborationForm({
       </FormSection>
 
       <FormSection title="Evidence & links" description="The original source link is shown publicly so visitors can verify the collaboration.">
-        <div className="grid gap-5 sm:grid-cols-[1fr_14rem]">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-[1fr_14rem]">
           <TextInput name="sourceUrl" label="Original source URL" type="url" defaultValue={values.sourceUrl} optional placeholder="https://x.com/…/status/…" />
           <TextInput name="sourceLabel" label="Source label" defaultValue={values.sourceLabel} optional placeholder="Original post on X" />
         </div>
@@ -113,7 +113,7 @@ export function PartnerForm({
 }) {
   return (
     <AdminForm action={action} submitLabel={submitLabel} sticky={false}>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <TextInput name="name" label="Partner name" defaultValue={values.name} maxLength={120} />
         <TextInput name="slug" label="Slug" defaultValue={values.slug} optional />
         <TextInput name="websiteUrl" label="Website" type="url" defaultValue={values.websiteUrl} optional />

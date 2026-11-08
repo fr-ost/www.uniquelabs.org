@@ -62,7 +62,7 @@ export function CandidateDetail({
         </div>
       ) : null}
 
-      <div className="grid gap-6 xl:grid-cols-[1fr_24rem]">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-[1fr_24rem]">
         <div className="space-y-6">
           <Panel title="Why this was flagged">
             <div className="mb-4 flex items-center gap-3">
@@ -115,7 +115,7 @@ export function CandidateDetail({
 
 export function KeyValueList({ items }: { items: Array<{ label: string; value: ReactNode }> }) {
   return (
-    <dl className="grid gap-x-6 gap-y-4 text-sm sm:grid-cols-2">
+    <dl className="grid grid-cols-1 gap-x-6 gap-y-4 text-sm sm:grid-cols-2">
       {items.map((item) => (
         <div key={item.label}>
           <dt className="text-xs text-ink-500">{item.label}</dt>

@@ -134,7 +134,7 @@ export default async function CollaborationsPage() {
               </h2>
               <div className="mt-12 space-y-14">
                 {years.map(([year, items]) => (
-                  <div key={year} className="grid gap-6 lg:grid-cols-12 lg:gap-10">
+                  <div key={year} className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-10">
                     <div className="lg:col-span-3">
                       <p className="font-display text-6xl font-light tracking-[-0.06em] text-ink-500 lg:sticky lg:top-[calc(var(--header-height)+2rem)]">
                         {year}
@@ -143,7 +143,7 @@ export default async function CollaborationsPage() {
                     <ul className="divide-y divide-white/[0.07] border-y border-white/[0.07] lg:col-span-9">
                       {items.map((item) => (
                         <li key={item.id} className="group relative">
-                          <div className="grid gap-3 py-6 md:grid-cols-12 md:items-center md:gap-6">
+                          <div className="grid grid-cols-1 gap-3 py-6 md:grid-cols-12 md:items-center md:gap-6">
                             <p className="text-eyebrow text-ink-500 md:col-span-3">
                               {item.date ? formatDate(item.date.date, item.date.precision, "short") : "—"}
                             </p>

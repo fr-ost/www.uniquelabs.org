@@ -72,7 +72,7 @@ export default async function ProductPage({ params }: { params: Params }) {
         <div className="container-site relative">
           <Breadcrumbs items={[{ name: "Products", path: "/products" }, { name: product.name, path: `/products/${product.slug}` }]} />
 
-          <div className="mt-12 grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
+          <div className="mt-12 grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-10">
             <div className="lg:col-span-6">
               <div className="flex flex-wrap items-center gap-4">
                 <ProductLogo logo={product.logo} name={product.name} accent={product.accentColor} size="xl" />
@@ -147,7 +147,7 @@ export default async function ProductPage({ params }: { params: Params }) {
       ) : null}
 
       <section className="border-t border-white/[0.07] py-16 md:py-24">
-        <div className="container-site grid gap-14 lg:grid-cols-12 lg:gap-10">
+        <div className="container-site grid grid-cols-1 gap-14 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-7">
             {product.description ? (
               <Reveal>
@@ -159,7 +159,7 @@ export default async function ProductPage({ params }: { params: Params }) {
             {product.features.length > 0 ? (
               <div className={product.description ? "mt-16" : ""}>
                 <Eyebrow>Main features</Eyebrow>
-                <ol className="mt-8 grid gap-px overflow-hidden rounded-[var(--radius-card)] border border-white/[0.08] bg-white/[0.08] sm:grid-cols-2">
+                <ol className="mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-[var(--radius-card)] border border-white/[0.08] bg-white/[0.08] sm:grid-cols-2">
                   {product.features.map((feature, index) => (
                     <Reveal
                       as="li"
@@ -268,7 +268,7 @@ export default async function ProductPage({ params }: { params: Params }) {
               <h2 id="more-title" className="text-display-sm text-ink-50">More from {company.name}</h2>
               <TextLink href="/products">All products</TextLink>
             </div>
-            <ul className="mt-10 grid gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-3">
+            <ul className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-3">
               {others.map((p) => (
                 <li key={p.id}>
                   <Link href={`/products/${p.slug}`} className="group flex items-center gap-4 rounded-[var(--radius-card)] border border-white/[0.08] p-4 transition-colors hover:border-white/20 hover:bg-white/[0.02]">

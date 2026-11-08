@@ -4,7 +4,7 @@ import { ContactForm } from "@/components/sections/contact-form";
 import { PageHero } from "@/components/ui/section";
 import { SocialIcon } from "@/components/visuals/social-icon";
 import { getCompany, getSettings, getSocialLinks } from "@/lib/content/public";
-import { signValue } from "@/lib/security";
+import { issueContactFormToken } from "@/lib/contact-token";
 import { pageMetadata } from "@/lib/seo/metadata";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -44,7 +44,7 @@ export default async function ContactPage({ searchParams }: { searchParams: Sear
         }
       />
 
-      <section className="container-site grid gap-12 py-16 md:py-24 lg:grid-cols-12 lg:gap-10">
+      <section className="container-site grid grid-cols-1 gap-12 py-16 md:py-24 lg:grid-cols-12 lg:gap-10">
         <div className="space-y-10 lg:col-span-4">
           {channels.length > 0 ? (
             <div>
@@ -133,7 +133,7 @@ export default async function ContactPage({ searchParams }: { searchParams: Sear
 
         <div className="lg:col-span-7 lg:col-start-6">
           {settings.contactFormEnabled ? (
-            <ContactForm formToken={signValue(String(Date.now()), "contact-form")} defaultType={defaultType} />
+            <ContactForm formToken={issueContactFormToken()} defaultType={defaultType} />
           ) : (
             <div className="surface-card p-8 text-ink-300">
               The contact form is temporarily unavailable.

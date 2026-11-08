@@ -20,7 +20,7 @@ export function SiteFooter({
     <footer className="relative overflow-hidden border-t border-white/[0.07] bg-ink-950">
       <div aria-hidden className="grid-lines mask-fade-b pointer-events-none absolute inset-0 opacity-40" />
       <div className="container-site relative pt-20 pb-10 md:pt-28">
-        <div className="grid gap-14 lg:grid-cols-12">
+        <div className="grid grid-cols-1 gap-14 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <LogoMark className="h-10 w-10 text-ink-50" />
             <p className="text-display-sm mt-8 max-w-[18ch] text-ink-50">

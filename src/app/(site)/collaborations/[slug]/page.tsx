@@ -53,7 +53,7 @@ export default async function CollaborationPage({ params }: { params: Params }) 
                 { name: collaboration.title, path: `/collaborations/${collaboration.slug}` },
               ]}
             />
-            <div className="mt-12 grid gap-10 lg:grid-cols-12">
+            <div className="mt-12 grid grid-cols-1 gap-10 lg:grid-cols-12">
               <div className="lg:col-span-8">
                 <div className="flex flex-wrap items-center gap-3">
                   <Eyebrow>
@@ -112,7 +112,7 @@ export default async function CollaborationPage({ params }: { params: Params }) 
           </div>
         ) : null}
 
-        <div className="container-site grid gap-12 py-14 md:py-20 lg:grid-cols-12 lg:gap-10">
+        <div className="container-site grid grid-cols-1 gap-12 py-14 md:py-20 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-7 lg:col-start-2">
             <Markdown source={collaboration.description ?? collaboration.summary} className="text-lg" />
           </div>

@@ -160,6 +160,7 @@ export async function GET(_request: Request, context: { params: Promise<{ key: s
             </div>
           </div>
           {data.logo ? (
+            // eslint-disable-next-line @next/next/no-img-element -- Satori (ImageResponse) renders plain <img>
             <img src={data.logo} width={96} height={96} style={{ borderRadius: 24, border: "1px solid rgba(255,255,255,0.12)" }} alt="" />
           ) : null}
         </div>

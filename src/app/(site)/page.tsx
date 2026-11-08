@@ -46,7 +46,7 @@ function ProductsBento({ products }: { products: ProductCardDTO[] }) {
   }
   const [first, ...rest] = products;
   return (
-    <div className="grid gap-4 md:gap-5 lg:grid-cols-12">
+    <div className="grid grid-cols-1 gap-4 md:gap-5 lg:grid-cols-12">
       <Reveal className="lg:col-span-7 lg:row-span-2">
         <ProductCard product={first!} variant="feature" />
       </Reveal>
@@ -61,7 +61,7 @@ function ProductsBento({ products }: { products: ProductCardDTO[] }) {
 
 function JourneyPreview({ milestones }: { milestones: MilestoneDTO[] }) {
   return (
-    <ol className="relative grid gap-px overflow-hidden rounded-[var(--radius-panel)] border border-white/[0.08] bg-white/[0.08] sm:grid-cols-2 lg:grid-cols-4">
+    <ol className="relative grid grid-cols-1 gap-px overflow-hidden rounded-[var(--radius-panel)] border border-white/[0.08] bg-white/[0.08] sm:grid-cols-2 lg:grid-cols-4">
       {milestones.map((milestone, index) => (
         <Reveal as="li" key={milestone.id} delay={index * 90} className="relative bg-ink-900 p-7 md:p-8">
           <span className="font-display text-5xl font-light tracking-[-0.05em] text-ink-300">{yearOf(milestone.date)}</span>
@@ -106,7 +106,7 @@ export default async function HomePage() {
             eyebrow="Introduction"
             title={<span id="intro-title">{company.introHeading ?? `About ${company.name}`}</span>}
           />
-          <div className="mt-12 grid lg:grid-cols-12 lg:gap-10">
+          <div className="mt-12 grid grid-cols-1 lg:grid-cols-12 lg:gap-10">
             <Reveal className="lg:col-span-8 lg:col-start-4">
               <p className="text-display-sm text-ink-500">
                 <span className="text-ink-50">{introLead}</span> {introRest}
@@ -153,7 +153,7 @@ export default async function HomePage() {
               description={company.whatWeDoIntro}
               action={<TextLink href="/what-we-do">Explore what we do</TextLink>}
             />
-            <div className="mt-14 grid gap-4 sm:grid-cols-2 md:mt-20 md:gap-5 lg:grid-cols-3">
+            <div className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 md:mt-20 md:gap-5 lg:grid-cols-3">
               {featuredCapabilities.map((capability, index) => (
                 <Reveal key={capability.id} delay={(index % 3) * 90}>
                   <CapabilityCard capability={capability} index={index} />

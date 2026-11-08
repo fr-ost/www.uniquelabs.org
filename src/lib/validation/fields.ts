@@ -70,8 +70,11 @@ export const optionalDate = z
     return date;
   });
 
+/** Unchecked checkboxes are absent from FormData, so the field is optional. */
 export const checkbox = z
-  .union([z.literal("on"), z.literal("true"), z.literal("1"), z.literal(""), z.undefined(), z.null()])
+  .string()
+  .max(10)
+  .nullish()
   .transform((value) => value === "on" || value === "true" || value === "1");
 
 export const slugInput = z

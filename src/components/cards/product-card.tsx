@@ -115,7 +115,7 @@ export function ProductCard({
 
       <div className="mt-auto pt-8">
         <div className="flex items-center justify-between gap-4 border-t border-white/[0.07] pt-5">
-          <p className="text-eyebrow truncate text-ink-400">
+          <p className="text-eyebrow min-w-0 truncate text-ink-400">
             {[product.category?.name, ...platforms].filter(Boolean).join(" · ") || "Product"}
           </p>
           <span

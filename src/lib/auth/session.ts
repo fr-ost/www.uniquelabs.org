@@ -18,14 +18,14 @@ export interface AdminSessionInfo {
   user: AdminIdentity;
 }
 
-function useSecureCookie(): boolean {
+function shouldUseSecureCookie(): boolean {
   const config = env();
   return config.isProduction && config.siteOrigin.startsWith("https://");
 }
 
 /** `__Host-` cookies are bound to this exact origin: Secure, Path=/, no Domain. */
 export function sessionCookieName(): string {
-  return useSecureCookie() ? "__Host-ul_session" : "ul_session";
+  return shouldUseSecureCookie() ? "__Host-ul_session" : "ul_session";
 }
 
 export async function createSession(userId: string): Promise<void> {
@@ -47,7 +47,7 @@ export async function createSession(userId: string): Promise<void> {
   const store = await cookies();
   store.set(sessionCookieName(), token, {
     httpOnly: true,
-    secure: useSecureCookie(),
+    secure: shouldUseSecureCookie(),
     sameSite: "strict",
     path: "/",
     expires: expiresAt,
@@ -114,7 +114,7 @@ export async function destroyCurrentSession(): Promise<void> {
   }
   store.set(name, "", {
     httpOnly: true,
-    secure: useSecureCookie(),
+    secure: shouldUseSecureCookie(),
     sameSite: "strict",
     path: "/",
     expires: new Date(0),

@@ -142,7 +142,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Sea
                 action={{ href: "/products", label: "Clear filters" }}
               />
             ) : (
-              <ul className="mt-10 grid gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-3">
+              <ul className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-3">
                 {products.map((product, index) => (
                   <Reveal as="li" key={product.id} delay={(index % 3) * 80}>
                     <ProductCard product={product} />
