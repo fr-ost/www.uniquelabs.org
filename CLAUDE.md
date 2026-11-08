@@ -27,7 +27,8 @@ changes; almost all changes are edits to the content files.
    `npm run build` — the build and tests fail with a readable list if content
    is broken.
 5. Deployment: pushing to `main` deploys to Vercel. No environment variables
-   are required.
+   are required. Keep `vercel.json` (`"framework": "nextjs"`): the Vercel
+   project's saved preset is Express from an older app in this repo.
 
 ## Commands
 

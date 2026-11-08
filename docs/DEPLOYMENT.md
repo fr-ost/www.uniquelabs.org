@@ -4,8 +4,12 @@ The site is static: no database, no secrets, no server to maintain.
 
 ## Vercel (recommended)
 
-1. Import the repository in Vercel (framework: Next.js — detected
-   automatically). Leave the build settings on their defaults.
+1. Import the repository in Vercel. Leave the build settings on their
+   defaults: `vercel.json` pins the framework to **Next.js**, overriding the
+   project's Framework Preset. (The existing Vercel project was created when
+   this repository held an older Express app, so its saved preset is
+   Express; without the pin, Vercel builds the site and then fails with
+   "No entrypoint found" while looking for `server.js`.)
 2. Deploy. **No environment variables are required.** (Optional:
    `SITE_URL=https://www.uniquelabs.org` — this is already the default.)
 3. *Settings → Domains*: add `www.uniquelabs.org` and `uniquelabs.org`, and
