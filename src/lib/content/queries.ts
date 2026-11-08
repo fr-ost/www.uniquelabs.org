@@ -91,6 +91,7 @@ export async function loadCompany(): Promise<CompanyDTO> {
       : null;
   return {
     name: c?.name ?? DEFAULT_COMPANY.name,
+    legalName: c?.legalName ?? null,
     tagline: c ? c.tagline : DEFAULT_COMPANY.tagline,
     shortDescription: c?.shortDescription ?? DEFAULT_COMPANY.shortDescription,
     heroEyebrow: c ? c.heroEyebrow : DEFAULT_COMPANY.heroEyebrow,

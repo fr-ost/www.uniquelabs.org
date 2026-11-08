@@ -132,8 +132,9 @@ export function TeamCard({ member, size = "default" }: { member: TeamMemberDTO; 
             className="grayscale-[35%] transition-[filter,transform] duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.03] group-hover:grayscale-0"
           />
         ) : (
-          <div className="grid-lines absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_30%_20%,rgba(255,107,53,0.18),transparent_60%)]">
-            <span className="font-display text-5xl font-medium tracking-[-0.05em] text-ink-200">{initials}</span>
+          <div className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_30%_20%,rgba(255,107,53,0.2),transparent_65%)]">
+            <div aria-hidden className="grid-lines mask-fade-radial absolute inset-0 opacity-60" />
+            <span className="relative font-display text-5xl font-medium tracking-[-0.05em] text-ink-200">{initials}</span>
           </div>
         )}
         {member.isPlaceholder ? (

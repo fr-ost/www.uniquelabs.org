@@ -35,6 +35,7 @@ export interface DatedValue {
 
 export interface CompanyDTO {
   name: string;
+  legalName: string | null;
   tagline: string | null;
   shortDescription: string;
   heroEyebrow: string | null;

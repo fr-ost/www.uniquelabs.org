@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link, { useLinkStatus } from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence } from "motion/react";
@@ -9,6 +9,21 @@ import { ArrowRight } from "lucide-react";
 import { Wordmark } from "@/components/brand/logo";
 import { PRIMARY_NAV } from "@/components/site/nav-items";
 import { cn, indexLabel } from "@/lib/utils";
+
+/** Active marker that also pulses while the linked route is loading. */
+function NavDot({ active }: { active: boolean }) {
+  const { pending } = useLinkStatus();
+  return (
+    <span
+      aria-hidden
+      className={cn(
+        "absolute bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-signal-500 transition-all duration-500 ease-[var(--ease-out-expo)]",
+        active || pending ? "scale-100 opacity-100" : "scale-0 opacity-0",
+        pending && "animate-pulse-soft",
+      )}
+    />
+  );
+}
 
 function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
@@ -85,13 +100,7 @@ export function SiteHeader({ companyName, socials }: { companyName: string; soci
                       )}
                     >
                       {item.label}
-                      <span
-                        aria-hidden
-                        className={cn(
-                          "absolute bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-signal-500 transition-all duration-500 ease-[var(--ease-out-expo)]",
-                          active ? "scale-100 opacity-100" : "scale-0 opacity-0",
-                        )}
-                      />
+                      <NavDot active={active} />
                     </Link>
                   </li>
                 );

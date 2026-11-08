@@ -177,7 +177,7 @@ export default async function HomePage() {
               description="Selected work with partners — each linked to its original source."
               action={<TextLink href="/collaborations">All collaborations</TextLink>}
             />
-            {partnersWithLogos.length > 0 ? (
+            {partnersWithLogos.length >= 3 ? (
               <ul className="mask-fade-x mt-14 flex flex-wrap items-center gap-x-12 gap-y-6 md:mt-16">
                 {partnersWithLogos.slice(0, 8).map((partner) => (
                   <li key={partner.slug} className="flex h-10 w-32 items-center opacity-70 grayscale transition hover:opacity-100 hover:grayscale-0">
@@ -186,7 +186,12 @@ export default async function HomePage() {
                 ))}
               </ul>
             ) : null}
-            <div className="mt-12 grid gap-4 md:mt-16 md:gap-5 lg:grid-cols-3">
+            <div
+              className={cn(
+                "mt-14 grid gap-4 md:mt-20 md:gap-5",
+                collaborations.length === 1 ? "lg:grid-cols-1" : collaborations.length === 2 ? "md:grid-cols-2" : "md:grid-cols-2 lg:grid-cols-3",
+              )}
+            >
               {collaborations.map((collaboration, index) => (
                 <Reveal key={collaboration.id} delay={index * 90}>
                   <CollaborationCard collaboration={collaboration} />

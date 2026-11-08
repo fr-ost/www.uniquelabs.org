@@ -19,6 +19,11 @@ function cached<A extends unknown[], R>(
   key: string,
   tags: CacheTag[],
 ): (...args: A) => Promise<R> {
+  // In development, always read fresh data (seeds and manual DB edits
+  // bypass the app's cache invalidation).
+  if (process.env.NODE_ENV === "development" || process.env.DISABLE_DATA_CACHE === "true") {
+    return cache(fn);
+  }
   const wrapped = unstable_cache(fn, [`public:${key}`], {
     tags: [...tags, CACHE_TAGS.public],
     revalidate: 600,
