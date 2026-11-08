@@ -21,18 +21,40 @@ export function ProjectStatus({ status, className }: { status: ProjectCardDTO["s
   );
 }
 
-/** Case-study card: cover (or a branded panel), status, summary, client and services. */
-export function ProjectCard({ project, variant = "default", priority = false }: { project: ProjectCardDTO; variant?: "default" | "feature"; priority?: boolean }) {
+/**
+ * Case-study card: cover (or a branded panel), status, summary, client and services.
+ * `feature` is a larger stacked card; `wide` is a full-width card that splits into
+ * image + text side by side on large screens (used when a single project is shown).
+ */
+export function ProjectCard({
+  project,
+  variant = "default",
+  priority = false,
+}: {
+  project: ProjectCardDTO;
+  variant?: "default" | "feature" | "wide";
+  priority?: boolean;
+}) {
   const accent = project.accentColor ?? "#ff6b35";
-  const feature = variant === "feature";
+  const feature = variant !== "default";
+  const wide = variant === "wide";
   const meta = [project.client, project.date ? formatDate(project.date.date, project.date.precision, "short") : null].filter(Boolean).join(" · ");
   return (
     <PointerGlow
       as="article"
       accent={project.accentColor}
-      className="surface-card group relative flex h-full flex-col overflow-hidden transition-[border-color] duration-500 hover:border-white/20"
+      className={cn(
+        "surface-card group relative flex h-full flex-col overflow-hidden transition-[border-color] duration-500 hover:border-white/20",
+        wide && "lg:flex-row",
+      )}
     >
-      <div className={cn("relative overflow-hidden border-b border-white/[0.07] bg-ink-800", feature ? "aspect-[16/9]" : "aspect-[16/10]")}>
+      <div
+        className={cn(
+          "relative overflow-hidden border-b border-white/[0.07] bg-ink-800",
+          feature ? "aspect-[16/9]" : "aspect-[16/10]",
+          wide && "lg:aspect-auto lg:min-h-[26rem] lg:w-[58%] lg:shrink-0 lg:border-r lg:border-b-0",
+        )}
+      >
         {project.cover ? (
           <MediaImage
             media={project.cover}
@@ -51,7 +73,7 @@ export function ProjectCard({ project, variant = "default", priority = false }: 
         )}
         <ProjectStatus status={project.status} className="absolute top-4 left-4 backdrop-blur" />
       </div>
-      <div className={cn("flex flex-1 flex-col", feature ? "p-7 md:p-9" : "p-6 md:p-7")}>
+      <div className={cn("flex flex-1 flex-col", feature ? "p-7 md:p-9" : "p-6 md:p-7", wide && "lg:p-10")}>
         {meta ? <p className="text-eyebrow text-ink-400">{meta}</p> : null}
         <h3 className={cn("mt-3 font-display font-medium tracking-[-0.035em] text-ink-50", feature ? "text-3xl md:text-4xl" : "text-2xl")}>{project.title}</h3>
         <p className={cn("mt-3 text-ink-300", feature ? "text-lede max-w-xl" : "line-clamp-3 text-[0.9375rem]")}>{project.summary}</p>

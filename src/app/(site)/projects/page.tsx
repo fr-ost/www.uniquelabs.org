@@ -67,7 +67,7 @@ export default async function ProjectsPage() {
               <div className={cn("mt-8 grid grid-cols-1 gap-4 md:gap-5", featured.length > 1 && "lg:grid-cols-2")}>
                 {featured.map((project, index) => (
                   <Reveal key={project.id} delay={index * 100}>
-                    <ProjectCard project={project} variant="feature" priority={index === 0} />
+                    <ProjectCard project={project} variant={featured.length === 1 ? "wide" : "feature"} priority={index === 0} />
                   </Reveal>
                 ))}
               </div>

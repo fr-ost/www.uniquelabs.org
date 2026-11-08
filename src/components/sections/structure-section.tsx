@@ -28,6 +28,7 @@ export function StructureSection({ departments, intro, index }: { departments: D
                     ))}
                   </ul>
                 ) : null}
+                {department.lead || department.memberCount > 0 ? (
                 <div className="mt-auto flex items-center justify-between gap-4 border-t border-white/[0.07] pt-5 text-sm">
                   {department.lead ? (
                     <span className="min-w-0">
@@ -49,6 +50,7 @@ export function StructureSection({ departments, intro, index }: { departments: D
                     </span>
                   ) : null}
                 </div>
+                ) : null}
               </article>
             </Reveal>
           ))}

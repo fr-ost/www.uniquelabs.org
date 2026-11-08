@@ -145,9 +145,13 @@ export default async function ProjectPage({ params }: { params: Params }) {
                   <ul className="mt-4 space-y-4">
                     {project.partners.map((partner) => (
                       <li key={partner.slug}>
-                        <div className="flex h-10 w-28 items-center">
-                          <PartnerMark partner={partner} />
-                        </div>
+                        {partner.logo ? (
+                          <div className="flex h-10 w-28 items-center">
+                            <PartnerMark partner={partner} />
+                          </div>
+                        ) : (
+                          <PartnerMark partner={partner} className="block" />
+                        )}
                         {partner.websiteUrl ? (
                           <a href={partner.websiteUrl} target="_blank" rel="noopener noreferrer" className="mt-1 inline-flex items-center gap-1 text-xs text-ink-400 hover:text-ink-50">
                             {displayHost(partner.websiteUrl)} <ArrowUpRight aria-hidden className="h-3 w-3" />

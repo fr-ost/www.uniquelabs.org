@@ -158,7 +158,7 @@ export default async function HomePage() {
             <div className={cn("mt-14 grid grid-cols-1 gap-4 md:mt-20 md:gap-5", projects.length === 2 ? "md:grid-cols-2" : projects.length > 2 ? "md:grid-cols-2 lg:grid-cols-3" : "")}>
               {projects.map((project, index) => (
                 <Reveal key={project.id} delay={index * 90}>
-                  <ProjectCard project={project} variant={projects.length === 1 ? "feature" : "default"} />
+                  <ProjectCard project={project} variant={projects.length === 1 ? "wide" : "default"} />
                 </Reveal>
               ))}
             </div>
