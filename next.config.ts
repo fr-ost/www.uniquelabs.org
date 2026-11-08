@@ -1,15 +1,29 @@
 import type { NextConfig } from "next";
 
 const isProduction = process.env.NODE_ENV === "production";
-const siteUrl = process.env.SITE_URL ?? "https://www.uniquelabs.org";
-const isHttps = siteUrl.startsWith("https://");
 
 /**
- * Static security headers applied to every response.
- * The Content-Security-Policy is set per request in src/proxy.ts because it
- * carries a fresh nonce for every render.
+ * Content-Security-Policy for a static site. Next.js inlines small bootstrap
+ * scripts in statically generated pages, so scripts need 'unsafe-inline';
+ * there is no user input, database or third-party script on this site.
+ * Development additionally needs 'unsafe-eval' for React's dev tooling.
  */
+const csp = [
+  "default-src 'self'",
+  `script-src 'self' 'unsafe-inline'${isProduction ? "" : " 'unsafe-eval'"}`,
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob:",
+  "font-src 'self'",
+  `connect-src 'self'${isProduction ? "" : " ws: wss:"}`,
+  "frame-ancestors 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "object-src 'none'",
+  ...(isProduction ? ["upgrade-insecure-requests"] : []),
+].join("; ");
+
 const securityHeaders = [
+  { key: "Content-Security-Policy", value: csp },
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   { key: "X-Frame-Options", value: "DENY" },
@@ -17,64 +31,39 @@ const securityHeaders = [
   { key: "X-DNS-Prefetch-Control", value: "on" },
   {
     key: "Permissions-Policy",
-    value:
-      "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=(), interest-cohort=()",
+    value: "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=(), interest-cohort=()",
   },
-  ...(isProduction && isHttps
-    ? [
-        {
-          key: "Strict-Transport-Security",
-          value: "max-age=63072000; includeSubDomains; preload",
-        },
-      ]
-    : []),
+  ...(isProduction ? [{ key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" }] : []),
 ];
 
 const nextConfig: NextConfig = {
-  // Self-hosting (Docker, Railway, VPS) runs the standalone server. Vercel
-  // builds its own serverless output, so standalone is skipped there.
-  output: process.env.VERCEL ? undefined : "standalone",
   poweredByHeader: false,
   reactStrictMode: true,
   // Don't write an AGENTS.md into the repository on `next dev`.
   agentRules: false,
-  // Native / heavy server-only packages that must not be bundled.
-  serverExternalPackages: ["sharp", "pg", "yauzl"],
-  // Files read at runtime via fs, which output tracing can't detect.
+  // Files the share-image route reads at runtime (fonts, product logos).
   outputFileTracingIncludes: {
-    "/og/[...key]": ["./src/assets/og/**/*"],
+    "/og/[...key]": ["./src/assets/og/**/*", "./public/images/**/*"],
   },
   images: {
     formats: ["image/avif", "image/webp"],
     qualities: [60, 75, 85],
-    // Media is served by the /media route handler with content-addressed,
-    // immutable URLs, so optimized variants can be cached for a long time.
-    localPatterns: [{ pathname: "/media/**" }, { pathname: "/brand/**" }],
+    localPatterns: [{ pathname: "/images/**" }, { pathname: "/brand/**" }],
     minimumCacheTTL: 60 * 60 * 24 * 30,
     deviceSizes: [360, 480, 640, 768, 1024, 1280, 1536, 1920, 2560],
     imageSizes: [32, 48, 64, 96, 128, 192, 256, 384],
   },
-  experimental: {
-    serverActions: {
-      bodySizeLimit: "2mb",
-    },
-    // Large uploads (imports, media) go to /api routes, which the proxy skips.
-    proxyClientMaxBodySize: "2mb",
-  },
   async headers() {
+    return [{ source: "/:path*", headers: securityHeaders }];
+  },
+  async redirects() {
     return [
-      { source: "/:path*", headers: securityHeaders },
-      {
-        source: "/admin/:path*",
-        headers: [
-          { key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" },
-          { key: "Cache-Control", value: "no-store" },
-        ],
-      },
-      {
-        source: "/api/:path*",
-        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
-      },
+      // "Collaborations" became "Partnerships".
+      { source: "/collaborations", destination: "/partnerships", permanent: true },
+      { source: "/collaborations/:slug", destination: "/partnerships/:slug", permanent: true },
+      // Retired sections.
+      { source: "/intelligence/:path*", destination: "/", permanent: false },
+      { source: "/admin/:path*", destination: "/", permanent: false },
     ];
   },
 };

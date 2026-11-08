@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { Wordmark } from "@/components/brand/logo";
-import { COMPANY_NAV, isGroup, primaryNav, type NavGroup, type NavItem } from "@/components/site/nav-items";
+import { COMPANY_NAV, isGroup, PRIMARY_NAV, type NavGroup, type NavItem } from "@/components/site/nav-items";
 import { cn } from "@/lib/utils";
 
 function isActive(pathname: string, href: string) {
@@ -27,15 +27,6 @@ function ActiveBar({ active }: { active: boolean }) {
   );
 }
 
-function LiveBadge() {
-  return (
-    <span aria-hidden className="relative ml-1.5 inline-flex h-1.5 w-1.5">
-      <span className="absolute inset-0 animate-ping-slow rounded-full bg-up/70" />
-      <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-up" />
-    </span>
-  );
-}
-
 function TopLink({ item, pathname }: { item: NavItem; pathname: string }) {
   const active = isActive(pathname, item.href);
   return (
@@ -48,7 +39,6 @@ function TopLink({ item, pathname }: { item: NavItem; pathname: string }) {
       )}
     >
       {item.label}
-      {item.live ? <LiveBadge /> : null}
       <ActiveBar active={active} />
     </Link>
   );
@@ -151,21 +141,13 @@ function CompanyMenu({ group, pathname }: { group: NavGroup; pathname: string })
   );
 }
 
-export function SiteHeader({
-  companyName,
-  socials,
-  intelligence = false,
-}: {
-  companyName: string;
-  socials: Array<{ label: string; url: string }>;
-  intelligence?: boolean;
-}) {
+export function SiteHeader({ companyName, socials }: { companyName: string; socials: Array<{ label: string; url: string }> }) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [lastPathname, setLastPathname] = useState(pathname);
   const toggleRef = useRef<HTMLButtonElement>(null);
-  const nav = primaryNav({ intelligence });
+  const nav = PRIMARY_NAV;
 
   // Close the mobile menu whenever the route changes.
   if (pathname !== lastPathname) {
@@ -296,7 +278,6 @@ export function SiteHeader({
                     >
                       <span className={cn("flex items-center font-display text-2xl tracking-[-0.03em]", active ? "text-ink-50" : "text-ink-200")}>
                         {item.label}
-                        {item.live ? <LiveBadge /> : null}
                       </span>
                       <ArrowRight aria-hidden className="h-4 w-4 text-ink-500" />
                     </Link>

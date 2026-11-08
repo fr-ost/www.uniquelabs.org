@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
 import { CapabilityCard, CollaborationCard, PartnerMark, TeamCard } from "@/components/cards/content-cards";
 import { ProductCard } from "@/components/cards/product-card";
+import { ProjectCard } from "@/components/cards/project-card";
 import { Reveal } from "@/components/motion/reveal";
-import { LiveMarketProvider } from "@/components/market/live-market";
-import { IntelligenceSpotlight, MarketTicker } from "@/components/market/sections";
 import { HomeHero } from "@/components/sections/home-hero";
 import { ClosingCta, DirectionStrip, PrinciplesSection } from "@/components/sections/shared-sections";
 import { JsonLdScript } from "@/components/seo/json-ld-script";
-import { ButtonLink, TextLink } from "@/components/ui/button";
+import { TextLink } from "@/components/ui/button";
 import { SectionHeader } from "@/components/ui/section";
 import {
   getCapabilities,
   getCompany,
   getFeaturedCollaborations,
   getFeaturedProducts,
+  getFeaturedProjects,
   getPartners,
   getPrinciples,
   getRecentMilestones,
@@ -22,7 +22,6 @@ import {
   getTeamPreview,
 } from "@/lib/content/public";
 import type { MilestoneDTO, ProductCardDTO } from "@/lib/content/types";
-import { getIntelligenceSettings, getMarketSnapshotWithin } from "@/lib/market/service";
 import { MILESTONE_KIND_LABELS } from "@/lib/labels";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/seo/json-ld";
@@ -78,22 +77,18 @@ function JourneyPreview({ milestones }: { milestones: MilestoneDTO[] }) {
 }
 
 export default async function HomePage() {
-  const [company, principles, products, capabilities, collaborations, partners, milestones, team, socials, intelligence] =
-    await Promise.all([
-      getCompany(),
-      getPrinciples(),
-      getFeaturedProducts(5),
-      getCapabilities(),
-      getFeaturedCollaborations(3),
-      getPartners(),
-      getRecentMilestones(4),
-      getTeamPreview(4),
-      getSocialLinks(),
-      getIntelligenceSettings(),
-    ]);
-  const showMarket = intelligence.enabled && intelligence.showOnHomepage;
-  // Market data is a bonus on the home page: never hold the page for it.
-  const snapshot = showMarket ? await getMarketSnapshotWithin(1500) : null;
+  const [company, principles, products, projects, capabilities, collaborations, partners, milestones, team, socials] = await Promise.all([
+    getCompany(),
+    getPrinciples(),
+    getFeaturedProducts(5),
+    getFeaturedProjects(3),
+    getCapabilities(),
+    getFeaturedCollaborations(3),
+    getPartners(),
+    getRecentMilestones(4),
+    getTeamPreview(4),
+    getSocialLinks(),
+  ]);
 
   let counter = 0;
   const next = () => indexLabel(++counter);
@@ -101,10 +96,9 @@ export default async function HomePage() {
   const featuredCapabilities = (capabilities.some((c) => c.featured) ? capabilities.filter((c) => c.featured) : capabilities).slice(0, 6);
   const partnersWithLogos = partners.filter((partner) => partner.logo);
 
-  const content = (
+  return (
     <>
-      <HomeHero company={company} intelligence={intelligence.enabled} marketLive={Boolean(snapshot?.available)} watchlist={intelligence.watchlist} />
-      {snapshot ? <MarketTicker /> : null}
+      <HomeHero company={company} />
 
       {/* Introduction */}
       <section className="relative py-24 md:py-36" aria-labelledby="intro-title">
@@ -132,29 +126,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Market intelligence spotlight */}
-      {snapshot ? (
-        <section className="relative overflow-hidden border-t border-white/[0.07] py-24 md:py-32" aria-labelledby="intelligence-title">
-          <div aria-hidden className="pointer-events-none absolute top-0 left-1/2 h-[40rem] w-[60rem] -translate-x-1/2 bg-[radial-gradient(ellipse_at_top,rgba(139,92,246,0.14),transparent_65%)]" />
-          <div className="container-site relative">
-            <SectionHeader
-              index={next()}
-              eyebrow="Intelligence"
-              title={<span id="intelligence-title">Crypto markets, decoded in real time.</span>}
-              description="Live prices for the largest cryptocurrencies, market sentiment, airdrops and token unlocks — in one clear view."
-              action={
-                <ButtonLink href="/intelligence" arrow>
-                  Open Intelligence
-                </ButtonLink>
-              }
-            />
-            <div className="mt-14 md:mt-20">
-              <IntelligenceSpotlight />
-            </div>
-          </div>
-        </section>
-      ) : null}
-
       {/* Featured products */}
       {products.length > 0 ? (
         <section className="relative border-t border-white/[0.07] py-24 md:py-32" aria-labelledby="products-title">
@@ -168,6 +139,28 @@ export default async function HomePage() {
             />
             <div className="mt-14 md:mt-20">
               <ProductsBento products={products} />
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {/* Selected work */}
+      {projects.length > 0 ? (
+        <section className="relative border-t border-white/[0.07] py-24 md:py-32" aria-labelledby="projects-title">
+          <div className="container-site">
+            <SectionHeader
+              index={next()}
+              eyebrow="Projects"
+              title={<span id="projects-title">Selected work.</span>}
+              description="Projects we have designed, built and shipped."
+              action={<TextLink href="/projects">All projects</TextLink>}
+            />
+            <div className={cn("mt-14 grid grid-cols-1 gap-4 md:mt-20 md:gap-5", projects.length === 2 ? "md:grid-cols-2" : projects.length > 2 ? "md:grid-cols-2 lg:grid-cols-3" : "")}>
+              {projects.map((project, index) => (
+                <Reveal key={project.id} delay={index * 90}>
+                  <ProjectCard project={project} variant={projects.length === 1 ? "feature" : "default"} />
+                </Reveal>
+              ))}
             </div>
           </div>
         </section>
@@ -203,10 +196,10 @@ export default async function HomePage() {
           <div className="container-site">
             <SectionHeader
               index={next()}
-              eyebrow="Collaborations"
-              title={<span id="collaborations-title">Collaborations & partnerships.</span>}
-              description="Selected work with partners — each linked to its original source."
-              action={<TextLink href="/collaborations">All collaborations</TextLink>}
+              eyebrow="Partnerships"
+              title={<span id="collaborations-title">Partnerships & collaborations.</span>}
+              description="The organisations and people we work with — each partnership linked to its original source."
+              action={<TextLink href="/partnerships">All partnerships</TextLink>}
             />
             {partnersWithLogos.length >= 3 ? (
               <ul className="mask-fade-x mt-14 flex flex-wrap items-center gap-x-12 gap-y-6 md:mt-16">
@@ -275,13 +268,5 @@ export default async function HomePage() {
 
       <JsonLdScript data={[organizationJsonLd(company, socials), websiteJsonLd(company)]} />
     </>
-  );
-
-  return snapshot ? (
-    <LiveMarketProvider initial={snapshot} pollSeconds={Math.min(120, Math.max(30, Math.round(intelligence.refreshSeconds / 2)))}>
-      {content}
-    </LiveMarketProvider>
-  ) : (
-    content
   );
 }

@@ -1,16 +1,12 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { ImageResponse } from "next/og";
-import sharp from "sharp";
-import { prisma } from "@/lib/db";
-import { loadCompany } from "@/lib/content/queries";
-import { placeholdersVisible } from "@/lib/env";
-import { readMediaBytes } from "@/lib/media/storage";
-import { COLLABORATION_CATEGORY_LABELS, RELEASE_STAGE_LABELS } from "@/lib/labels";
+import { getCollaboration, getCompany, getProduct, getProject, getTeamMember } from "@/lib/content/public";
+import { COLLABORATION_CATEGORY_LABELS, PROJECT_STATUS_LABELS, RELEASE_STAGE_LABELS } from "@/lib/labels";
 
 /**
  * Branded Open Graph images (1200×630). Only known keys are rendered — the
- * text always comes from the database or a fixed list, never from the URL,
+ * text always comes from the content files or a fixed list, never from the URL,
  * so the endpoint can't be abused to render arbitrary text.
  */
 
@@ -18,11 +14,11 @@ const PAGES: Record<string, { eyebrow: string; title: string }> = {
   home: { eyebrow: "Digital product studio", title: "" },
   about: { eyebrow: "About", title: "Useful technology, made accessible." },
   products: { eyebrow: "Products", title: "The product directory." },
-  collaborations: { eyebrow: "Collaborations", title: "Collaborations & partnerships." },
+  projects: { eyebrow: "Projects", title: "Selected work." },
+  partnerships: { eyebrow: "Partnerships", title: "Partners & collaborations." },
   team: { eyebrow: "Our team", title: "The people behind Unique Labs." },
   journey: { eyebrow: "Our journey", title: "The story so far." },
   "what-we-do": { eyebrow: "What we do", title: "Useful products, across the platforms people use." },
-  intelligence: { eyebrow: "Market intelligence", title: "Crypto markets, in real time." },
   contact: { eyebrow: "Contact", title: "Let's talk." },
   privacy: { eyebrow: "Legal", title: "Privacy Policy" },
   terms: { eyebrow: "Legal", title: "Terms of Use" },
@@ -42,14 +38,22 @@ function loadFonts() {
   return fontsPromise;
 }
 
-async function mediaDataUrl(id: string | null | undefined): Promise<string | null> {
-  if (!id) return null;
-  const asset = await prisma.mediaAsset.findUnique({ where: { id }, select: { id: true, storage: true, storageKey: true } });
-  if (!asset) return null;
-  const bytes = await readMediaBytes(asset);
-  if (!bytes) return null;
-  const png = await sharp(bytes).resize(160, 160, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } }).png().toBuffer();
-  return `data:image/png;base64,${png.toString("base64")}`;
+const IMAGE_TYPES: Record<string, string> = { png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg", svg: "image/svg+xml" };
+
+/** Embeds an image from /public (logos) as a data URL; unsupported formats are skipped. */
+async function publicImageDataUrl(src: string | null | undefined): Promise<string | null> {
+  if (!src) return null;
+  const type = IMAGE_TYPES[src.split(".").pop()?.toLowerCase() ?? ""];
+  if (!type) return null;
+  const root = path.join(process.cwd(), "public");
+  const file = path.join(root, path.normalize(src));
+  if (!file.startsWith(root + path.sep)) return null;
+  try {
+    const bytes = await readFile(file);
+    return bytes.byteLength <= 512 * 1024 ? `data:${type};base64,${bytes.toString("base64")}` : null;
+  } catch {
+    return null;
+  }
 }
 
 interface CardData {
@@ -62,48 +66,39 @@ interface CardData {
 
 async function resolve(key: string[]): Promise<CardData | null> {
   const [section, slug] = key;
-  const visible = { status: "PUBLISHED" as const, verifiedAt: { not: null }, ...(placeholdersVisible() ? {} : { isPlaceholder: false }) };
   if (key.length === 1 && section && PAGES[section]) {
-    const company = await loadCompany();
+    const company = await getCompany();
     const page = PAGES[section]!;
     return {
       eyebrow: page.eyebrow,
       title: section === "home" ? company.heroHeadline : page.title.replace("Unique Labs", company.name),
-      description: section === "home" ? company.tagline ?? undefined : undefined,
+      description: section === "home" ? (company.tagline ?? undefined) : undefined,
     };
   }
   if (key.length === 2 && slug && /^[a-z0-9-]{1,120}$/.test(slug)) {
     if (section === "products") {
-      const product = await prisma.product.findFirst({
-        where: { slug, ...visible },
-        select: { name: true, tagline: true, summary: true, stage: true, logoId: true, accentColor: true },
-      });
+      const product = await getProduct(slug);
       if (!product) return null;
       return {
         eyebrow: `Product · ${RELEASE_STAGE_LABELS[product.stage]}`,
         title: product.name,
         description: product.tagline ?? product.summary,
-        logo: await mediaDataUrl(product.logoId),
+        logo: await publicImageDataUrl(product.logo?.url),
         accent: product.accentColor ?? undefined,
       };
     }
-    if (section === "collaborations") {
-      const collaboration = await prisma.collaboration.findFirst({
-        where: { slug, ...visible },
-        select: { title: true, summary: true, category: true },
-      });
-      if (!collaboration) return null;
-      return {
-        eyebrow: COLLABORATION_CATEGORY_LABELS[collaboration.category],
-        title: collaboration.title,
-        description: collaboration.summary,
-      };
+    if (section === "projects") {
+      const project = await getProject(slug);
+      if (!project) return null;
+      return { eyebrow: `Project · ${PROJECT_STATUS_LABELS[project.status]}`, title: project.title, description: project.summary, accent: project.accentColor ?? undefined };
+    }
+    if (section === "partnerships") {
+      const partnership = await getCollaboration(slug);
+      if (!partnership) return null;
+      return { eyebrow: COLLABORATION_CATEGORY_LABELS[partnership.category], title: partnership.title, description: partnership.summary };
     }
     if (section === "team") {
-      const member = await prisma.teamMember.findFirst({
-        where: { slug, status: "PUBLISHED", ...(placeholdersVisible() ? {} : { isPlaceholder: false }) },
-        select: { name: true, position: true },
-      });
+      const member = await getTeamMember(slug);
       if (!member) return null;
       return { eyebrow: "Team", title: member.name, description: member.position };
     }

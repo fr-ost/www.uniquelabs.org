@@ -8,7 +8,7 @@ import { getCompany, getProductCategories, getProductPlatforms, getProducts } fr
 import { PLATFORM_LABELS, RELEASE_STAGE_LABELS } from "@/lib/labels";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { cn, pluralize } from "@/lib/utils";
-import { Platform, ReleaseStage } from "@/generated/prisma/enums";
+import type { Platform, ReleaseStage } from "@/lib/content/enums";
 
 export async function generateMetadata(): Promise<Metadata> {
   const company = await getCompany();
@@ -51,8 +51,8 @@ function buildHref(current: Record<string, string | undefined>, key: string, val
 export default async function ProductsPage({ searchParams }: { searchParams: SearchParams }) {
   const sp = await searchParams;
   const category = sp.category && /^[a-z0-9-]{1,80}$/.test(sp.category) ? sp.category : undefined;
-  const platform = sp.platform && sp.platform in Platform ? (sp.platform as Platform) : undefined;
-  const stage = sp.status && sp.status in ReleaseStage ? (sp.status as ReleaseStage) : undefined;
+  const platform = sp.platform && Object.hasOwn(PLATFORM_LABELS, sp.platform) ? (sp.platform as Platform) : undefined;
+  const stage = sp.status && Object.hasOwn(RELEASE_STAGE_LABELS, sp.status) ? (sp.status as ReleaseStage) : undefined;
 
   const [products, allProducts, categories, platforms, company] = await Promise.all([
     getProducts({ category, platform, stage }),

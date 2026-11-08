@@ -9,17 +9,10 @@ next-env.d.ts
 # production
 build/
 
-# generated prisma client
-src/generated/
-
 # env files (never commit secrets)
 .env
 .env.*
 !.env.example
-
-# local media + import scratch storage
-storage/
-.uploads/
 
 # testing
 coverage/

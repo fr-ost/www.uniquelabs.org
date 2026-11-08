@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Reveal } from "@/components/motion/reveal";
 import { ClosingCta, DirectionStrip, PrinciplesSection } from "@/components/sections/shared-sections";
+import { StructureSection } from "@/components/sections/structure-section";
 import { Markdown } from "@/components/ui/markdown";
 import { PageHero } from "@/components/ui/section";
-import { getCompany, getPrinciples } from "@/lib/content/public";
+import { getCompany, getDepartments, getPrinciples } from "@/lib/content/public";
 import { clampDescription, pageMetadata } from "@/lib/seo/metadata";
 import { formatDate, indexLabel } from "@/lib/utils";
 
@@ -46,7 +47,7 @@ function Chapter({
 }
 
 export default async function AboutPage() {
-  const [company, principles] = await Promise.all([getCompany(), getPrinciples()]);
+  const [company, principles, departments] = await Promise.all([getCompany(), getPrinciples(), getDepartments()]);
 
   const chapters = [
     { id: "who-we-are", title: "Who we are", body: company.whoWeAre, lead: true },
@@ -167,6 +168,8 @@ export default async function AboutPage() {
           </div>
         </div>
       ) : null}
+
+      <StructureSection departments={departments} intro={company.structureIntro} />
 
       <ClosingCta headline={company.closingHeadline} body={company.closingBody} />
     </>

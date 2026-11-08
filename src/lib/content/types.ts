@@ -1,22 +1,20 @@
 import type {
   CollaborationCategory,
   DatePrecision,
-  InquiryType,
   LinkKind,
   MilestoneKind,
   Platform,
   PricingModel,
-  PublishStatus,
+  ProjectStatus,
   ReleaseStage,
   SocialPlatform,
   TeamMemberType,
-} from "@/generated/prisma/enums";
+} from "@/lib/content/enums";
 
 /**
- * Public data transfer objects. Only fields that are safe to render on the
- * public website exist here — import provenance, verification metadata and
- * other private fields are never selected for public queries.
- * Dates are ISO strings so DTOs survive the data cache's JSON serialisation.
+ * Normalised shapes the pages render. They are built from the content files
+ * in src/content by src/lib/content/public.ts — edit the content files, not
+ * these types, to change what the site says.
  */
 
 export interface MediaDTO {
@@ -53,6 +51,7 @@ export interface CompanyDTO {
   approach: string | null;
   longTermDirection: string | null;
   whatWeDoIntro: string | null;
+  structureIntro: string | null;
   closingHeadline: string | null;
   closingBody: string | null;
   founded: DatedValue | null;
@@ -90,7 +89,6 @@ export interface SettingsDTO {
   privacyUpdatedAt: string | null;
   termsOfUse: string;
   termsUpdatedAt: string | null;
-  contactFormEnabled: boolean;
 }
 
 export interface CategoryDTO {
@@ -115,8 +113,6 @@ export interface ProductCardDTO {
   cover: MediaDTO | null;
   featured: boolean;
   accentColor: string | null;
-  isPlaceholder: boolean;
-  updatedAt: string;
 }
 
 export interface ProductDetailDTO extends ProductCardDTO {
@@ -129,10 +125,10 @@ export interface ProductDetailDTO extends ProductCardDTO {
   links: Array<{ id: string; kind: LinkKind; label: string; url: string }>;
   milestones: Array<{ slug: string; title: string; date: string; precision: DatePrecision }>;
   collaborations: Array<{ slug: string; title: string }>;
+  projects: Array<{ slug: string; title: string }>;
   capabilities: Array<{ slug: string; title: string }>;
   seoTitle: string | null;
   seoDescription: string | null;
-  status: PublishStatus;
 }
 
 export interface PartnerDTO {
@@ -141,6 +137,7 @@ export interface PartnerDTO {
   websiteUrl: string | null;
   xHandle: string | null;
   logo: MediaDTO | null;
+  description: string | null;
 }
 
 export interface CollaborationCardDTO {
@@ -155,15 +152,35 @@ export interface CollaborationCardDTO {
   sourceLabel: string | null;
   cover: MediaDTO | null;
   partners: Array<PartnerDTO & { role: string | null }>;
-  isPlaceholder: boolean;
-  updatedAt: string;
 }
 
 export interface CollaborationDetailDTO extends CollaborationCardDTO {
   description: string | null;
   externalUrl: string | null;
   products: Array<{ slug: string; name: string }>;
-  status: PublishStatus;
+}
+
+export interface ProjectCardDTO {
+  id: string;
+  slug: string;
+  title: string;
+  summary: string;
+  client: string | null;
+  status: ProjectStatus;
+  date: DatedValue | null;
+  services: string[];
+  cover: MediaDTO | null;
+  featured: boolean;
+  accentColor: string | null;
+}
+
+export interface ProjectDetailDTO extends ProjectCardDTO {
+  description: string | null;
+  outcome: string | null;
+  images: Array<{ id: string; caption: string | null; media: MediaDTO }>;
+  links: Array<{ id: string; kind: LinkKind; label: string; url: string }>;
+  products: Array<{ slug: string; name: string }>;
+  partners: PartnerDTO[];
 }
 
 export interface TeamMemberDTO {
@@ -185,9 +202,6 @@ export interface TeamMemberDTO {
   isLeadership: boolean;
   hasProfilePage: boolean;
   group: { slug: string; name: string; description: string | null } | null;
-  isPlaceholder: boolean;
-  updatedAt: string;
-  status: PublishStatus;
 }
 
 export interface TeamGroupDTO {
@@ -195,6 +209,16 @@ export interface TeamGroupDTO {
   name: string;
   description: string | null;
   members: TeamMemberDTO[];
+}
+
+/** A unit in the company structure (department, studio, division…). */
+export interface DepartmentDTO {
+  slug: string;
+  name: string;
+  description: string | null;
+  focus: string[];
+  lead: { slug: string; name: string; position: string; hasProfilePage: boolean } | null;
+  memberCount: number;
 }
 
 export interface MilestoneDTO {
@@ -211,7 +235,6 @@ export interface MilestoneDTO {
   sourceUrl: string | null;
   sourceLabel: string | null;
   featured: boolean;
-  isPlaceholder: boolean;
 }
 
 export interface CapabilityDTO {
@@ -223,7 +246,6 @@ export interface CapabilityDTO {
   icon: string;
   featured: boolean;
   products: Array<{ slug: string; name: string }>;
-  isPlaceholder: boolean;
 }
 
 export interface PrincipleDTO {
@@ -238,5 +260,3 @@ export interface SocialLinkDTO {
   label: string;
   url: string;
 }
-
-export type { InquiryType };

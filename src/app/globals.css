@@ -51,10 +51,6 @@
   --color-archived: #a3a3ad;
   --color-danger: #ff6b6b;
 
-  /* Market movement — readable on dark surfaces, never the only signal (arrows + signs too) */
-  --color-up: #34d399;
-  --color-down: #fb7185;
-
   /* Secondary glows used only inside gradients */
   --color-ember-400: #ffb547;
   --color-rose-glow: #ff7ab6;
@@ -76,8 +72,6 @@
   --animate-marquee: marquee 40s linear infinite;
   --animate-word-rise: word-rise 1.15s var(--ease-out-expo) both;
   --animate-aurora: aurora 22s ease-in-out infinite alternate;
-  --animate-flash-up: flash-up 1.6s var(--ease-out-quart);
-  --animate-flash-down: flash-down 1.6s var(--ease-out-quart);
   --animate-shimmer: shimmer 6s linear infinite;
   --animate-float: float 8s ease-in-out infinite;
   --animate-ping-slow: ping-slow 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
@@ -147,22 +141,6 @@
     }
     100% {
       transform: translate3d(9%, -3%, 0) scale(0.94) rotate(-12deg);
-    }
-  }
-  @keyframes flash-up {
-    from {
-      background-color: color-mix(in oklab, var(--color-up) 24%, transparent);
-    }
-    to {
-      background-color: transparent;
-    }
-  }
-  @keyframes flash-down {
-    from {
-      background-color: color-mix(in oklab, var(--color-down) 24%, transparent);
-    }
-    to {
-      background-color: transparent;
     }
   }
   @keyframes shimmer {

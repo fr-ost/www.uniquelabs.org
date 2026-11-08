@@ -22,7 +22,7 @@ export function LegalPage({
   const tokens = {
     company: company.legalName ?? company.name,
     site: displayHost(siteUrl),
-    contact: email ? `[${email}](mailto:${email})` : "the [contact form](/contact)",
+    contact: email ? `[${email}](mailto:${email})` : "our [contact page](/contact)",
   };
   return (
     <>

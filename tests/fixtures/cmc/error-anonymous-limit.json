@@ -1,9 +1,0 @@
-{
- "status": {
-  "timestamp": "2026-11-08T16:25:55.715Z",
-  "error_code": "1022",
-  "error_message": "You've reached the limit for anonymous access. Sign in to activate a free API plan or upgrade for higher limits.",
-  "elapsed": 1,
-  "credit_count": 0
- }
-}

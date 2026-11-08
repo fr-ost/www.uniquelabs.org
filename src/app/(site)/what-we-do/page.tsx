@@ -3,7 +3,6 @@ import Link from "next/link";
 import { ProductCard } from "@/components/cards/product-card";
 import { Reveal } from "@/components/motion/reveal";
 import { ClosingCta, DirectionStrip } from "@/components/sections/shared-sections";
-import { SampleBadge } from "@/components/ui/badges";
 import { TextLink } from "@/components/ui/button";
 import { Markdown } from "@/components/ui/markdown";
 import { Eyebrow, PageHero, SectionHeader } from "@/components/ui/section";
@@ -77,7 +76,6 @@ export default async function WhatWeDoPage() {
                   <Reveal delay={120} className={cn("lg:col-span-5", flip ? "lg:order-1 lg:col-start-1" : "lg:col-start-8")}>
                     <div className="flex items-center gap-3">
                       <p className="text-eyebrow text-signal-400">{indexLabel(index + 1)}</p>
-                      {capability.isPlaceholder ? <SampleBadge /> : null}
                     </div>
                     <h2 id={`${capability.slug}-title`} className="text-display-sm mt-5 text-ink-50">
                       {capability.title}

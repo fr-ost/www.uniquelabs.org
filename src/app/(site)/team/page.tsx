@@ -3,8 +3,9 @@ import Link from "next/link";
 import { TeamCard } from "@/components/cards/content-cards";
 import { Reveal } from "@/components/motion/reveal";
 import { ClosingCta, EmptyState } from "@/components/sections/shared-sections";
+import { StructureSection } from "@/components/sections/structure-section";
 import { Eyebrow, PageHero } from "@/components/ui/section";
-import { getCompany, getTeam } from "@/lib/content/public";
+import { getCompany, getDepartments, getTeam } from "@/lib/content/public";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { pluralize } from "@/lib/utils";
 
@@ -18,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function TeamPage() {
-  const [team, company] = await Promise.all([getTeam(), getCompany()]);
+  const [team, company, departments] = await Promise.all([getTeam(), getCompany(), getDepartments()]);
   const total = team.leadership.length + team.groups.reduce((sum, g) => sum + g.members.length, 0);
 
   return (
@@ -33,6 +34,8 @@ export default async function TeamPage() {
         }
         description="The team designing, building and maintaining our products."
       />
+
+      <StructureSection departments={departments} intro={company.structureIntro} />
 
       {total === 0 && team.former.length === 0 ? (
         <section className="container-site py-16 md:py-24">

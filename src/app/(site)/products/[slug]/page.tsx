@@ -7,19 +7,26 @@ import { Reveal } from "@/components/motion/reveal";
 import { ScreenshotGallery } from "@/components/sections/screenshot-gallery";
 import { ClosingCta } from "@/components/sections/shared-sections";
 import { JsonLdScript } from "@/components/seo/json-ld-script";
-import { SampleBadge, StageBadge } from "@/components/ui/badges";
+import { StageBadge } from "@/components/ui/badges";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { ButtonLink, TextLink } from "@/components/ui/button";
 import { Markdown } from "@/components/ui/markdown";
 import { MediaImage } from "@/components/ui/media-image";
 import { Eyebrow } from "@/components/ui/section";
-import { getCompany, getProduct, getProducts } from "@/lib/content/public";
+import { getCompany, getProduct, getProducts, productSlugs } from "@/lib/content/public";
 import { LINK_KIND_LABELS, PLATFORM_LABELS, PRICING_LABELS } from "@/lib/labels";
 import { productJsonLd } from "@/lib/seo/json-ld";
 import { clampDescription, pageMetadata } from "@/lib/seo/metadata";
 import { displayHost, formatDate, indexLabel } from "@/lib/utils";
 
 type Params = Promise<{ slug: string }>;
+
+/** Pages are generated at build time; unknown slugs are 404s. */
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return productSlugs().map((slug) => ({ slug }));
+}
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;
@@ -30,7 +37,6 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     description: clampDescription(product.seoDescription ?? `${product.name} — ${product.summary}`),
     path: `/products/${product.slug}`,
     imageAlt: product.name,
-    noIndex: product.status !== "PUBLISHED" || product.isPlaceholder,
   });
 }
 
@@ -56,12 +62,6 @@ export default async function ProductPage({ params }: { params: Params }) {
 
   return (
     <>
-      {product.status !== "PUBLISHED" ? (
-        <div className="fixed inset-x-0 top-[var(--header-height)] z-40 bg-beta/90 py-1.5 text-center text-xs font-medium text-ink-950">
-          Draft preview — this product is not public ({product.status.toLowerCase()})
-        </div>
-      ) : null}
-
       <section className="relative overflow-hidden border-b border-white/[0.07] pt-[calc(var(--header-height)+2.5rem)] pb-16 md:pb-24">
         <div aria-hidden className="grid-lines mask-fade-radial pointer-events-none absolute inset-0 opacity-50" />
         <div
@@ -78,7 +78,6 @@ export default async function ProductPage({ params }: { params: Params }) {
                 <ProductLogo logo={product.logo} name={product.name} accent={product.accentColor} size="xl" />
                 <div className="flex flex-col items-start gap-2">
                   <StageBadge stage={product.stage} />
-                  {product.isPlaceholder ? <SampleBadge /> : null}
                 </div>
               </div>
               <h1 className="text-display-lg mt-8 animate-fade-up text-ink-50">{product.name}</h1>
@@ -225,25 +224,39 @@ export default async function ProductPage({ params }: { params: Params }) {
                 </div>
               </div>
             ) : null}
-            {product.collaborations.length > 0 || product.capabilities.length > 0 ? (
-              <div className="surface-card p-6">
-                {product.collaborations.length > 0 ? (
-                  <>
-                    <p className="text-eyebrow text-ink-400">Collaborations</p>
+            {product.collaborations.length > 0 || product.projects.length > 0 || product.capabilities.length > 0 ? (
+              <div className="surface-card space-y-6 p-6">
+                {product.projects.length > 0 ? (
+                  <div>
+                    <p className="text-eyebrow text-ink-400">Projects</p>
                     <ul className="mt-3 space-y-2 text-sm">
-                      {product.collaborations.map((c) => (
+                      {product.projects.map((c) => (
                         <li key={c.slug}>
-                          <Link href={`/collaborations/${c.slug}`} className="text-ink-200 hover:text-ink-50">
+                          <Link href={`/projects/${c.slug}`} className="text-ink-200 hover:text-ink-50">
                             {c.title}
                           </Link>
                         </li>
                       ))}
                     </ul>
-                  </>
+                  </div>
+                ) : null}
+                {product.collaborations.length > 0 ? (
+                  <div>
+                    <p className="text-eyebrow text-ink-400">Partnerships</p>
+                    <ul className="mt-3 space-y-2 text-sm">
+                      {product.collaborations.map((c) => (
+                        <li key={c.slug}>
+                          <Link href={`/partnerships/${c.slug}`} className="text-ink-200 hover:text-ink-50">
+                            {c.title}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 ) : null}
                 {product.capabilities.length > 0 ? (
                   <>
-                    <p className={`text-eyebrow text-ink-400 ${product.collaborations.length ? "mt-6" : ""}`}>Related focus areas</p>
+                    <p className="text-eyebrow text-ink-400">Related focus areas</p>
                     <ul className="mt-3 flex flex-wrap gap-2">
                       {product.capabilities.map((c) => (
                         <li key={c.slug}>
@@ -286,7 +299,7 @@ export default async function ProductPage({ params }: { params: Params }) {
       ) : null}
 
       <ClosingCta headline={company.closingHeadline} body={company.closingBody} />
-      {product.status === "PUBLISHED" ? <JsonLdScript data={productJsonLd(product, company.name)} /> : null}
+      <JsonLdScript data={productJsonLd(product, company.name)} />
     </>
   );
 }

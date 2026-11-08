@@ -2,18 +2,24 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArrowUpRight } from "lucide-react";
 import { JsonLdScript } from "@/components/seo/json-ld-script";
-import { SampleBadge } from "@/components/ui/badges";
 import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 import { TextLink } from "@/components/ui/button";
 import { Markdown } from "@/components/ui/markdown";
 import { MediaImage } from "@/components/ui/media-image";
 import { SocialIcon } from "@/components/visuals/social-icon";
-import { getCompany, getTeamMember } from "@/lib/content/public";
+import { getCompany, getTeamMember, teamProfileSlugs } from "@/lib/content/public";
 import { personJsonLd } from "@/lib/seo/json-ld";
 import { clampDescription, pageMetadata } from "@/lib/seo/metadata";
 import { displayHost, formatDate } from "@/lib/utils";
 
 type Params = Promise<{ slug: string }>;
+
+/** Pages are generated at build time; unknown slugs are 404s. */
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return teamProfileSlugs().map((slug) => ({ slug }));
+}
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;
@@ -24,7 +30,6 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     description: clampDescription(member.shortBio ?? `${member.name}, ${member.position}.`),
     path: `/team/${member.slug}`,
     type: "profile",
-    noIndex: member.status !== "PUBLISHED" || member.isPlaceholder,
   });
 }
 
@@ -71,7 +76,6 @@ export default async function TeamMemberPage({ params }: { params: Params }) {
                 <p className="text-eyebrow text-signal-400">
                   {member.memberType === "FORMER" ? "Former team member" : (member.group?.name ?? "Team")}
                 </p>
-                {member.isPlaceholder ? <SampleBadge /> : null}
               </div>
               <h1 className="text-display-lg mt-6 text-ink-50">{member.name}</h1>
               <p className="mt-4 font-display text-xl tracking-[-0.02em] text-ink-200 md:text-2xl">{member.position}</p>
@@ -141,9 +145,7 @@ export default async function TeamMemberPage({ params }: { params: Params }) {
           </div>
         </div>
       </section>
-      {member.status === "PUBLISHED" && !member.isPlaceholder ? (
-        <JsonLdScript data={personJsonLd(member, company.name)} />
-      ) : null}
+      <JsonLdScript data={personJsonLd(member, company.name)} />
     </>
   );
 }

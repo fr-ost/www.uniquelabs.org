@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { PointerGlow } from "@/components/motion/pointer-glow";
-import { SampleBadge, StageBadge } from "@/components/ui/badges";
+import { StageBadge } from "@/components/ui/badges";
 import { MediaImage } from "@/components/ui/media-image";
 import type { MediaDTO, ProductCardDTO } from "@/lib/content/types";
 import { PLATFORM_LABELS } from "@/lib/labels";
@@ -82,7 +82,6 @@ export function ProductCard({
         <ProductLogo logo={product.logo} name={product.name} accent={product.accentColor} size={feature ? "lg" : "md"} />
         <div className="flex flex-col items-end gap-2">
           <StageBadge stage={product.stage} />
-          {product.isPlaceholder ? <SampleBadge /> : null}
         </div>
       </div>
 

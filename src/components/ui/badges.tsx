@@ -1,4 +1,4 @@
-import type { ReleaseStage } from "@/generated/prisma/enums";
+import type { ReleaseStage } from "@/lib/content/enums";
 import { RELEASE_STAGE_LABELS } from "@/lib/labels";
 import { cn } from "@/lib/utils";
 
@@ -38,16 +38,3 @@ export function Chip({ children, className }: { children: React.ReactNode; class
   );
 }
 
-export function SampleBadge({ className }: { className?: string }) {
-  return (
-    <span
-      className={cn(
-        "inline-flex items-center rounded-md border border-dashed border-beta/60 bg-beta/10 px-2 py-0.5 font-mono text-[0.625rem] uppercase tracking-[0.14em] text-beta",
-        className,
-      )}
-      title="Development sample content — never shown in production"
-    >
-      Sample
-    </span>
-  );
-}

@@ -4,11 +4,11 @@ const ROUTES = [
   "/",
   "/about",
   "/products",
-  "/collaborations",
+  "/projects",
+  "/partnerships",
   "/team",
   "/journey",
   "/what-we-do",
-  "/intelligence",
   "/contact",
   "/privacy",
   "/terms",
@@ -33,20 +33,30 @@ test.describe("public website", () => {
     });
   }
 
-  test("sends security headers and a nonce-based CSP", async ({ request }) => {
+  test("sends security headers", async ({ request }) => {
     const response = await request.get("/");
     const headers = response.headers();
-    expect(headers["content-security-policy"]).toMatch(/script-src 'self' 'nonce-[^']+' 'strict-dynamic'/);
+    expect(headers["content-security-policy"]).toContain("default-src 'self'");
     expect(headers["content-security-policy"]).toContain("frame-ancestors 'none'");
+    expect(headers["content-security-policy"]).toContain("object-src 'none'");
     expect(headers["x-content-type-options"]).toBe("nosniff");
     expect(headers["x-frame-options"]).toBe("DENY");
     expect(headers["referrer-policy"]).toBe("strict-origin-when-cross-origin");
   });
 
-  test("returns a real 404 for unknown pages and products", async ({ page }) => {
+  test("returns a real 404 for unknown pages and items", async ({ page }) => {
     expect((await page.goto("/this-page-does-not-exist"))?.status()).toBe(404);
     await expect(page.getByRole("heading", { name: /doesn.t exist/i })).toBeVisible();
     expect((await page.goto("/products/not-a-real-product"))?.status()).toBe(404);
+    expect((await page.goto("/projects/not-a-real-project"))?.status()).toBe(404);
+  });
+
+  test("redirects retired URLs", async ({ request }) => {
+    const old = await request.get("/collaborations", { maxRedirects: 0 });
+    expect(old.status()).toBe(308);
+    expect(old.headers()["location"]).toMatch(/\/partnerships$/);
+    const admin = await request.get("/admin", { maxRedirects: 0 });
+    expect([307, 308]).toContain(admin.status());
   });
 
   test("exposes SEO essentials", async ({ page, request }) => {
@@ -60,10 +70,10 @@ test.describe("public website", () => {
     expect(jsonLd.some((text) => text.includes('"Organization"'))).toBe(true);
     const sitemap = await request.get("/sitemap.xml");
     expect(sitemap.status()).toBe(200);
-    expect(await sitemap.text()).toContain("<loc>");
+    expect(await sitemap.text()).toContain("/projects</loc>");
     const robots = await request.get("/robots.txt");
-    expect(await robots.text()).toMatch(/Disallow: \/admin/);
-    const og = await request.get("/og/home");
+    expect(await robots.text()).toMatch(/Sitemap: /);
+    const og = await request.get("/og/projects");
     expect(og.headers()["content-type"]).toBe("image/png");
   });
 
@@ -73,12 +83,20 @@ test.describe("public website", () => {
       await page.getByRole("button", { name: "Open menu" }).click();
       const menu = page.getByRole("dialog", { name: "Site navigation" });
       await expect(menu).toBeVisible();
-      await menu.getByRole("link", { name: /What We Do/ }).click();
+      await menu.getByRole("link", { name: /Projects/ }).click();
     } else {
-      await page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "What We Do" }).click();
+      await page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Projects" }).click();
     }
-    await expect(page).toHaveURL(/\/what-we-do$/);
-    await expect(page.locator("h1")).toContainText(/Useful products/);
+    await expect(page).toHaveURL(/\/projects$/);
+    await expect(page.locator("h1")).toContainText(/Our work/);
+  });
+
+  test("company menu reaches the About page", async ({ page, isMobile }) => {
+    test.skip(isMobile, "The dropdown is a desktop control");
+    await page.goto("/");
+    await page.getByRole("navigation", { name: "Primary" }).getByRole("button", { name: /Company/ }).click();
+    await page.getByRole("link", { name: /^About/ }).first().click();
+    await expect(page).toHaveURL(/\/about$/);
   });
 
   test("keyboard users can skip to the content", async ({ page, isMobile }) => {

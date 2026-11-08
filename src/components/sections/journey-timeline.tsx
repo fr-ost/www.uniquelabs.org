@@ -85,7 +85,7 @@ export function JourneyTimeline({ milestones }: { milestones: MilestoneDTO[] }) 
                     </Link>
                   ) : null}
                   {milestone.collaboration ? (
-                    <Link href={`/collaborations/${milestone.collaboration.slug}`} className="text-ink-200 underline decoration-white/20 underline-offset-4 hover:text-white hover:decoration-signal-500">
+                    <Link href={`/partnerships/${milestone.collaboration.slug}`} className="text-ink-200 underline decoration-white/20 underline-offset-4 hover:text-white hover:decoration-signal-500">
                       {milestone.collaboration.title}
                     </Link>
                   ) : null}
@@ -94,11 +94,6 @@ export function JourneyTimeline({ milestones }: { milestones: MilestoneDTO[] }) 
                       {milestone.sourceLabel ?? "Source"} <ArrowUpRight aria-hidden className="h-3.5 w-3.5" />
                       <span className="sr-only"> (opens in a new tab)</span>
                     </a>
-                  ) : null}
-                  {milestone.isPlaceholder ? (
-                    <span className="rounded border border-dashed border-beta/60 px-1.5 font-mono text-[0.625rem] uppercase tracking-[0.14em] text-beta">
-                      Sample
-                    </span>
                   ) : null}
                 </div>
               </Reveal>

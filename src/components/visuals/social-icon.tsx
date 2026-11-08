@@ -1,5 +1,5 @@
 import { Globe } from "lucide-react";
-import type { SocialPlatform } from "@/generated/prisma/enums";
+import type { SocialPlatform } from "@/lib/content/enums";
 
 /** Minimal monochrome brand glyphs for social links. */
 export function SocialIcon({ platform, className }: { platform: SocialPlatform | "WEBSITE"; className?: string }) {

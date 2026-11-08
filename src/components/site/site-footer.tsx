@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { LogoMark } from "@/components/brand/logo";
-import { footerNav } from "@/components/site/nav-items";
+import { FOOTER_NAV } from "@/components/site/nav-items";
 import type { CompanyDTO, SocialLinkDTO } from "@/lib/content/types";
 import { displayHost } from "@/lib/utils";
 
@@ -9,12 +9,10 @@ export function SiteFooter({
   company,
   socials,
   siteUrl,
-  intelligence = false,
 }: {
   company: CompanyDTO;
   socials: SocialLinkDTO[];
   siteUrl: string;
-  intelligence?: boolean;
 }) {
   const year = new Date().getUTCFullYear();
   const email = company.contact.contactEmail ?? company.contact.generalEmail;
@@ -47,7 +45,7 @@ export function SiteFooter({
           </div>
 
           <nav aria-label="Footer" className="grid grid-cols-2 gap-10 sm:grid-cols-4 lg:col-span-7">
-            {footerNav({ intelligence }).map((group) => (
+            {FOOTER_NAV.map((group) => (
               <div key={group.title}>
                 <p className="text-eyebrow text-ink-400">{group.title}</p>
                 <ul className="mt-5 space-y-3 text-[0.9375rem]">

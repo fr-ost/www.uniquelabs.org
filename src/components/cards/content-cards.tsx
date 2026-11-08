@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { PointerGlow } from "@/components/motion/pointer-glow";
-import { SampleBadge } from "@/components/ui/badges";
 import { CapabilityIconView } from "@/components/visuals/capability-icon";
 import { MediaImage } from "@/components/ui/media-image";
 import type { CapabilityDTO, CollaborationCardDTO, PartnerDTO, TeamMemberDTO } from "@/lib/content/types";
@@ -57,7 +56,6 @@ export function CollaborationCard({
             </>
           ) : null}
         </p>
-        {collaboration.isPlaceholder ? <SampleBadge /> : null}
       </div>
 
       {collaboration.cover ? (
@@ -109,7 +107,7 @@ export function CollaborationCard({
         ) : null}
       </div>
 
-      <Link href={`/collaborations/${collaboration.slug}`} className="absolute inset-0 z-0 rounded-[inherit]">
+      <Link href={`/partnerships/${collaboration.slug}`} className="absolute inset-0 z-0 rounded-[inherit]">
         <span className="sr-only">Read about {collaboration.title}</span>
       </Link>
     </PointerGlow>
@@ -144,11 +142,6 @@ export function TeamCard({ member, size = "default" }: { member: TeamMemberDTO; 
             <span className="relative font-display text-5xl font-medium tracking-[-0.05em] text-ink-200">{initials}</span>
           </div>
         )}
-        {member.isPlaceholder ? (
-          <div className="absolute left-3 top-3">
-            <SampleBadge />
-          </div>
-        ) : null}
       </div>
       <div className="mt-5 flex items-start justify-between gap-3">
         <div>
@@ -189,7 +182,6 @@ export function CapabilityCard({ capability, index }: { capability: CapabilityDT
       </div>
       <h3 className="mt-8 font-display text-xl font-medium tracking-[-0.03em] text-ink-50">{capability.title}</h3>
       <p className="mt-3 text-[0.9375rem] text-ink-300">{capability.summary}</p>
-      {capability.isPlaceholder ? <SampleBadge className="mt-4 w-fit" /> : null}
     </PointerGlow>
   );
 }

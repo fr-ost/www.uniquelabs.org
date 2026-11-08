@@ -1,16 +1,13 @@
 import type {
   CollaborationCategory,
-  InquiryType,
   LinkKind,
   MilestoneKind,
   Platform,
   PricingModel,
-  ProductEvidenceStage,
-  PublishStatus,
+  ProjectStatus,
   ReleaseStage,
   SocialPlatform,
-  VerificationStatus,
-} from "@/generated/prisma/enums";
+} from "@/lib/content/enums";
 
 export const PLATFORM_LABELS: Record<Platform, string> = {
   CHROME_EXTENSION: "Chrome extension",
@@ -34,13 +31,6 @@ export const RELEASE_STAGE_LABELS: Record<ReleaseStage, string> = {
   BETA: "Beta",
   COMING_SOON: "Coming soon",
   DISCONTINUED: "Archived",
-};
-
-export const RELEASE_STAGE_ADMIN_LABELS: Record<ReleaseStage, string> = {
-  AVAILABLE: "Published (live)",
-  BETA: "Beta",
-  COMING_SOON: "Coming soon",
-  DISCONTINUED: "Archived (discontinued)",
 };
 
 export const PRICING_LABELS: Record<PricingModel, string> = {
@@ -74,6 +64,13 @@ export const COLLABORATION_CATEGORY_LABELS: Record<CollaborationCategory, string
   OTHER: "Collaboration",
 };
 
+export const PROJECT_STATUS_LABELS: Record<ProjectStatus, string> = {
+  IN_PROGRESS: "In progress",
+  COMPLETED: "Completed",
+  ONGOING: "Ongoing",
+  CONCEPT: "Concept",
+};
+
 export const MILESTONE_KIND_LABELS: Record<MilestoneKind, string> = {
   FOUNDING: "Founding",
   PRODUCT: "Product",
@@ -101,38 +98,6 @@ export const SOCIAL_PLATFORM_LABELS: Record<SocialPlatform, string> = {
   PRODUCT_HUNT: "Product Hunt",
   CHROME_WEB_STORE: "Chrome Web Store",
   OTHER: "Website",
-};
-
-export const INQUIRY_TYPE_LABELS: Record<InquiryType, string> = {
-  GENERAL: "General inquiry",
-  BUSINESS: "Business inquiry",
-  PARTNERSHIP: "Partnership inquiry",
-  PRESS: "Press & media",
-  SUPPORT: "Product support",
-  OTHER: "Something else",
-};
-
-export const PUBLISH_STATUS_LABELS: Record<PublishStatus, string> = {
-  DRAFT: "Draft",
-  PUBLISHED: "Published",
-  ARCHIVED: "Archived",
-};
-
-export const EVIDENCE_STAGE_LABELS: Record<ProductEvidenceStage, string> = {
-  IDEA: "Product idea",
-  PLANNING: "Product planning",
-  IN_DEVELOPMENT: "Development in progress",
-  COMPLETED: "Completed project",
-  BETA: "Beta release",
-  PUBLISHED: "Published product",
-  CANCELLED: "Cancelled project",
-  NEEDS_VERIFICATION: "Needs verification",
-};
-
-export const VERIFICATION_LABELS: Record<VerificationStatus, string> = {
-  NEEDS_VERIFICATION: "Needs verification",
-  EVIDENCE_FOUND: "Evidence found",
-  VERIFIED: "Verified by owner",
 };
 
 /** Curated icon names usable for capabilities (rendered via lucide-react). */

@@ -1,22 +1,14 @@
 import type { MetadataRoute } from "next";
-import { headers } from "next/headers";
-import { getSettings } from "@/lib/content/public";
-import { siteUrl } from "@/lib/env";
+import { isIndexable, siteUrl } from "@/lib/env";
 
-export const dynamic = "force-dynamic";
-
-export default async function robots(): Promise<MetadataRoute.Robots> {
+/** Production allows crawling; Vercel preview deployments disallow everything. */
+export default function robots(): MetadataRoute.Robots {
   const base = siteUrl();
-  const settings = await getSettings();
-  const host = (await headers()).get("host");
-  const canonicalHost = new URL(base).host;
-  const nonCanonical = process.env.NODE_ENV === "production" && host !== null && host !== canonicalHost;
-
-  if (!settings.allowIndexing || nonCanonical) {
+  if (!isIndexable()) {
     return { rules: [{ userAgent: "*", disallow: "/" }] };
   }
   return {
-    rules: [{ userAgent: "*", allow: "/", disallow: ["/admin", "/api/"] }],
+    rules: [{ userAgent: "*", allow: "/" }],
     sitemap: `${base}/sitemap.xml`,
     host: base,
   };
