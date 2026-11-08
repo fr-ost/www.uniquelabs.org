@@ -61,7 +61,7 @@ const PATTERNS: Array<{ kind: SignalKind; label: string; re: RegExp; guarded: bo
   {
     kind: "published",
     label: "memory: user launched",
-    re: /\b(?:user|they|he|she)\s+(?:has\s+|have\s+|recently\s+|successfully\s+)*(?:launched|published|released|shipped)\b/i,
+    re: /\b(?:user|they|he|she|who)\s+(?:has\s+|have\s+|recently\s+|successfully\s+)*(?:launched|published|released|shipped)\b/i,
     guarded: true,
     ownerOnly: true,
   },
