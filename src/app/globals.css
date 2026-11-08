@@ -1,0 +1,496 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Unique Labs — design tokens
+   Deep charcoal canvas, warm off-white "paper" surfaces, a single warm
+   signal accent, and quiet status colours. Display type: Sora. Text: Inter.
+   Technical labels: JetBrains Mono.
+   ========================================================================== */
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-sora), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono-face), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Ink — the charcoal canvas */
+  --color-ink-950: #08080a;
+  --color-ink-900: #0d0d10;
+  --color-ink-850: #121216;
+  --color-ink-800: #18181d;
+  --color-ink-750: #1e1e24;
+  --color-ink-700: #26262d;
+  --color-ink-600: #34343c;
+  --color-ink-500: #4b4b55;
+  --color-ink-400: #6e6e79;
+  --color-ink-300: #9c9ca6;
+  --color-ink-200: #c5c5cc;
+  --color-ink-100: #e6e6ea;
+  --color-ink-50: #f5f5f7;
+
+  /* Paper — warm off-white editorial surfaces */
+  --color-paper-50: #fbfaf7;
+  --color-paper-100: #f4f2ec;
+  --color-paper-200: #eae7df;
+  --color-paper-300: #dcd8cd;
+  --color-paper-400: #b9b3a5;
+  --color-paper-600: #6f6a5f;
+  --color-paper-800: #2c2a25;
+  --color-paper-900: #17161a;
+
+  /* Signal — the single brand accent */
+  --color-signal-300: #ffb196;
+  --color-signal-400: #ff8a62;
+  --color-signal-500: #ff6b35;
+  --color-signal-600: #ec4e17;
+  --color-signal-700: #b83a0c;
+
+  /* Quiet status colours */
+  --color-live: #74d9b6;
+  --color-beta: #f2c45a;
+  --color-soon: #9cb8f2;
+  --color-archived: #a3a3ad;
+  --color-danger: #ff6b6b;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+  --radius-card: 1.25rem;
+  --radius-panel: 1.75rem;
+
+  --animate-fade-up: fade-up 0.9s var(--ease-out-expo) both;
+  --animate-fade-in: fade-in 1.2s var(--ease-out-expo) both;
+  --animate-draw: draw 2.2s var(--ease-out-expo) both;
+  --animate-orbit: orbit 28s linear infinite;
+  --animate-pulse-soft: pulse-soft 3.2s ease-in-out infinite;
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-word-rise: word-rise 1.15s var(--ease-out-expo) both;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 18px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes draw {
+    from {
+      stroke-dashoffset: var(--dash, 1200);
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes orbit {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes pulse-soft {
+    0%,
+    100% {
+      opacity: 0.55;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.08);
+    }
+  }
+  @keyframes word-rise {
+    from {
+      transform: translate3d(0, 108%, 0) rotate(2deg);
+    }
+    to {
+      transform: none;
+    }
+  }
+  @keyframes marquee {
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Base
+   -------------------------------------------------------------------------- */
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    --header-height: 4.5rem;
+    --gutter: clamp(1rem, 4vw, 3rem);
+  }
+
+  html {
+    background-color: var(--color-ink-900);
+    color: var(--color-ink-100);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-padding-top: calc(var(--header-height) + 1.5rem);
+  }
+
+  body {
+    min-height: 100dvh;
+    font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01", "ss03";
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--color-signal-500) 80%, transparent);
+    color: var(--color-ink-950);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a,
+  button,
+  [role="button"],
+  input,
+  select,
+  textarea,
+  summary {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-signal-500);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  img,
+  svg,
+  video {
+    display: block;
+    max-width: 100%;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Utilities
+   -------------------------------------------------------------------------- */
+
+@utility container-site {
+  width: 100%;
+  max-width: 88rem;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+@utility container-narrow {
+  width: 100%;
+  max-width: 52rem;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+@utility text-display-xl {
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 1.2rem + 6.6vw, 7.25rem);
+  line-height: 0.98;
+  letter-spacing: -0.052em;
+  font-weight: 500;
+}
+
+@utility text-display-lg {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 1.25rem + 4.2vw, 5rem);
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+  font-weight: 500;
+}
+
+@utility text-display-md {
+  font-family: var(--font-display);
+  font-size: clamp(1.875rem, 1.2rem + 2.6vw, 3.5rem);
+  line-height: 1.06;
+  letter-spacing: -0.04em;
+  font-weight: 500;
+}
+
+@utility text-display-sm {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 1.15rem + 1.3vw, 2.25rem);
+  line-height: 1.12;
+  letter-spacing: -0.032em;
+  font-weight: 500;
+}
+
+@utility text-lede {
+  font-size: clamp(1.0625rem, 0.98rem + 0.42vw, 1.3125rem);
+  line-height: 1.6;
+  letter-spacing: -0.011em;
+}
+
+@utility text-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+@utility hairline {
+  border-color: color-mix(in oklab, white 9%, transparent);
+}
+
+@utility surface-card {
+  background:
+    linear-gradient(180deg, color-mix(in oklab, white 3.5%, transparent), transparent 42%),
+    var(--color-ink-850);
+  border: 1px solid color-mix(in oklab, white 8%, transparent);
+  border-radius: var(--radius-card);
+}
+
+@utility grid-lines {
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, white 5%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, white 5%, transparent) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+@utility grid-lines-paper {
+  background-image:
+    linear-gradient(to right, color-mix(in oklab, black 6%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, black 6%, transparent) 1px, transparent 1px);
+  background-size: 72px 72px;
+}
+
+@utility mask-fade-radial {
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 75%);
+}
+
+@utility mask-fade-b {
+  mask-image: linear-gradient(to bottom, black 55%, transparent);
+}
+
+@utility mask-fade-x {
+  mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Subtle film grain to keep large dark areas from banding. */
+@utility grain {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.9'/></svg>");
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Components that are easier to express in CSS
+   -------------------------------------------------------------------------- */
+
+@layer components {
+  /* Pointer-following glow for interactive cards (desktop only). */
+  .glow-card {
+    position: relative;
+    isolation: isolate;
+  }
+  .glow-card::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.5s var(--ease-out-expo);
+    background: radial-gradient(
+      420px circle at var(--pointer-x, 50%) var(--pointer-y, 50%),
+      color-mix(in oklab, var(--card-accent, var(--color-signal-500)) 22%, transparent),
+      transparent 60%
+    );
+    pointer-events: none;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .glow-card:hover::before {
+      opacity: 1;
+    }
+  }
+
+  /* Long-form content rendered from Markdown. */
+  .prose-ul {
+    color: var(--color-ink-200);
+    font-size: 1.0625rem;
+    line-height: 1.75;
+  }
+  .prose-ul > * + * {
+    margin-top: 1.1em;
+  }
+  .prose-ul h2 {
+    margin-top: 2.2em;
+    color: var(--color-ink-50);
+    font-size: clamp(1.375rem, 1.1rem + 0.9vw, 1.75rem);
+    font-weight: 500;
+  }
+  .prose-ul h3 {
+    margin-top: 1.8em;
+    color: var(--color-ink-50);
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+  .prose-ul h2 + *,
+  .prose-ul h3 + * {
+    margin-top: 0.6em;
+  }
+  .prose-ul a {
+    color: var(--color-ink-50);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in oklab, var(--color-signal-500) 70%, transparent);
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+    transition: text-decoration-color 0.2s;
+  }
+  .prose-ul a:hover {
+    text-decoration-color: var(--color-signal-500);
+  }
+  .prose-ul strong {
+    color: var(--color-ink-50);
+    font-weight: 600;
+  }
+  .prose-ul ul,
+  .prose-ul ol {
+    padding-left: 1.25em;
+  }
+  .prose-ul ul {
+    list-style: none;
+  }
+  .prose-ul ul > li {
+    position: relative;
+  }
+  .prose-ul ul > li::before {
+    content: "";
+    position: absolute;
+    left: -1.05em;
+    top: 0.72em;
+    width: 0.38em;
+    height: 0.38em;
+    border-radius: 999px;
+    background: var(--color-signal-500);
+  }
+  .prose-ul ol {
+    list-style: decimal;
+  }
+  .prose-ul li + li {
+    margin-top: 0.45em;
+  }
+  .prose-ul blockquote {
+    border-left: 2px solid var(--color-signal-500);
+    padding-left: 1.25em;
+    color: var(--color-ink-100);
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    line-height: 1.5;
+  }
+  .prose-ul code {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    background: var(--color-ink-800);
+    border: 1px solid color-mix(in oklab, white 8%, transparent);
+    border-radius: 0.375rem;
+    padding: 0.1em 0.35em;
+  }
+  .prose-ul hr {
+    border-color: color-mix(in oklab, white 10%, transparent);
+    margin-block: 2.5em;
+  }
+  .prose-ul table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95em;
+  }
+  .prose-ul th,
+  .prose-ul td {
+    border-bottom: 1px solid color-mix(in oklab, white 10%, transparent);
+    padding: 0.6em 0.4em;
+    text-align: left;
+  }
+
+  /* Paper (light) variant for editorial sections. */
+  .prose-paper {
+    color: var(--color-paper-800);
+  }
+  .prose-paper h2,
+  .prose-paper h3,
+  .prose-paper strong,
+  .prose-paper a {
+    color: var(--color-paper-900);
+  }
+}
+
+/* Scroll reveal (see components/motion/reveal.tsx). Only elements that were
+   off-screen at hydration time ever receive data-reveal="hidden". */
+[data-reveal] {
+  transition:
+    opacity 0.95s var(--ease-out-expo),
+    transform 0.95s var(--ease-out-expo),
+    filter 0.95s var(--ease-out-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+[data-reveal="hidden"] {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+}
+[data-reveal="visible"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* --------------------------------------------------------------------------
+   Motion preferences
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
