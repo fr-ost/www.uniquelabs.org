@@ -5,10 +5,12 @@ import { prisma } from "@/lib/db";
 import { DEFAULT_PRIVACY_POLICY, DEFAULT_SEO, DEFAULT_TERMS } from "@/lib/content/defaults";
 import { adminMediaSelect, toDateInputValue, toPicked } from "@/lib/admin/data";
 import { saveLegal, saveSeo } from "@/server/actions/site";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "SEO & legal" };
 
 export default async function SeoPage() {
+  await requireAdmin();
   const settings = await prisma.siteSettings.findUnique({ where: { id: 1 }, include: { ogImage: { select: adminMediaSelect } } });
   return (
     <div className="space-y-10">

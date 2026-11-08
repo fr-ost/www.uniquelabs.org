@@ -4,10 +4,12 @@ import { AdminPageHeader, AdminTable, EmptyPanel, Td, Th } from "@/components/ad
 import { inputClass } from "@/components/admin/form";
 import { prisma } from "@/lib/db";
 import { formatDateTime } from "@/lib/utils";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "Audit logs" };
 
 export default async function AuditPage({ searchParams }: { searchParams: Promise<{ q?: string; page?: string }> }) {
+  await requireAdmin();
   const sp = await searchParams;
   const q = (sp.q ?? "").trim().slice(0, 80);
   const page = Math.max(1, Number(sp.page) || 1);

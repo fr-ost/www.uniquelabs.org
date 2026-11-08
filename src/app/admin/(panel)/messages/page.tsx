@@ -5,6 +5,7 @@ import { prisma } from "@/lib/db";
 import { INQUIRY_TYPE_LABELS } from "@/lib/labels";
 import { formatDateTime, truncate } from "@/lib/utils";
 import { cn } from "@/lib/utils";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "Messages" };
 
@@ -15,6 +16,7 @@ const FILTERS = [
 ];
 
 export default async function MessagesPage({ searchParams }: { searchParams: Promise<{ view?: string }> }) {
+  await requireAdmin();
   const view = (await searchParams).view ?? "inbox";
   const filter = FILTERS.find((f) => f.key === view) ?? FILTERS[0]!;
   const messages = await prisma.contactMessage.findMany({ where: filter.where, orderBy: { createdAt: "desc" }, take: 200 });

@@ -9,10 +9,12 @@ import { mediaUrl } from "@/lib/media/storage";
 import { RELEASE_STAGE_LABELS } from "@/lib/labels";
 import { formatDate } from "@/lib/utils";
 import { deleteProduct, moveProduct, setProductStatus, toggleProductFeatured } from "@/server/actions/products";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "Products" };
 
 export default async function AdminProductsPage({ searchParams }: { searchParams: Promise<{ deleted?: string }> }) {
+  await requireAdmin();
   const [{ deleted }, products] = await Promise.all([
     searchParams,
     prisma.product.findMany({

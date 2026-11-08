@@ -8,10 +8,12 @@ import { AdminButtonLink, AdminPageHeader, Panel, Pill } from "@/components/admi
 import { prisma } from "@/lib/db";
 import { SOCIAL_PLATFORM_LABELS } from "@/lib/labels";
 import { deleteSocialLink, moveSocialLink, saveContactInfo, saveSocialLink } from "@/server/actions/site";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "Contact information" };
 
 export default async function ContactAdminPage() {
+  await requireAdmin();
   const [company, settings, socials] = await Promise.all([
     prisma.companyProfile.findUnique({ where: { id: 1 } }),
     prisma.siteSettings.findUnique({ where: { id: 1 }, select: { contactFormEnabled: true } }),

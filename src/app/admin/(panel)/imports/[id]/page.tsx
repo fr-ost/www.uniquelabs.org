@@ -8,6 +8,7 @@ import { prisma } from "@/lib/db";
 import { markStaleJobs, type StoredFile } from "@/lib/importers/pipeline";
 import { EVIDENCE_STAGE_LABELS, COLLABORATION_CATEGORY_LABELS } from "@/lib/labels";
 import { formatBytes, formatDateTime } from "@/lib/utils";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "Import report" };
 
@@ -48,6 +49,7 @@ interface PreviewItem {
 }
 
 export default async function ImportJobPage({ params }: { params: Promise<{ id: string }> }) {
+  await requireAdmin();
   const { id } = await params;
   await markStaleJobs();
   const job = await prisma.importJob.findUnique({ where: { id }, include: { createdBy: { select: { email: true } } } });

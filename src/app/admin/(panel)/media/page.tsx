@@ -8,10 +8,12 @@ import { env } from "@/lib/env";
 import { mediaUrl } from "@/lib/media/storage";
 import { formatBytes, formatDate } from "@/lib/utils";
 import { deleteMedia, updateMediaAlt } from "@/server/actions/site";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "Media library" };
 
 export default async function MediaLibraryPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
+  await requireAdmin();
   const page = Math.max(1, Number((await searchParams).page) || 1);
   const take = 24;
   const [assets, total] = await Promise.all([

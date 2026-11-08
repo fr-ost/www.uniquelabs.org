@@ -11,7 +11,10 @@ export const metadata: Metadata = { title: "Admin users" };
 
 export default async function UsersPage() {
   const session = await requireAdmin("OWNER");
-  const users = await prisma.adminUser.findMany({ orderBy: { createdAt: "asc" } });
+  const users = await prisma.adminUser.findMany({
+    orderBy: { createdAt: "asc" },
+    select: { id: true, name: true, email: true, role: true, isActive: true, lastLoginAt: true },
+  });
   return (
     <div className="space-y-6">
       <AdminPageHeader title="Admin users" description="There is no public registration. Owners create accounts here or with `npm run admin:create`." />

@@ -6,10 +6,12 @@ import { NamedItemForm } from "@/components/admin/forms/simple-forms";
 import { AdminPageHeader, Panel } from "@/components/admin/ui";
 import { prisma } from "@/lib/db";
 import { deleteCategory, moveCategory, saveCategory } from "@/server/actions/products";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "Product categories" };
 
 export default async function CategoriesPage() {
+  await requireAdmin();
   const categories = await prisma.category.findMany({
     orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
     include: { _count: { select: { products: true } } },

@@ -5,10 +5,12 @@ import { prisma } from "@/lib/db";
 import { DEFAULT_COMPANY } from "@/lib/content/defaults";
 import { adminMediaSelect, toDateInputValue, toPicked } from "@/lib/admin/data";
 import { saveCompany } from "@/server/actions/site";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "Company information" };
 
 export default async function CompanyPage() {
+  await requireAdmin();
   const company = await prisma.companyProfile.findUnique({ where: { id: 1 }, include: { logo: { select: adminMediaSelect } } });
   const c = company ?? { ...DEFAULT_COMPANY, legalName: null, foundedDate: null, foundedDatePrecision: "YEAR", foundedDateVerified: false, logo: null };
   return (

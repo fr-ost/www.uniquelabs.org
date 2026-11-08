@@ -6,10 +6,12 @@ import { NamedItemForm } from "@/components/admin/forms/simple-forms";
 import { AdminPageHeader, Panel } from "@/components/admin/ui";
 import { prisma } from "@/lib/db";
 import { deleteTeamGroup, moveTeamGroup, saveTeamGroup } from "@/server/actions/content";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "Team groups" };
 
 export default async function TeamGroupsPage() {
+  await requireAdmin();
   const groups = await prisma.teamGroup.findMany({ orderBy: [{ sortOrder: "asc" }, { name: "asc" }], include: { _count: { select: { members: true } } } });
   return (
     <div className="space-y-6">

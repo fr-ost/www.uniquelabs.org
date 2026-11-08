@@ -8,6 +8,7 @@ import { AdminPageHeader, Panel, Pill, StatusBadge } from "@/components/admin/ui
 import { prisma } from "@/lib/db";
 import { adminMediaSelect, toDateInputValue, toPicked } from "@/lib/admin/data";
 import { deleteCollaboration, saveCollaboration } from "@/server/actions/collaborations";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "Edit collaboration" };
 
@@ -18,6 +19,7 @@ export default async function EditCollaborationPage({
   params: Promise<{ id: string }>;
   searchParams: Promise<{ created?: string; needsVerification?: string }>;
 }) {
+  await requireAdmin();
   const [{ id }, sp] = await Promise.all([params, searchParams]);
   const isNew = id === "new";
   const [record, partners, products] = await Promise.all([

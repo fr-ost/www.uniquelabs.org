@@ -5,10 +5,12 @@ import { AdminPageHeader, Panel } from "@/components/admin/ui";
 import { prisma } from "@/lib/db";
 import { adminMediaSelect, toPicked } from "@/lib/admin/data";
 import { deletePartner, savePartner } from "@/server/actions/collaborations";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "Partners" };
 
 export default async function PartnersPage() {
+  await requireAdmin();
   const partners = await prisma.partner.findMany({
     orderBy: { name: "asc" },
     include: { logo: { select: adminMediaSelect }, _count: { select: { collaborations: true } } },

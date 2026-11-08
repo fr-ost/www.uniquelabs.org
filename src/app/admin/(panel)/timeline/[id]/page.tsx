@@ -6,10 +6,12 @@ import { AdminPageHeader, Pill, StatusBadge } from "@/components/admin/ui";
 import { prisma } from "@/lib/db";
 import { adminMediaSelect, toDateInputValue, toPicked } from "@/lib/admin/data";
 import { deleteMilestone, saveMilestone } from "@/server/actions/content";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "Edit milestone" };
 
 export default async function EditMilestonePage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ created?: string; needsVerification?: string }> }) {
+  await requireAdmin();
   const [{ id }, sp] = await Promise.all([params, searchParams]);
   const isNew = id === "new";
   const [milestone, products, collaborations] = await Promise.all([

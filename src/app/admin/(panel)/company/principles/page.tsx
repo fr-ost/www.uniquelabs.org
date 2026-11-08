@@ -6,10 +6,12 @@ import { PrincipleForm } from "@/components/admin/forms/simple-forms";
 import { AdminPageHeader, Panel, StatusBadge } from "@/components/admin/ui";
 import { prisma } from "@/lib/db";
 import { deletePrinciple, movePrinciple, savePrinciple } from "@/server/actions/content";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "Philosophy principles" };
 
 export default async function PrinciplesPage() {
+  await requireAdmin();
   const principles = await prisma.principle.findMany({ orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }] });
   return (
     <div className="space-y-6">

@@ -7,10 +7,12 @@ import { AdminButtonLink, AdminPageHeader, AdminTable, EmptyPanel, Pill, StatusB
 import { prisma } from "@/lib/db";
 import { mediaUrl } from "@/lib/media/storage";
 import { deleteTeamMember, moveTeamMember, setTeamMemberStatus } from "@/server/actions/content";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "Team members" };
 
 export default async function AdminTeamPage() {
+  await requireAdmin();
   const members = await prisma.teamMember.findMany({
     orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
     include: { group: { select: { name: true } }, photo: { select: { id: true, fileName: true } } },

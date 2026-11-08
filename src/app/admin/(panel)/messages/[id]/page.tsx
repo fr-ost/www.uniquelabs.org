@@ -2,21 +2,21 @@ import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { ConfirmAction } from "@/components/admin/confirm";
 import { InlineSubmit } from "@/components/admin/form";
+import { MarkMessageRead } from "@/components/admin/mark-message-read";
 import { AdminPageHeader, Panel, Pill } from "@/components/admin/ui";
 import { prisma } from "@/lib/db";
 import { INQUIRY_TYPE_LABELS } from "@/lib/labels";
 import { formatDateTime } from "@/lib/utils";
 import { deleteMessage, setMessageStatus } from "@/server/actions/site";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "Message" };
 
 export default async function MessagePage({ params }: { params: Promise<{ id: string }> }) {
+  await requireAdmin();
   const { id } = await params;
   const message = await prisma.contactMessage.findUnique({ where: { id } });
   if (!message) notFound();
-  if (message.status === "NEW") {
-    await prisma.contactMessage.update({ where: { id }, data: { status: "READ", readAt: new Date() } });
-  }
   const remove = async () => {
     "use server";
     await deleteMessage(id);
@@ -24,6 +24,7 @@ export default async function MessagePage({ params }: { params: Promise<{ id: st
   };
   return (
     <div className="space-y-6">
+      {message.status === "NEW" ? <MarkMessageRead id={message.id} /> : null}
       <AdminPageHeader
         breadcrumbs={[{ label: "Messages", href: "/admin/messages" }, { label: message.subject }]}
         title={message.subject}

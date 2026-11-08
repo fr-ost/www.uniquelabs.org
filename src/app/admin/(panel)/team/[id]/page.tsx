@@ -7,10 +7,12 @@ import { AdminPageHeader, StatusBadge } from "@/components/admin/ui";
 import { prisma } from "@/lib/db";
 import { adminMediaSelect, toDateInputValue, toPicked } from "@/lib/admin/data";
 import { deleteTeamMember, saveTeamMember } from "@/server/actions/content";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "Edit team member" };
 
 export default async function EditTeamMemberPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ created?: string }> }) {
+  await requireAdmin();
   const [{ id }, sp] = await Promise.all([params, searchParams]);
   const isNew = id === "new";
   const [member, groups] = await Promise.all([

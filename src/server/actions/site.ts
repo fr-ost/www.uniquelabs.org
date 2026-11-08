@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
 import { actorFromSession, audit } from "@/lib/audit";
 import { requireAdmin } from "@/lib/auth/guards";
@@ -138,11 +139,26 @@ export async function deleteSocialLink(id: string): Promise<void> {
 // Messages
 // ---------------------------------------------------------------------------
 
-export async function setMessageStatus(id: string, status: "NEW" | "READ" | "ARCHIVED" | "SPAM"): Promise<void> {
+const MESSAGE_STATUSES = ["NEW", "READ", "ARCHIVED", "SPAM"] as const;
+
+export async function setMessageStatus(id: string, status: (typeof MESSAGE_STATUSES)[number]): Promise<void> {
   const session = await requireAdmin();
+  if (typeof id !== "string" || !MESSAGE_STATUSES.includes(status)) throw new Error("Invalid message status.");
   await prisma.contactMessage.update({ where: { id }, data: { status, ...(status === "READ" ? { readAt: new Date() } : {}) } });
   await audit({ actor: actorFromSession(session), action: `message.${status.toLowerCase()}`, entityType: "ContactMessage", entityId: id, summary: `Marked a message as ${status.toLowerCase()}` });
   refreshPublic("/admin/messages");
+}
+
+/**
+ * Opening a message marks it read. Called from the client after the page has
+ * rendered (a POST with the Server Action origin check) — never as a side
+ * effect of a GET render, so prefetches and crawlers can't change state.
+ */
+export async function markMessageRead(id: string): Promise<void> {
+  await requireAdmin();
+  if (typeof id !== "string" || id.length > 64) return;
+  const { count } = await prisma.contactMessage.updateMany({ where: { id, status: "NEW" }, data: { status: "READ", readAt: new Date() } });
+  if (count > 0) revalidatePath("/admin", "layout");
 }
 
 export async function deleteMessage(id: string): Promise<void> {

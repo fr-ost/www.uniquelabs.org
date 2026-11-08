@@ -4,6 +4,7 @@ import { CandidateDetail, KeyValueList } from "@/components/admin/candidate-deta
 import { ApproveCollaborationForm } from "@/components/admin/forms/approve-forms";
 import { prisma } from "@/lib/db";
 import { approveCollaborationCandidate } from "@/server/actions/candidates";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "Review collaboration candidate" };
 
@@ -16,6 +17,7 @@ interface CollabData {
 }
 
 export default async function CollaborationCandidatePage({ params }: { params: Promise<{ id: string }> }) {
+  await requireAdmin();
   const { id } = await params;
   const candidate = await prisma.importCandidate.findUnique({
     where: { id },

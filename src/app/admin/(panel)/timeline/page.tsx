@@ -8,10 +8,12 @@ import { prisma } from "@/lib/db";
 import { MILESTONE_KIND_LABELS } from "@/lib/labels";
 import { formatDate } from "@/lib/utils";
 import { deleteMilestone, setMilestoneStatus } from "@/server/actions/content";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "Company timeline" };
 
 export default async function AdminTimelinePage() {
+  await requireAdmin();
   const milestones = await prisma.companyMilestone.findMany({
     orderBy: [{ date: "desc" }],
     include: { product: { select: { name: true } }, collaboration: { select: { title: true } } },

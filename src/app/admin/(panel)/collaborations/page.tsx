@@ -8,10 +8,12 @@ import { prisma } from "@/lib/db";
 import { COLLABORATION_CATEGORY_LABELS } from "@/lib/labels";
 import { formatDate } from "@/lib/utils";
 import { deleteCollaboration, moveCollaboration, setCollaborationStatus, toggleCollaborationFeatured } from "@/server/actions/collaborations";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "Collaborations" };
 
 export default async function AdminCollaborationsPage() {
+  await requireAdmin();
   const items = await prisma.collaboration.findMany({
     orderBy: [{ sortOrder: "asc" }, { date: "desc" }],
     include: { partners: { include: { partner: { select: { name: true } } } }, _count: { select: { evidence: true } } },

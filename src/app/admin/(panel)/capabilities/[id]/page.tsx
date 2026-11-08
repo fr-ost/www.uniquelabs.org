@@ -5,10 +5,12 @@ import { CapabilityForm } from "@/components/admin/forms/content-forms";
 import { AdminPageHeader, StatusBadge } from "@/components/admin/ui";
 import { prisma } from "@/lib/db";
 import { deleteCapability, saveCapability } from "@/server/actions/content";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "Edit focus area" };
 
 export default async function EditCapabilityPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<{ created?: string }> }) {
+  await requireAdmin();
   const [{ id }, sp] = await Promise.all([params, searchParams]);
   const isNew = id === "new";
   const [capability, products] = await Promise.all([

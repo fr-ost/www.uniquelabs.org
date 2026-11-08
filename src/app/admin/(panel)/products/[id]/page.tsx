@@ -8,6 +8,7 @@ import { AdminPageHeader, Panel, Pill, StatusBadge } from "@/components/admin/ui
 import { prisma } from "@/lib/db";
 import { adminMediaSelect, toDateInputValue, toPicked } from "@/lib/admin/data";
 import { deleteProduct, saveProduct } from "@/server/actions/products";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "Edit product" };
 
@@ -15,6 +16,7 @@ type Params = Promise<{ id: string }>;
 type Search = Promise<{ created?: string; needsVerification?: string }>;
 
 export default async function EditProductPage({ params, searchParams }: { params: Params; searchParams: Search }) {
+  await requireAdmin();
   const [{ id }, sp] = await Promise.all([params, searchParams]);
   const isNew = id === "new";
 

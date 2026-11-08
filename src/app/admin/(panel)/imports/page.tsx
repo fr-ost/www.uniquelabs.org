@@ -3,10 +3,12 @@ import { JobsTable } from "@/components/admin/import-pages";
 import { AdminButtonLink, AdminPageHeader, EmptyPanel } from "@/components/admin/ui";
 import { prisma } from "@/lib/db";
 import { markStaleJobs } from "@/lib/importers/pipeline";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "Import history" };
 
 export default async function ImportHistoryPage() {
+  await requireAdmin();
   await markStaleJobs();
   const jobs = await prisma.importJob.findMany({ orderBy: { createdAt: "desc" }, take: 100 });
   return (

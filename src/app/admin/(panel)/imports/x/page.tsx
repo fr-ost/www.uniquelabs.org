@@ -5,10 +5,12 @@ import { ImportUploader } from "@/components/admin/import-uploader";
 import { AdminButtonLink, AdminPageHeader, Panel } from "@/components/admin/ui";
 import { prisma } from "@/lib/db";
 import { env } from "@/lib/env";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "Import X Archive" };
 
 export default async function XImportPage() {
+  await requireAdmin();
   const [jobs, pending] = await Promise.all([
     prisma.importJob.findMany({ where: { kind: "X_ARCHIVE" }, orderBy: { createdAt: "desc" }, take: 10 }),
     prisma.importCandidate.count({ where: { kind: "COLLABORATION", status: "PENDING" } }),

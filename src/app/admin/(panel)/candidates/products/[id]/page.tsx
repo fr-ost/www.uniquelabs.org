@@ -6,6 +6,7 @@ import { prisma } from "@/lib/db";
 import { PLATFORM_LABELS } from "@/lib/labels";
 import { approveProductCandidate } from "@/server/actions/candidates";
 import type { Platform } from "@/generated/prisma/enums";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "Review product candidate" };
 
@@ -21,6 +22,7 @@ interface ProductData {
 const STAGE_TO_RELEASE: Record<string, string> = { PUBLISHED: "AVAILABLE", BETA: "BETA", CANCELLED: "DISCONTINUED" };
 
 export default async function ProductCandidatePage({ params }: { params: Promise<{ id: string }> }) {
+  await requireAdmin();
   const { id } = await params;
   const candidate = await prisma.importCandidate.findUnique({ where: { id }, include: { evidence: { orderBy: { sourceTimestamp: "asc" } }, product: { select: { id: true, name: true } } } });
   if (!candidate || candidate.kind !== "PRODUCT") notFound();

@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import { CandidatesList } from "@/components/admin/candidates-list";
 import { AdminButtonLink, AdminPageHeader } from "@/components/admin/ui";
 import type { CandidateStatus } from "@/generated/prisma/enums";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "Product candidates" };
 
 const STATUSES: CandidateStatus[] = ["PENDING", "APPROVED", "REJECTED", "ARCHIVED", "MERGED"];
 
 export default async function ProductCandidatesPage({ searchParams }: { searchParams: Promise<{ status?: string }> }) {
+  await requireAdmin();
   const raw = (await searchParams).status;
   const status = STATUSES.includes(raw as CandidateStatus) ? (raw as CandidateStatus) : "PENDING";
   return (

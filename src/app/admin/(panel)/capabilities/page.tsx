@@ -7,10 +7,12 @@ import { AdminButtonLink, AdminPageHeader, AdminTable, EmptyPanel, Pill, StatusB
 import { CapabilityIconView } from "@/components/visuals/capability-icon";
 import { prisma } from "@/lib/db";
 import { deleteCapability, moveCapability, publishAllDraftCapabilities, setCapabilityStatus } from "@/server/actions/content";
+import { requireAdmin } from "@/lib/auth/guards";
 
 export const metadata: Metadata = { title: "What We Do" };
 
 export default async function AdminCapabilitiesPage() {
+  await requireAdmin();
   const capabilities = await prisma.capability.findMany({ orderBy: [{ sortOrder: "asc" }, { title: "asc" }], include: { _count: { select: { products: true } } } });
   const drafts = capabilities.filter((c) => c.status === "DRAFT").length;
   return (
