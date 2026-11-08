@@ -146,10 +146,25 @@ export function StatCard({
   );
 }
 
-export function AdminTable({ children, className }: { children: ReactNode; className?: string }) {
+const TABLE_MIN_WIDTH = {
+  md: "min-w-[640px]",
+  lg: "min-w-[800px]",
+  xl: "min-w-[960px]",
+} as const;
+
+/** Scrolls horizontally on small screens instead of squeezing columns. */
+export function AdminTable({
+  children,
+  className,
+  minWidth = "md",
+}: {
+  children: ReactNode;
+  className?: string;
+  minWidth?: keyof typeof TABLE_MIN_WIDTH;
+}) {
   return (
-    <div className={cn("overflow-x-auto rounded-2xl border border-white/[0.08]", className)}>
-      <table className="w-full min-w-[640px] border-collapse text-left text-sm">{children}</table>
+    <div className={cn("overflow-x-auto overscroll-x-contain rounded-2xl border border-white/[0.08]", className)}>
+      <table className={cn("w-full border-collapse text-left text-sm", TABLE_MIN_WIDTH[minWidth])}>{children}</table>
     </div>
   );
 }
@@ -203,7 +218,7 @@ export function AdminButtonLink({
 
 export function adminButtonClasses(variant: "primary" | "secondary" | "ghost" | "danger" = "secondary", size: "sm" | "md" = "md") {
   return cn(
-    "inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-lg font-medium transition-colors disabled:pointer-events-none disabled:opacity-50",
+    "inline-flex shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-lg font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0",
     size === "sm" ? "h-8 px-3 text-xs" : "h-9 px-3.5 text-sm",
     variant === "primary" && "bg-ink-50 text-ink-950 hover:bg-white",
     variant === "secondary" && "border border-white/12 bg-white/[0.03] text-ink-100 hover:border-white/25 hover:bg-white/[0.06]",

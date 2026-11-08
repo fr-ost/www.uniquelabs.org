@@ -74,7 +74,7 @@ export async function CandidatesList({ kind, status, basePath }: { kind: Candida
         />
       ) : (
         <form action={mergeCandidates} className="space-y-4">
-          <AdminTable>
+          <AdminTable minWidth="xl">
             <thead>
               <tr>
                 {mergeable ? <Th className="w-10"><span className="sr-only">Select</span></Th> : null}

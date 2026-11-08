@@ -64,7 +64,7 @@ export default async function AdminProductsPage({ searchParams }: { searchParams
           }
         />
       ) : (
-        <AdminTable>
+        <AdminTable minWidth="xl">
           <thead>
             <tr>
               <Th className="w-20">Order</Th>

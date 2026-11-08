@@ -32,7 +32,7 @@ export default async function AdminTeamPage() {
       {members.length === 0 ? (
         <EmptyPanel title="No team members yet" body="Add the people behind Unique Labs. Profiles stay private until published." action={<AdminButtonLink href="/admin/team/new" variant="primary">Add member</AdminButtonLink>} />
       ) : (
-        <AdminTable>
+        <AdminTable minWidth="lg">
           <thead>
             <tr>
               <Th className="w-20">Order</Th>

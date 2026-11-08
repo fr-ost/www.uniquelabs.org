@@ -18,7 +18,7 @@ export function jobStatusLabel(status: ImportJob["status"]): string {
 
 export function JobsTable({ jobs }: { jobs: ImportJob[] }) {
   return (
-    <AdminTable>
+    <AdminTable minWidth="lg">
       <thead>
         <tr>
           <Th>Started</Th>

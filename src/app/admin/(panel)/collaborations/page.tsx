@@ -42,7 +42,7 @@ export default async function AdminCollaborationsPage() {
           }
         />
       ) : (
-        <AdminTable>
+        <AdminTable minWidth="lg">
           <thead>
             <tr>
               <Th className="w-20">Order</Th>

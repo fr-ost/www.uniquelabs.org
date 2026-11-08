@@ -7,7 +7,7 @@ type Variant = "primary" | "secondary" | "ghost" | "paper" | "paper-outline";
 type Size = "md" | "lg" | "sm";
 
 const base =
-  "group/btn relative inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium tracking-[-0.01em] transition-[background-color,color,border-color,box-shadow,transform] duration-300 ease-[var(--ease-out-expo)] active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50";
+  "group/btn relative inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium tracking-[-0.01em] transition-[background-color,color,border-color,box-shadow,transform] duration-300 ease-[var(--ease-out-expo)] active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0";
 
 const variants: Record<Variant, string> = {
   primary:
@@ -92,7 +92,7 @@ export function TextLink({
   external?: boolean;
 }) {
   const classes = cn(
-    "group/btn inline-flex items-center gap-1.5 text-sm font-medium text-ink-100 transition-colors hover:text-white",
+    "group/btn inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap text-sm font-medium text-ink-100 transition-colors hover:text-white",
     className,
   );
   if (external) {

@@ -90,8 +90,9 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
             </div>
           ) : null}
           {showSamples ? (
-            <div className="rounded-full border border-dashed border-beta/50 bg-ink-950/90 px-4 py-2 font-mono text-[0.625rem] uppercase tracking-[0.14em] text-beta backdrop-blur">
-              Development build · sample content is hidden in production
+            <div className="whitespace-nowrap rounded-full border border-dashed border-beta/50 bg-ink-950/90 px-4 py-2 font-mono text-[0.625rem] uppercase tracking-[0.14em] text-beta backdrop-blur">
+              <span className="sm:hidden">Dev build · samples hidden in prod</span>
+              <span className="hidden sm:inline">Development build · sample content is hidden in production</span>
             </div>
           ) : null}
         </div>

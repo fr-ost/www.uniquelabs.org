@@ -44,10 +44,17 @@ export function CollaborationCard({
       )}
     >
       <div className="flex items-center justify-between gap-4">
-        <p className="text-eyebrow text-ink-400">
-          {COLLABORATION_CATEGORY_LABELS[collaboration.category]}
+        <p className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-eyebrow text-ink-400">
+          <span>{COLLABORATION_CATEGORY_LABELS[collaboration.category]}</span>
           {collaboration.date ? (
-            <span className="text-ink-500"> · {formatDate(collaboration.date.date, collaboration.date.precision, "short")}</span>
+            <>
+              <span className="text-ink-600" aria-hidden>
+                ·
+              </span>
+              <span className="whitespace-nowrap text-ink-500">
+                {formatDate(collaboration.date.date, collaboration.date.precision, "short")}
+              </span>
+            </>
           ) : null}
         </p>
         {collaboration.isPlaceholder ? <SampleBadge /> : null}
