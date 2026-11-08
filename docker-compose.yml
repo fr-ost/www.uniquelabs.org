@@ -1,0 +1,40 @@
+# Local development database (and an optional production-like app container).
+#
+#   docker compose up -d db                 # PostgreSQL for `npm run dev`
+#   docker compose --profile app up --build # full stack, production build
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: uniquelabs
+      POSTGRES_PASSWORD: uniquelabs
+      POSTGRES_DB: uniquelabs
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./docker/init-test-db.sql:/docker-entrypoint-initdb.d/10-test-db.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U uniquelabs -d uniquelabs"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    profiles: ["app"]
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://uniquelabs:uniquelabs@db:5432/uniquelabs?schema=public
+      SITE_URL: ${SITE_URL:-http://localhost:3000}
+      APP_SECRET: ${APP_SECRET:?Set APP_SECRET (32+ random characters) in your shell or .env}
+      ADMIN_SETUP_TOKEN: ${ADMIN_SETUP_TOKEN:-}
+      TRUSTED_PROXY_COUNT: "0"
+    ports:
+      - "3000:3000"
+
+volumes:
+  pgdata:

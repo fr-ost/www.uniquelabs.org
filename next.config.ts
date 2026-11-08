@@ -38,6 +38,10 @@ const nextConfig: NextConfig = {
   agentRules: false,
   // Native / heavy server-only packages that must not be bundled.
   serverExternalPackages: ["sharp", "pg", "yauzl"],
+  // Files read at runtime via fs, which output tracing can't detect.
+  outputFileTracingIncludes: {
+    "/og/[...key]": ["./src/assets/og/**/*"],
+  },
   images: {
     formats: ["image/avif", "image/webp"],
     qualities: [60, 75, 85],
