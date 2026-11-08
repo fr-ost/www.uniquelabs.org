@@ -203,6 +203,7 @@ enum VerificationStatus {
 enum EvidenceSource {
   CLAUDE_CONVERSATION
   CLAUDE_PROJECT
+  CLAUDE_MEMORY
   TWEET
   URL
   MANUAL

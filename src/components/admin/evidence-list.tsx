@@ -5,6 +5,7 @@ import { formatDateTime } from "@/lib/utils";
 const SOURCE_LABELS: Record<SourceEvidence["sourceType"], string> = {
   CLAUDE_CONVERSATION: "Claude conversation",
   CLAUDE_PROJECT: "Claude project",
+  CLAUDE_MEMORY: "Claude memory",
   TWEET: "Tweet",
   URL: "URL",
   MANUAL: "Manual note",
