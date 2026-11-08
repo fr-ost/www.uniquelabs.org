@@ -63,6 +63,11 @@ export async function ensureBaselineContent(): Promise<string[]> {
     }
   }
 
+  if (!(await prisma.intelligenceSettings.findUnique({ where: { id: 1 }, select: { id: true } }))) {
+    await prisma.intelligenceSettings.create({ data: { id: 1 } });
+    log.push("Enabled Market Intelligence with default settings (Admin → Intelligence).");
+  }
+
   for (const [index, group] of DEFAULT_TEAM_GROUPS.entries()) {
     if (!(await prisma.teamGroup.findUnique({ where: { slug: group.slug }, select: { id: true } }))) {
       await prisma.teamGroup.create({ data: { ...group, sortOrder: index } });

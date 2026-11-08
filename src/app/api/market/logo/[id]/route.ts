@@ -53,14 +53,27 @@ function png(body: Uint8Array): Response {
   });
 }
 
-function missing(status = 404, maxAge = 3600): Response {
-  return new Response(null, { status, headers: { "Cache-Control": `public, max-age=${maxAge}` } });
+// 1×1 transparent PNG: when a logo can't be fetched the page's monogram
+// fallback shows through, without a broken-image icon or console error.
+const TRANSPARENT_PNG = Uint8Array.from(
+  atob("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="),
+  (c) => c.charCodeAt(0),
+);
+
+function missing(maxAge = 3600): Response {
+  return new Response(TRANSPARENT_PNG as BodyInit, {
+    headers: {
+      "Content-Type": "image/png",
+      "Cache-Control": `public, max-age=${maxAge}`,
+      "X-Content-Type-Options": "nosniff",
+    },
+  });
 }
 
 export async function GET(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id: raw } = await params;
   const idText = raw.replace(/\.png$/, "");
-  if (!/^\d{1,9}$/.test(idText)) return missing();
+  if (!/^\d{1,9}$/.test(idText)) return new Response(null, { status: 404 });
   const id = Number(idText);
   const now = Date.now();
 
@@ -68,7 +81,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
   if (hit && hit.expires > now) return hit.body ? png(hit.body) : missing();
 
   if (!withinBudget(now)) {
-    return hit?.body ? png(hit.body) : missing(503, 30);
+    return hit?.body ? png(hit.body) : missing(30);
   }
 
   try {
@@ -79,12 +92,12 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
     }
     const type = response.headers.get("content-type") ?? "";
     const length = Number(response.headers.get("content-length") ?? "0");
-    if (!response.ok || !type.startsWith("image/png") || length > MAX_BYTES) return missing(502, 300);
+    if (!response.ok || !type.startsWith("image/png") || length > MAX_BYTES) return missing(300);
     const body = new Uint8Array(await response.arrayBuffer());
-    if (body.byteLength > MAX_BYTES || !isPng(body)) return missing(502, 300);
+    if (body.byteLength > MAX_BYTES || !isPng(body)) return missing(300);
     remember(id, { body, expires: now + 7 * 24 * 3600_000 });
     return png(body);
   } catch {
-    return hit?.body ? png(hit.body) : missing(502, 60);
+    return hit?.body ? png(hit.body) : missing(60);
   }
 }

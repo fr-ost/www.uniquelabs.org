@@ -114,10 +114,12 @@ export default async function IntelligencePage() {
 
       {snapshot.available ? (
         <>
-          <section aria-label="Top movers" className="container-site pt-14 md:pt-20">
-            <SectionTitle id="movers" icon={<TrendingUp className="h-3.5 w-3.5" />} eyebrow="Movers" title="Biggest moves in 24 hours" description="Among tracked assets with at least $1M in daily volume. Stablecoins excluded." />
-            <TopMovers />
-          </section>
+          {snapshot.assets.length >= 20 ? (
+            <section aria-label="Top movers" className="container-site pt-14 md:pt-20">
+              <SectionTitle id="movers" icon={<TrendingUp className="h-3.5 w-3.5" />} eyebrow="Movers" title="Biggest moves in 24 hours" description="Among tracked assets with at least $1M in daily volume. Stablecoins excluded." />
+              <TopMovers />
+            </section>
+          ) : null}
           <section aria-labelledby="markets" className="container-site scroll-mt-28 pt-14 md:pt-20">
             <SectionTitle id="markets" icon={<Activity className="h-3.5 w-3.5" />} eyebrow="Markets" title="Prices by market cap" description={`The ${snapshot.assets.length} largest cryptocurrencies, updated live.`} />
             <MarketTable watchlist={settings.watchlist} />

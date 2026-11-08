@@ -12,12 +12,21 @@ haven't verified and approved.
 ## Highlights
 
 - **Public website**: Home, About, Products (with SEO product pages), What We
-  Do, Collaborations (with detail pages), Our Team (with profiles), Our
-  Journey (interactive timeline), Contact, Privacy Policy and Terms of Use.
+  Do, Market Intelligence, Collaborations (with detail pages), Our Team (with
+  profiles), Our Journey (interactive timeline), Contact, Privacy Policy and
+  Terms of Use — with top navigation, aurora hero, live market widgets and
+  motion that respects reduced-motion settings.
+- **Market Intelligence** (`/intelligence`): live crypto prices, market caps,
+  volume, supply, global metrics, Fear & Greed, Altcoin Season, CMC100, top
+  movers, a searchable market table, coin pages, airdrops and token unlocks —
+  CoinMarketCap data fetched and cached server-side (works keyless; set
+  `CMC_API_KEY` for production).
 - **Admin dashboard** at `/admin`: company information, products, Claude
   history import, collaborations & partners, X archive import, team, timeline,
-  What We Do, contact info & inbox, media library, SEO & legal, import history,
-  audit log, account security and admin users. Drafts, previews, publish /
+  What We Do, Market Intelligence (settings, data status, curated airdrops and
+  token unlocks), contact info & inbox, media library, SEO & legal, import
+  history, audit log, account security and admin users — navigated from a top
+  bar. Drafts, previews, publish /
   unpublish / archive, reordering and confirmation dialogs throughout.
 - **Import engine**: streaming, memory-bounded parsers for the official Claude
   export and the X archive; evidence-based classification (an idea is never
@@ -47,6 +56,7 @@ haven't verified and approved.
 | Auth | `@node-rs/argon2`, database sessions |
 | Media | `sharp` (WebP re-encoding), stored in PostgreSQL or on a volume |
 | Imports | `yauzl` (safe ZIP), custom streaming JSON array parser |
+| Market data | CoinMarketCap API (server-side client, in-process cache) |
 | Tests | Vitest (unit + integration on PostgreSQL), Playwright (e2e) |
 
 **Why PostgreSQL?** The previous deployment of this repository ran on Railway,
@@ -67,6 +77,10 @@ npm run db:seed                    # baseline content from the brief (idempotent
 npm run admin:create               # create your owner account (prompts)
 npm run dev                        # http://localhost:3000 — admin at /admin
 ```
+
+Market Intelligence works without configuration (CoinMarketCap's keyless API).
+Offline, run `node tests/support/cmc-mock-server.mjs` and start the dev server
+with `CMC_API_BASE_URL=http://127.0.0.1:4010` (see `docs/INTELLIGENCE.md`).
 
 Optional: `npm run db:seed:demo` adds clearly-labelled **sample** products,
 collaborations, team members and milestones for design work. They are tagged
@@ -99,9 +113,10 @@ src/app/og/          branded Open Graph images
 src/components/      brand, site chrome, cards, sections, admin UI kit
 src/lib/content/     public queries → safe DTOs, caching, defaults, bootstrap
 src/lib/importers/   core (zip, streaming JSON, text), claude/, x/, pipeline
+src/lib/market/      CoinMarketCap client, normalisers, cache, service
 src/lib/auth/        passwords, sessions, guards, API protection
 src/server/actions/  server actions for every admin module
-tests/               unit/, integration/, e2e/, fixtures/
+tests/               unit/, integration/, e2e/, fixtures/, support/ (CMC mock)
 docs/                architecture, deployment, admin guide, imports
 ```
 
@@ -111,12 +126,13 @@ docs/                architecture, deployment, admin guide, imports
 - [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) — Railway / Docker / VPS, environment, domain, backups
 - [docs/ADMIN.md](docs/ADMIN.md) — first admin account and day-to-day content management
 - [docs/IMPORTS.md](docs/IMPORTS.md) — Claude export & X archive imports, classification rules, privacy
+- [docs/INTELLIGENCE.md](docs/INTELLIGENCE.md) — market data sources, API key, caching & credits, curation
 
 ## Testing
 
 ```bash
-npm test                 # 80+ unit & integration tests (PostgreSQL test database)
-npm run test:e2e         # Playwright, desktop + mobile; starts `npm run dev` if needed
+npm test                 # 120+ unit & integration tests (PostgreSQL test database)
+npm run test:e2e         # Playwright, desktop + mobile; starts the CMC mock and `npm run dev` if needed
 ```
 
 Integration tests use `TEST_DATABASE_URL` (default: the `uniquelabs_test`

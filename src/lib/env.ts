@@ -37,6 +37,10 @@ const schema = z
     IMPORT_TMP_DIR: z.string().optional(),
     IMPORT_MAX_UPLOAD_MB: z.coerce.number().int().positive().max(8192).default(2048),
     CANONICAL_REDIRECT: booleanString,
+    // CoinMarketCap (Market Intelligence). Optional: without a key the keyless
+    // public API is used. The base URL override is for tests/local mocks.
+    CMC_API_KEY: z.string().trim().max(200).optional(),
+    CMC_API_BASE_URL: z.url({ protocol: /^https?$/ }).optional(),
     ALLOW_PLACEHOLDER_CONTENT: booleanString,
   })
   .superRefine((value, ctx) => {

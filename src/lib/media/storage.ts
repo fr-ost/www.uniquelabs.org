@@ -13,8 +13,10 @@ import type { MediaAsset } from "@/generated/prisma/client";
  * - "filesystem": bytes live under MEDIA_DIR on a persistent volume.
  */
 
+// The media directory is runtime data, not a build input: tell the bundler not
+// to trace it (otherwise the whole project is copied into the standalone build).
 function mediaRoot(): string {
-  return path.resolve(process.cwd(), env().MEDIA_DIR);
+  return path.resolve(/* turbopackIgnore: true */ process.cwd(), env().MEDIA_DIR);
 }
 
 function fsKey(sha256: string, extension: string): string {
@@ -23,7 +25,7 @@ function fsKey(sha256: string, extension: string): string {
 
 function resolveFsKey(key: string): string {
   const root = mediaRoot();
-  const resolved = path.resolve(root, key);
+  const resolved = path.resolve(/* turbopackIgnore: true */ root, key);
   if (!resolved.startsWith(root + path.sep)) {
     throw new Error("Invalid media storage key");
   }

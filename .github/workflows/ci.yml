@@ -81,9 +81,10 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: npx prisma migrate deploy
       - run: npm run build
-      - name: Start the production server
+      - name: Start the CoinMarketCap mock and the production server
         run: |
-          (PORT=3000 npm start &) && npx wait-on http://localhost:3000/api/health --timeout 60000
+          (node tests/support/cmc-mock-server.mjs tests/fixtures/cmc 4010 &)
+          (PORT=3000 CMC_API_BASE_URL=http://127.0.0.1:4010 npm start &) && npx wait-on http://localhost:3000/api/health --timeout 60000
       - run: npx playwright test
       - uses: actions/upload-artifact@v4
         if: failure()

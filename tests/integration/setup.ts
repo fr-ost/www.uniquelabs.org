@@ -77,6 +77,9 @@ const TABLES = [
   "MediaAsset",
   "CompanyProfile",
   "SiteSettings",
+  "Airdrop",
+  "TokenUnlock",
+  "IntelligenceSettings",
 ];
 
 beforeEach(async () => {

@@ -143,7 +143,7 @@ export function TextInput({
   defaultValue?: string | number | null;
   hint?: ReactNode;
   placeholder?: string;
-  type?: "text" | "email" | "url" | "password" | "number";
+  type?: "text" | "email" | "url" | "password" | "number" | "date" | "datetime-local";
   maxLength?: number;
   optional?: boolean;
   className?: string;

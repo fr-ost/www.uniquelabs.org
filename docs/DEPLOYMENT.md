@@ -25,6 +25,7 @@ See [`.env.example`](../.env.example) for the full list. In production you must 
 | `APP_SECRET` | 32+ random characters: `node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"` |
 | `ADMIN_SETUP_TOKEN` | Only for the first admin (see below), then remove |
 | `TRUSTED_PROXY_COUNT` | `1` behind Railway/Render/Fly/nginx |
+| `CMC_API_KEY` | Recommended: free CoinMarketCap key for Market Intelligence (works keyless without it, with shared rate limits) |
 
 The server validates its environment at start-up and refuses to boot in
 production with a missing or placeholder `APP_SECRET`.
@@ -36,8 +37,8 @@ production with a missing or placeholder `APP_SECRET`.
    `Dockerfile` and builds the production image (Node 22 by default — pass
    `NODE_VERSION=24` as a build argument to use Node 24 LTS).
 3. Set variables on the web service: `DATABASE_URL` (reference the Postgres
-   service's variable), `SITE_URL`, `APP_SECRET`, `TRUSTED_PROXY_COUNT=1`, and
-   temporarily `ADMIN_SETUP_TOKEN`.
+   service's variable), `SITE_URL`, `APP_SECRET`, `TRUSTED_PROXY_COUNT=1`,
+   `CMC_API_KEY` (recommended) and temporarily `ADMIN_SETUP_TOKEN`.
 4. Deploy. The container applies pending migrations (`prisma migrate deploy`)
    before starting, then creates the baseline content on first boot.
 5. Open `https://<your-service>/admin/setup`, enter the setup token and create
@@ -88,6 +89,12 @@ location /api/admin/imports/ {
     proxy_pass http://127.0.0.1:3000;
 }
 ```
+
+## Outbound network
+
+The server calls `pro-api.coinmarketcap.com` (market data) and
+`s2.coinmarketcap.com` (coin logos, proxied to visitors). If your host
+restricts egress, allow both. Browsers never contact them.
 
 ## Domain configuration (www vs apex)
 
@@ -147,6 +154,7 @@ Everything that matters lives in PostgreSQL (content, media in the default
 - [ ] Review the privacy policy and terms (Admin → SEO & legal) before launch
 - [ ] Publish the suggested focus areas you agree with (Admin → What We Do)
 - [ ] Add a contact email and social profiles (Admin → Contact information)
+- [ ] Set `CMC_API_KEY` and check Admin → Intelligence shows every dataset “OK”
 - [ ] Remove any development sample content (`npm run db:seed:demo -- --clear`)
 
 ## Scaling notes

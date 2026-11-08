@@ -211,6 +211,8 @@ You can ask us to access, correct or delete personal information you have sent u
 
 Our products may be distributed through third-party platforms such as browser extension stores. Those platforms have their own privacy practices, which we do not control.
 
+Market data on our Intelligence pages is retrieved by our own server from CoinMarketCap. Your browser does not contact CoinMarketCap when you view those pages (coin logos are served through our server too), and we do not share information about you with them.
+
 ## Changes to this policy
 
 We may update this policy from time to time. The date at the top of this page shows when it last changed.
@@ -228,6 +230,10 @@ You may use the Website for lawful purposes only. Please don't attempt to disrup
 ## Our products
 
 Information about products on the Website is provided for general information. Products may be offered through third-party platforms — such as browser extension stores — and may come with their own terms and privacy policies, which apply to your use of those products.
+
+## Market information
+
+Market data and other information on our Intelligence pages are provided for general information only. They are not financial, investment or tax advice, and they may be delayed, incomplete or inaccurate. Market data is provided by CoinMarketCap. Always verify airdrops and token information on official project channels, and never share a seed phrase or private key with anyone.
 
 ## Intellectual property
 

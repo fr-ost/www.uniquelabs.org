@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getSitemapEntries } from "@/lib/content/public";
 import { siteUrl } from "@/lib/env";
+import { getIntelligenceSettings } from "@/lib/market/service";
 
 export const dynamic = "force-dynamic";
 
@@ -19,13 +20,14 @@ const STATIC_ROUTES: Array<{ path: string; priority: number; changeFrequency: "w
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = siteUrl();
-  const entries = await getSitemapEntries();
+  const [entries, intelligence] = await Promise.all([getSitemapEntries(), getIntelligenceSettings()]);
   return [
     ...STATIC_ROUTES.map((route) => ({
       url: `${base}${route.path === "/" ? "" : route.path}`,
       changeFrequency: route.changeFrequency,
       priority: route.priority,
     })),
+    ...(intelligence.enabled ? [{ url: `${base}/intelligence`, changeFrequency: "hourly" as const, priority: 0.8 }] : []),
     ...entries.products.map((p) => ({
       url: `${base}/products/${p.slug}`,
       lastModified: p.updatedAt,

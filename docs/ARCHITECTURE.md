@@ -31,11 +31,11 @@ browser ──▶ proxy.ts ──────────────▶ route (
 
 | Area | Routes |
 | --- | --- |
-| Public | `/`, `/about`, `/products`, `/products/[slug]`, `/what-we-do`, `/collaborations`, `/collaborations/[slug]`, `/team`, `/team/[slug]`, `/journey`, `/contact`, `/privacy`, `/terms` |
+| Public | `/`, `/about`, `/products`, `/products/[slug]`, `/what-we-do`, `/intelligence`, `/intelligence/[coin]`, `/collaborations`, `/collaborations/[slug]`, `/team`, `/team/[slug]`, `/journey`, `/contact`, `/privacy`, `/terms` |
 | SEO | `/sitemap.xml`, `/robots.txt`, `/manifest.webmanifest`, `/og/[...key]`, `/icon.svg`, `/apple-icon.png` |
 | Media | `/media/[id]/[name]` (immutable, unguessable ids, sandboxed SVG) |
 | Admin | `/admin/login`, `/admin/setup`, `/admin/*` (dashboard + 13 modules) |
-| APIs | `/api/admin/media`, `/api/admin/imports[...]`, `/api/admin/preview[/exit]`, `/api/health` |
+| APIs | `/api/admin/media`, `/api/admin/imports[...]`, `/api/admin/preview[/exit]`, `/api/health`, `/api/market/snapshot`, `/api/market/logo/[id]` |
 
 ## Data model (PostgreSQL via Prisma)
 
@@ -65,6 +65,10 @@ browser ──▶ proxy.ts ──────────────▶ route (
   `AdminSession` (SHA-256 of the token only), `AuditLog`, `RateLimitBucket`.
 - **Media**: `MediaAsset` (metadata, SHA-256 dedupe) and `MediaBlob` (bytes,
   when stored in the database).
+- **Intelligence**: `IntelligenceSettings` (singleton: visibility, asset limit,
+  refresh interval, watchlist), `Airdrop` and `TokenUnlock` (curated, with the
+  same publish-requires-verification CHECK constraint). Market figures are
+  never stored — they live in the in-process cache.
 
 ## Public data layer
 
@@ -72,6 +76,18 @@ browser ──▶ proxy.ts ──────────────▶ route (
 (`src/lib/content/types.ts`); private fields such as `verifiedAt` or evidence
 never reach a page. `src/lib/content/public.ts` wraps them with caching and the
 admin-only draft preview (Draft Mode **and** a valid admin session).
+
+## Market data layer
+
+`src/lib/market/`: `cmc.ts` (server-only CoinMarketCap client: keyed Pro API or
+keyless public API, timeouts, 429 retry, plan-error detection), `normalize.ts`
+(pure, defensive mapping of v1/v3 responses to DTOs), `cache.ts` (TTL +
+stale-while-revalidate + single-flight + backoff + last-good fallback),
+`service.ts` (datasets, TTLs from the admin's refresh interval, curated events,
+admin status) and `format.ts` (deterministic number formatting — Intl's compact
+notation differs between ICU builds and broke hydration). Pages render the
+snapshot on the server and `LiveMarketProvider` polls `/api/market/snapshot`
+while the tab is visible. See [INTELLIGENCE.md](INTELLIGENCE.md).
 
 ## Admin architecture
 
@@ -122,10 +138,10 @@ persistence and review UI are shared. See [IMPORTS.md](IMPORTS.md).
 | Passwords | Argon2id (19 MiB, t=2, p=1); policy: 12+ chars, deny-list, no name/email |
 | Sessions | 256-bit random token, SHA-256 at rest, `__Host-` HttpOnly Secure SameSite=Strict cookie, idle + absolute expiry, invalidated on password change |
 | Brute force | DB-backed rate limits per IP and per account, progressive lockout, timing-equalised unknown accounts |
-| Authorization | `requireAdmin()` in every admin page and action; owner-only areas; proxy is only an optimistic gate |
+| Authorization | `requireAdmin()` first in every admin page (layouts render in parallel with pages, so a layout check alone is not enough — a regression test enforces this) and every action; owner-only areas; proxy is only an optimistic gate |
 | CSRF | Server Actions' Origin check; admin APIs require same Origin + custom header; SameSite=Strict |
 | XSS | React escaping, Markdown without raw HTML and with URL allow-listing, nonce CSP, JSON-LD escaping |
 | Uploads | Byte-level type detection, sharp re-encode (strips EXIF/GPS), SVG deny-list + sandbox CSP, size limits, unguessable ids |
 | Archives | No extraction to disk, name validation, entry/size/ratio limits, JS never evaluated |
-| Privacy | Keyed IP hashes only, imported excerpts private, raw uploads deleted, no third-party scripts or AI APIs |
+| Privacy | Keyed IP hashes only, imported excerpts private, raw uploads deleted, no third-party scripts or AI APIs; market data and coin logos are fetched server-side |
 | Audit | Append-only log of sign-ins, edits, publication changes, imports and reviews |

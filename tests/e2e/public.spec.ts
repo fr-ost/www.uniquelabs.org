@@ -8,6 +8,7 @@ const ROUTES = [
   "/team",
   "/journey",
   "/what-we-do",
+  "/intelligence",
   "/contact",
   "/privacy",
   "/terms",

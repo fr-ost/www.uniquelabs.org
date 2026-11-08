@@ -1,6 +1,8 @@
 # Admin guide
 
-The admin dashboard lives at **`/admin`**. There is no public registration:
+The admin dashboard lives at **`/admin`**. Navigation sits in the top bar
+(Dashboard, Content, Imports, Intelligence, Site, System); badges show pending
+review items and new messages. There is no public registration:
 accounts are created by an owner, from the server CLI, or once via the setup
 token.
 
@@ -101,6 +103,14 @@ search-engine indexing switch (useful before launch), Search Console / Bing
 verification codes, and the privacy policy and terms (Markdown with
 `{{company}}`, `{{site}}`, `{{contact}}` tokens). The legal templates describe
 what this site actually does; have them reviewed before launch.
+
+**Market Intelligence** — Admin → Intelligence (top bar). *Market data &
+settings*: show/hide `/intelligence` and the homepage market widgets, number of
+assets (10–200), refresh interval, pinned symbols; see each dataset's status,
+API plan usage and a credit estimate; *Refresh data* clears the cache.
+*Airdrops* and *Token unlocks*: add curated entries (official link or public
+source required, UTC times for unlocks), verify, publish. Details:
+[INTELLIGENCE.md](INTELLIGENCE.md).
 
 ## 5. Imports and review
 

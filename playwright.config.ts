@@ -9,6 +9,13 @@ import { defineConfig, devices } from "@playwright/test";
  */
 const baseURL = process.env.E2E_BASE_URL ?? "http://localhost:3000";
 
+/**
+ * Market data comes from an offline CoinMarketCap mock serving recorded
+ * responses (tests/fixtures/cmc), so the suite is deterministic and needs no
+ * network or API key. Only applies when Playwright starts the dev server.
+ */
+const CMC_MOCK_URL = "http://127.0.0.1:4010";
+
 export default defineConfig({
   testDir: "tests/e2e",
   fullyParallel: false,
@@ -24,12 +31,21 @@ export default defineConfig({
   },
   webServer: process.env.E2E_BASE_URL
     ? undefined
-    : {
-        command: "npm run dev",
-        url: baseURL,
-        reuseExistingServer: true,
-        timeout: 180_000,
-      },
+    : [
+        {
+          command: "node tests/support/cmc-mock-server.mjs tests/fixtures/cmc 4010",
+          url: `${CMC_MOCK_URL}/v1/global-metrics/quotes/latest`,
+          reuseExistingServer: true,
+          timeout: 20_000,
+        },
+        {
+          command: "npm run dev",
+          url: baseURL,
+          reuseExistingServer: true,
+          timeout: 180_000,
+          env: { CMC_API_BASE_URL: CMC_MOCK_URL },
+        },
+      ],
   projects: [
     { name: "desktop", use: { ...devices["Desktop Chrome"] } },
     { name: "mobile", use: { ...devices["Pixel 7"] }, testMatch: /public\.spec\.ts/ },

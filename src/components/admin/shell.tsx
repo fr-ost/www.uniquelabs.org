@@ -2,10 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
+  Activity,
   Building2,
+  ChevronDown,
+  ExternalLink,
   FileUp,
+  Gift,
   Globe,
   Handshake,
   History,
@@ -14,6 +18,7 @@ import {
   KeyRound,
   LayoutDashboard,
   ListChecks,
+  LockOpen,
   LogOut,
   Mail,
   Menu,
@@ -37,6 +42,87 @@ interface NavItem {
   exact?: boolean;
 }
 
+interface NavGroup {
+  title: string;
+  items: NavItem[];
+}
+
+function badgeText(n: number) {
+  return n > 99 ? "99+" : String(n);
+}
+
+function Badge({ count }: { count?: number }) {
+  if (!count) return null;
+  return <span className="tabular rounded-full bg-signal-500/15 px-1.5 py-0.5 text-[0.625rem] font-semibold text-signal-400">{badgeText(count)}</span>;
+}
+
+function GroupMenu({ group, isActive }: { group: NavGroup; isActive: (item: NavItem) => boolean }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const active = group.items.some(isActive);
+  const total = group.items.reduce((sum, item) => sum + (item.badge ?? 0), 0);
+
+  useEffect(() => {
+    if (!open) return;
+    const onPointer = (event: PointerEvent) => {
+      if (!ref.current?.contains(event.target as Node)) setOpen(false);
+    };
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointer);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onPointer);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        aria-expanded={open}
+        onClick={() => setOpen((v) => !v)}
+        className={cn(
+          "inline-flex h-9 items-center gap-1.5 rounded-lg px-3 text-sm transition-colors",
+          active ? "bg-white/[0.07] text-ink-50" : "text-ink-300 hover:bg-white/[0.04] hover:text-ink-50",
+        )}
+      >
+        {group.title}
+        <Badge count={total} />
+        <ChevronDown aria-hidden className={cn("h-3.5 w-3.5 transition-transform", open && "rotate-180")} />
+      </button>
+      {open ? (
+        <div className="absolute top-full left-0 z-50 pt-2" onClick={(event) => (event.target as HTMLElement).closest("a") && setOpen(false)}>
+          <ul className="w-72 animate-slide-down rounded-2xl border border-white/10 bg-ink-900/95 p-1.5 shadow-[0_24px_70px_-20px_rgba(0,0,0,0.8)] backdrop-blur-xl">
+            {group.items.map((item) => {
+              const Icon = item.icon;
+              const itemActive = isActive(item);
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    aria-current={itemActive ? "page" : undefined}
+                    className={cn(
+                      "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors",
+                      itemActive ? "bg-white/[0.07] text-ink-50" : "text-ink-300 hover:bg-white/[0.05] hover:text-ink-50",
+                    )}
+                  >
+                    <Icon aria-hidden className={cn("h-4 w-4 shrink-0", itemActive && "text-signal-400")} strokeWidth={1.75} />
+                    <span className="flex-1">{item.label}</span>
+                    <Badge count={item.badge} />
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 export function AdminShell({
   children,
   user,
@@ -54,8 +140,7 @@ export function AdminShell({
     if (open) setOpen(false);
   }
 
-  const groups: Array<{ title: string; items: NavItem[] }> = [
-    { title: "Overview", items: [{ href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true }] },
+  const groups: NavGroup[] = [
     {
       title: "Content",
       items: [
@@ -68,13 +153,21 @@ export function AdminShell({
       ],
     },
     {
-      title: "Imports & review",
+      title: "Imports",
       items: [
         { href: "/admin/imports/claude", label: "Claude history import", icon: FileUp },
         { href: "/admin/imports/x", label: "X archive import", icon: FileUp },
         { href: "/admin/candidates/products", label: "Product candidates", icon: ListChecks, badge: counts.productCandidates },
         { href: "/admin/candidates/collaborations", label: "Collaboration candidates", icon: ListChecks, badge: counts.collaborationCandidates },
         { href: "/admin/imports", label: "Import history", icon: History, exact: true },
+      ],
+    },
+    {
+      title: "Intelligence",
+      items: [
+        { href: "/admin/intelligence", label: "Market data & settings", icon: Activity, exact: true },
+        { href: "/admin/intelligence/airdrops", label: "Airdrops", icon: Gift },
+        { href: "/admin/intelligence/unlocks", label: "Token unlocks", icon: LockOpen },
       ],
     },
     {
@@ -98,107 +191,110 @@ export function AdminShell({
 
   const isActive = (item: NavItem) =>
     item.exact ? pathname === item.href : pathname === item.href || pathname.startsWith(`${item.href}/`);
-
-  const nav = (
-    <nav aria-label="Admin" className="flex-1 space-y-6 overflow-y-auto px-3 py-5">
-      {groups.map((group) => (
-        <div key={group.title}>
-          <p className="px-3 font-mono text-[0.625rem] uppercase tracking-[0.16em] text-ink-600">{group.title}</p>
-          <ul className="mt-2 space-y-0.5">
-            {group.items.map((item) => {
-              const active = isActive(item);
-              const Icon = item.icon;
-              return (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    aria-current={active ? "page" : undefined}
-                    className={cn(
-                      "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
-                      active ? "bg-white/[0.07] text-ink-50" : "text-ink-400 hover:bg-white/[0.04] hover:text-ink-100",
-                    )}
-                  >
-                    <Icon aria-hidden className={cn("h-4 w-4 shrink-0", active ? "text-signal-400" : "")} strokeWidth={1.75} />
-                    <span className="flex-1 truncate">{item.label}</span>
-                    {item.badge ? (
-                      <span className="rounded-full bg-signal-500/15 px-1.5 py-0.5 text-[0.625rem] font-semibold text-signal-400 tabular">
-                        {item.badge > 99 ? "99+" : item.badge}
-                      </span>
-                    ) : null}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      ))}
-    </nav>
-  );
-
-  const footer = (
-    <div className="border-t border-white/[0.07] p-3">
-      <div className="flex items-center gap-3 rounded-lg px-2 py-2">
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-ink-800 text-xs font-semibold text-ink-200">
-          {user.name.slice(0, 1).toUpperCase()}
-        </div>
-        <div className="min-w-0 flex-1">
-          <p className="truncate text-sm text-ink-100">{user.name}</p>
-          <p className="truncate text-xs text-ink-500">{user.role === "OWNER" ? "Owner" : "Editor"}</p>
-        </div>
-        <form action={logoutAction}>
-          <button type="submit" className="rounded-lg p-2 text-ink-400 hover:bg-white/[0.06] hover:text-ink-50" title="Sign out" aria-label="Sign out">
-            <LogOut className="h-4 w-4" />
-          </button>
-        </form>
-      </div>
-    </div>
-  );
+  const dashboardActive = pathname === "/admin";
 
   return (
-    <div className="min-h-dvh lg:grid lg:grid-cols-[16.5rem_1fr]">
-      <aside className="sticky top-0 hidden h-dvh flex-col border-r border-white/[0.07] bg-ink-950 lg:flex">
-        <Link href="/admin" className="flex items-center gap-2.5 border-b border-white/[0.07] px-5 py-4">
-          <LogoMark className="h-6 w-6 text-ink-50" />
-          <span className="font-display text-[0.9375rem] tracking-[-0.03em] text-ink-50">
-            <span className="font-semibold">Unique</span> <span className="text-ink-400">Labs</span>
-          </span>
-          <span className="ml-auto rounded border border-white/10 px-1.5 py-0.5 font-mono text-[0.5625rem] uppercase tracking-[0.14em] text-ink-500">
-            Admin
-          </span>
-        </Link>
-        {nav}
-        {footer}
-      </aside>
+    <div className="min-h-dvh">
+      <header className="sticky top-0 z-40 border-b border-white/[0.07] bg-ink-950/85 backdrop-blur-xl">
+        <div className="mx-auto flex h-14 max-w-7xl items-center gap-3 px-4 md:px-6">
+          <Link href="/admin" className="flex shrink-0 items-center gap-2.5">
+            <LogoMark className="h-6 w-6 text-ink-50" />
+            <span className="hidden font-display text-[0.9375rem] tracking-[-0.03em] text-ink-50 sm:inline">
+              <span className="font-semibold">Unique</span> <span className="text-ink-400">Labs</span>
+            </span>
+            <span className="rounded border border-white/10 px-1.5 py-0.5 font-mono text-[0.5625rem] tracking-[0.14em] text-ink-500 uppercase">Admin</span>
+          </Link>
 
-      <div className="sticky top-0 z-30 flex items-center justify-between border-b border-white/[0.07] bg-ink-950/90 px-4 py-3 backdrop-blur lg:hidden">
-        <Link href="/admin" className="flex items-center gap-2">
-          <LogoMark className="h-6 w-6 text-ink-50" />
-          <span className="text-sm font-semibold text-ink-50">Admin</span>
-        </Link>
-        <button type="button" onClick={() => setOpen(true)} className="rounded-lg border border-white/10 p-2 text-ink-200" aria-label="Open navigation" aria-expanded={open}>
-          <Menu className="h-4 w-4" />
-        </button>
-      </div>
+          <nav aria-label="Admin" className="ml-4 hidden flex-1 items-center gap-0.5 lg:flex">
+            <Link
+              href="/admin"
+              aria-current={dashboardActive ? "page" : undefined}
+              className={cn(
+                "inline-flex h-9 items-center gap-1.5 rounded-lg px-3 text-sm transition-colors",
+                dashboardActive ? "bg-white/[0.07] text-ink-50" : "text-ink-300 hover:bg-white/[0.04] hover:text-ink-50",
+              )}
+            >
+              <LayoutDashboard aria-hidden className="h-4 w-4" strokeWidth={1.75} /> Dashboard
+            </Link>
+            {groups.map((group) => (
+              <GroupMenu key={group.title} group={group} isActive={isActive} />
+            ))}
+          </nav>
 
-      {open ? (
-        <div className="fixed inset-0 z-50 flex lg:hidden" role="dialog" aria-modal="true" aria-label="Admin navigation">
-          <button type="button" className="absolute inset-0 bg-black/70" aria-label="Close navigation" onClick={() => setOpen(false)} />
-          <div className="relative flex h-full w-[85%] max-w-xs flex-col border-r border-white/[0.07] bg-ink-950">
-            <div className="flex items-center justify-between border-b border-white/[0.07] px-4 py-3">
-              <span className="text-sm font-semibold text-ink-50">Navigation</span>
-              <button type="button" onClick={() => setOpen(false)} className="rounded-lg p-2 text-ink-300" aria-label="Close navigation">
-                <X className="h-4 w-4" />
+          <div className="ml-auto flex items-center gap-1.5">
+            <a href="/" target="_blank" rel="noopener noreferrer" className="hidden h-9 items-center gap-1.5 rounded-lg px-3 text-sm text-ink-300 hover:bg-white/[0.04] hover:text-ink-50 md:inline-flex">
+              View site <ExternalLink aria-hidden className="h-3.5 w-3.5" />
+            </a>
+            <Link href="/admin/account" className="hidden items-center gap-2 rounded-lg px-2 py-1.5 hover:bg-white/[0.04] sm:flex" title={user.email}>
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[linear-gradient(135deg,var(--color-signal-500),var(--color-iris-500))] text-xs font-semibold text-white">
+                {user.name.slice(0, 1).toUpperCase()}
+              </span>
+              <span className="hidden text-left xl:block">
+                <span className="block max-w-[9rem] truncate text-xs text-ink-100">{user.name}</span>
+                <span className="block text-[0.65rem] text-ink-500">{user.role === "OWNER" ? "Owner" : "Editor"}</span>
+              </span>
+            </Link>
+            <form action={logoutAction}>
+              <button type="submit" className="rounded-lg p-2 text-ink-400 hover:bg-white/[0.06] hover:text-ink-50" title="Sign out" aria-label="Sign out">
+                <LogOut className="h-4 w-4" />
               </button>
-            </div>
-            {nav}
-            {footer}
+            </form>
+            <button
+              type="button"
+              onClick={() => setOpen((v) => !v)}
+              className="rounded-lg border border-white/10 p-2 text-ink-200 lg:hidden"
+              aria-label={open ? "Close navigation" : "Open navigation"}
+              aria-expanded={open}
+              aria-controls="admin-mobile-nav"
+            >
+              {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+            </button>
           </div>
         </div>
-      ) : null}
 
-      <main className="min-w-0 px-4 py-6 md:px-8 md:py-8 xl:px-12">
-        <div className="mx-auto max-w-6xl">{children}</div>
-      </main>
+        {open ? (
+          <nav id="admin-mobile-nav" aria-label="Admin navigation" className="max-h-[calc(100dvh-3.5rem)] animate-slide-down overflow-y-auto border-t border-white/[0.07] bg-ink-950 lg:hidden">
+            <div className="mx-auto max-w-7xl space-y-5 px-4 py-5 md:px-6">
+              <Link
+                href="/admin"
+                aria-current={dashboardActive ? "page" : undefined}
+                className={cn("flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm", dashboardActive ? "bg-white/[0.07] text-ink-50" : "text-ink-300")}
+              >
+                <LayoutDashboard aria-hidden className="h-4 w-4" strokeWidth={1.75} /> Dashboard
+              </Link>
+              {groups.map((group) => (
+                <div key={group.title}>
+                  <p className="px-3 font-mono text-[0.625rem] tracking-[0.16em] text-ink-600 uppercase">{group.title}</p>
+                  <ul className="mt-2 grid grid-cols-1 gap-0.5 sm:grid-cols-2">
+                    {group.items.map((item) => {
+                      const Icon = item.icon;
+                      const itemActive = isActive(item);
+                      return (
+                        <li key={item.href}>
+                          <Link
+                            href={item.href}
+                            aria-current={itemActive ? "page" : undefined}
+                            className={cn("flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm", itemActive ? "bg-white/[0.07] text-ink-50" : "text-ink-300 hover:bg-white/[0.04]")}
+                          >
+                            <Icon aria-hidden className={cn("h-4 w-4 shrink-0", itemActive && "text-signal-400")} strokeWidth={1.75} />
+                            <span className="flex-1">{item.label}</span>
+                            <Badge count={item.badge} />
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              ))}
+              <a href="/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-ink-300">
+                <ExternalLink aria-hidden className="h-4 w-4" /> View site
+              </a>
+            </div>
+          </nav>
+        ) : null}
+      </header>
+
+      <main className="mx-auto min-w-0 max-w-7xl px-4 py-6 md:px-6 md:py-8">{children}</main>
     </div>
   );
 }
