@@ -1,0 +1,36 @@
+{
+ "data": [
+  {
+   "timestamp": "1794009600",
+   "value": 32,
+   "value_classification": "Fear"
+  },
+  {
+   "timestamp": "1793923200",
+   "value": 31,
+   "value_classification": "Fear"
+  },
+  {
+   "timestamp": "1793836800",
+   "value": 32,
+   "value_classification": "Fear"
+  },
+  {
+   "timestamp": "1793750400",
+   "value": 42,
+   "value_classification": "Neutral"
+  },
+  {
+   "timestamp": "1793664000",
+   "value": 35,
+   "value_classification": "Fear"
+  }
+ ],
+ "status": {
+  "timestamp": "2026-11-08T16:20:30.976Z",
+  "error_code": "0",
+  "error_message": "",
+  "elapsed": 2,
+  "credit_count": 1
+ }
+}

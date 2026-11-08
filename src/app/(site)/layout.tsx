@@ -6,6 +6,7 @@ import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
 import { getCompany, getPlaceholderCount, getSettings, getSocialLinks, isPreviewRequest } from "@/lib/content/public";
 import { placeholdersVisible, siteUrl } from "@/lib/env";
+import { getIntelligenceSettings } from "@/lib/market/service";
 
 // Public pages render at request time from cached data: no database access
 // is needed at build time, and admin edits appear immediately.
@@ -53,11 +54,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function SiteLayout({ children }: { children: ReactNode }) {
-  const [company, socials, preview, placeholderCount] = await Promise.all([
+  const [company, socials, preview, placeholderCount, intelligence] = await Promise.all([
     getCompany(),
     getSocialLinks(),
     isPreviewRequest(),
     getPlaceholderCount(),
+    getIntelligenceSettings(),
   ]);
   const showSamples = placeholdersVisible() && placeholderCount > 0;
 
@@ -69,11 +71,15 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
       >
         Skip to content
       </a>
-      <SiteHeader companyName={company.name} socials={socials.map((s) => ({ label: s.label, url: s.url }))} />
+      <SiteHeader
+        companyName={company.name}
+        socials={socials.map((s) => ({ label: s.label, url: s.url }))}
+        intelligence={intelligence.enabled}
+      />
       <main id="main" className="relative">
         {children}
       </main>
-      <SiteFooter company={company} socials={socials} siteUrl={siteUrl()} />
+      <SiteFooter company={company} socials={socials} siteUrl={siteUrl()} intelligence={intelligence.enabled} />
 
       {preview || showSamples ? (
         <div className="fixed bottom-4 left-1/2 z-[60] flex -translate-x-1/2 flex-wrap items-center justify-center gap-2 px-4">

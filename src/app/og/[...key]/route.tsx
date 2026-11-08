@@ -22,6 +22,7 @@ const PAGES: Record<string, { eyebrow: string; title: string }> = {
   team: { eyebrow: "Our team", title: "The people behind Unique Labs." },
   journey: { eyebrow: "Our journey", title: "The story so far." },
   "what-we-do": { eyebrow: "What we do", title: "Useful products, across the platforms people use." },
+  intelligence: { eyebrow: "Market intelligence", title: "Crypto markets, in real time." },
   contact: { eyebrow: "Contact", title: "Let's talk." },
   privacy: { eyebrow: "Legal", title: "Privacy Policy" },
   terms: { eyebrow: "Legal", title: "Terms of Use" },

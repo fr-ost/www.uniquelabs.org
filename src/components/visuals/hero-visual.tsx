@@ -43,7 +43,7 @@ const INNER_CONTOURS = [52, 30].map((inset, i) => ({
 
 const TICKS = Array.from({ length: 9 }, (_, i) => LEFT_TOP + 24 + i * 15);
 
-export function HeroVisual({ labels }: { labels: [string, string, string] }) {
+export function HeroVisual({ labels, annotations = true }: { labels: [string, string, string]; annotations?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -210,7 +210,7 @@ export function HeroVisual({ labels }: { labels: [string, string, string] }) {
         </g>
 
         {/* Leader lines for annotations */}
-        <g stroke="white" strokeOpacity={0.3} style={layer(4)} className="animate-fade-in [animation-delay:1600ms]">
+        <g stroke="white" strokeOpacity={0.3} style={layer(4)} className={annotations ? "animate-fade-in [animation-delay:1600ms]" : "hidden"}>
           <polyline points={`${RIGHT_X + 8},${DOT_Y - DOT_R - 12} ${RIGHT_X + 8},${150} ${RIGHT_X + 26},${150}`} />
           <polyline points={`${LEFT_X - STROKE / 2 - 6},${LEFT_TOP + 8} ${LEFT_X - 52},${196} ${LEFT_X - 52},${190}`} />
           <polyline points={`${CX},${BOWL_Y + R + STROKE / 2 + 10} ${CX + 40},${600} ${CX + 78},${600}`} />
@@ -218,7 +218,7 @@ export function HeroVisual({ labels }: { labels: [string, string, string] }) {
       </svg>
 
       {/* Annotation labels (HTML for crisp mono type) */}
-      <div className="pointer-events-none absolute inset-0 hidden whitespace-nowrap font-mono text-[10px] uppercase leading-none tracking-[0.16em] text-ink-300 sm:block">
+      <div className={annotations ? "pointer-events-none absolute inset-0 hidden whitespace-nowrap font-mono text-[10px] uppercase leading-none tracking-[0.16em] text-ink-300 sm:block" : "hidden"}>
         <span
           className="absolute -translate-y-1/2 animate-fade-in [animation-delay:1700ms]"
           style={{ left: `${((RIGHT_X + 32) / 600) * 100}%`, top: `${(150 / 640) * 100}%`, ...layer(4) }}

@@ -14,7 +14,7 @@ import type { Platform, ReleaseStage } from "@/generated/prisma/enums";
  *
  * Wrapped in React `cache()` as well so a single render never queries twice.
  */
-function cached<A extends unknown[], R>(
+export function cached<A extends unknown[], R>(
   fn: (...args: A) => Promise<R>,
   key: string,
   tags: CacheTag[],

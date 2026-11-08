@@ -847,3 +847,70 @@ model SourceEvidence {
   @@index([productId])
   @@index([collaborationId])
 }
+
+// -----------------------------------------------------------------------------
+// Intelligence — crypto market data (CoinMarketCap) and curated events
+// -----------------------------------------------------------------------------
+
+/// Singleton. Market prices come live from CoinMarketCap; nothing here is a
+/// market figure. CHECK constraints keep the ranges sane (see migration).
+model IntelligenceSettings {
+  id             Int      @id @default(1)
+  enabled        Boolean  @default(true)
+  showOnHomepage Boolean  @default(true)
+  assetLimit     Int      @default(100)
+  refreshSeconds Int      @default(300)
+  /// Ticker symbols pinned to the top of the watchlist strip, e.g. BTC, ETH.
+  watchlist      String[] @default([])
+  updatedAt      DateTime @updatedAt
+}
+
+enum UnlockType {
+  CLIFF
+  LINEAR
+  OTHER
+}
+
+/// Admin-curated airdrop. Shown next to CoinMarketCap's airdrop feed (which
+/// needs a paid CMC plan). Publishing requires verification and a link.
+model Airdrop {
+  id           String        @id @default(cuid())
+  projectName  String
+  tokenSymbol  String?
+  cmcSlug      String?
+  description  String?
+  reward       String?
+  requirements String?
+  startsAt     DateTime?
+  endsAt       DateTime?
+  officialUrl  String
+  sourceUrl    String?
+  status       PublishStatus @default(DRAFT)
+  verifiedAt   DateTime?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@index([status, endsAt])
+}
+
+/// Admin-curated token unlock event. CoinMarketCap's API has no unlock
+/// calendar, so every entry needs a public source and owner verification.
+model TokenUnlock {
+  id              String        @id @default(cuid())
+  tokenName       String
+  tokenSymbol     String
+  cmcSlug         String?
+  unlockAt        DateTime
+  amount          Decimal?      @db.Decimal(38, 8)
+  percentOfSupply Decimal?      @db.Decimal(7, 4)
+  allocation      String?
+  unlockType      UnlockType    @default(CLIFF)
+  description     String?
+  sourceUrl       String
+  status          PublishStatus @default(DRAFT)
+  verifiedAt      DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([status, unlockAt])
+}

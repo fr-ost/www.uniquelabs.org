@@ -1,0 +1,52 @@
+{
+ "data": {
+  "value": 148.25,
+  "value_24h_percentage_change": 0.25,
+  "last_update": "2026-11-08T16:20:00.000Z",
+  "next_update": "2026-11-08T16:25:00.000Z",
+  "constituents": [
+   {
+    "id": 1,
+    "name": "Bitcoin",
+    "symbol": "BTC",
+    "url": "https://coinmarketcap.com/currencies/bitcoin",
+    "weight": 67.93
+   },
+   {
+    "id": 1027,
+    "name": "Ethereum",
+    "symbol": "ETH",
+    "url": "https://coinmarketcap.com/currencies/ethereum",
+    "weight": 12.16
+   },
+   {
+    "id": 1839,
+    "name": "BNB",
+    "symbol": "BNB",
+    "url": "https://coinmarketcap.com/currencies/bnb",
+    "weight": 4.08
+   },
+   {
+    "id": 52,
+    "name": "XRP",
+    "symbol": "XRP",
+    "url": "https://coinmarketcap.com/currencies/xrp",
+    "weight": 3.26
+   },
+   {
+    "id": 5426,
+    "name": "Solana",
+    "symbol": "SOL",
+    "url": "https://coinmarketcap.com/currencies/solana",
+    "weight": 2.35
+   }
+  ]
+ },
+ "status": {
+  "timestamp": "2026-11-08T16:20:33.840Z",
+  "error_code": "0",
+  "error_message": "",
+  "elapsed": 7,
+  "credit_count": 1
+ }
+}
