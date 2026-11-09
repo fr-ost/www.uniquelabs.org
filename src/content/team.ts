@@ -31,7 +31,7 @@ export const team: TeamMemberInput[] = [
     name: "Abrar Hamim",
     position: "Founder & CEO",
     leadership: true,
-    photo: { src: "/images/team/abrar-hamim.webp", alt: "Abrar Hamim, Founder & CEO at Unique Labs", width: 512, height: 512 },
+    photo: { src: "/images/team/abrar-hamim-portrait.webp", alt: "Abrar Hamim, Founder & CEO at Unique Labs", width: 512, height: 512 },
     links: { x: "https://x.com/AbrarTheCrypto_", telegram: "https://t.me/abrarthecrypto" },
   },
   {
@@ -39,7 +39,7 @@ export const team: TeamMemberInput[] = [
     name: "Shahriar Ahmed",
     position: "Co-Founder & COO",
     leadership: true,
-    photo: { src: "/images/team/shahriar-ahmed.webp", alt: "Shahriar Ahmed, Co-Founder & COO at Unique Labs", width: 512, height: 512 },
+    photo: { src: "/images/team/shahriar-ahmed-portrait.webp", alt: "Shahriar Ahmed, Co-Founder & COO at Unique Labs", width: 800, height: 800 },
     links: { x: "https://x.com/0x_nation", telegram: "https://t.me/igfrostt" },
   },
   {
@@ -47,7 +47,7 @@ export const team: TeamMemberInput[] = [
     name: "Nazrul Islam Jibon",
     position: "Head of Growth & Strategy",
     leadership: true,
-    photo: { src: "/images/team/nazrul-islam-jibon.webp", alt: "Nazrul Islam Jibon, Head of Growth & Strategy at Unique Labs", width: 512, height: 512 },
+    photo: { src: "/images/team/nazrul-islam-jibon-portrait.webp", alt: "Nazrul Islam Jibon, Head of Growth & Strategy at Unique Labs", width: 512, height: 512 },
     links: { x: "https://x.com/Just_Jibon", telegram: "https://t.me/JustJibon" },
   },
   {
@@ -55,7 +55,7 @@ export const team: TeamMemberInput[] = [
     name: "Mahfuz Allum",
     position: "Head of Partnerships & PR",
     leadership: true,
-    photo: { src: "/images/team/mahfuz-allum.webp", alt: "Mahfuz Allum, Head of Partnerships & PR at Unique Labs", width: 512, height: 512 },
+    photo: { src: "/images/team/mahfuz-allum-portrait.webp", alt: "Mahfuz Allum, Head of Partnerships & PR at Unique Labs", width: 512, height: 512 },
     links: { x: "https://x.com/mahfuzxallum", telegram: "https://t.me/mahfuzallum" },
   },
   {
@@ -63,7 +63,7 @@ export const team: TeamMemberInput[] = [
     name: "Abrar Hossain Ayan",
     position: "Head of Marketing & BD",
     leadership: true,
-    photo: { src: "/images/team/abrar-hossain-ayan.webp", alt: "Abrar Hossain Ayan, Head of Marketing & BD at Unique Labs", width: 800, height: 800 },
+    photo: { src: "/images/team/abrar-hossain-ayan-portrait.webp", alt: "Abrar Hossain Ayan, Head of Marketing & BD at Unique Labs", width: 512, height: 512 },
     links: { x: "https://x.com/AbrarLegit", telegram: "https://t.me/AbrarLegit" },
   },
 ];
