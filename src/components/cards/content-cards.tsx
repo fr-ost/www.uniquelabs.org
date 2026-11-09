@@ -134,7 +134,7 @@ export function TeamCard({ member, size = "default" }: { member: TeamMemberDTO; 
           <MediaImage
             media={member.photo}
             fill
-            sizes={size === "large" ? "(min-width: 1024px) 30vw, 90vw" : "(min-width: 1024px) 22vw, 45vw"}
+            sizes={size === "large" ? "(min-width: 1024px) 30vw, 90vw" : "(min-width: 1024px) 240px, (min-width: 640px) 33vw, 50vw"}
             className="grayscale-[35%] transition-[filter,transform] duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.03] group-hover:grayscale-0"
           />
         ) : (
@@ -146,7 +146,7 @@ export function TeamCard({ member, size = "default" }: { member: TeamMemberDTO; 
       </div>
       <div className="mt-5 flex items-start justify-between gap-3">
         <div>
-          <h3 className="font-display text-xl font-medium tracking-[-0.03em] text-ink-50">{member.name}</h3>
+          <h3 className="font-display text-base font-medium tracking-[-0.03em] text-ink-50 sm:text-lg">{member.name}</h3>
           <p className="mt-1 text-sm text-ink-300">{member.position}</p>
         </div>
         {member.hasProfilePage ? (

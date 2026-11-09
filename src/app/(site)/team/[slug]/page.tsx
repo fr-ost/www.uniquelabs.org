@@ -53,10 +53,10 @@ export default async function TeamMemberPage({ params }: { params: Params }) {
         <div className="container-site relative">
           <Breadcrumbs items={[{ name: "Team", path: "/team" }, { name: member.name, path: `/team/${member.slug}` }]} />
           <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-10">
-            <div className="lg:col-span-5">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-[var(--radius-panel)] border border-white/10 bg-ink-800">
+            <div className="lg:col-span-4">
+              <div className="relative mx-auto aspect-[4/5] w-full max-w-[18rem] overflow-hidden lg:mx-0 rounded-[var(--radius-panel)] border border-white/10 bg-ink-800">
                 {member.photo ? (
-                  <MediaImage media={member.photo} fill priority sizes="(min-width: 1024px) 40vw, 100vw" />
+                  <MediaImage media={member.photo} fill priority sizes="288px" />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center bg-[radial-gradient(circle_at_30%_20%,rgba(255,107,53,0.22),transparent_65%)]">
                     <div aria-hidden className="grid-lines mask-fade-radial absolute inset-0 opacity-60" />
@@ -72,7 +72,7 @@ export default async function TeamMemberPage({ params }: { params: Params }) {
                 )}
               </div>
             </div>
-            <div className="lg:col-span-6 lg:col-start-7 lg:pt-6">
+            <div className="lg:col-span-7 lg:col-start-6 lg:pt-6">
               <div className="flex flex-wrap items-center gap-3">
                 <p className="text-eyebrow text-signal-400">
                   {member.memberType === "FORMER" ? "Former team member" : (member.group?.name ?? "Team")}
