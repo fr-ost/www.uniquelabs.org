@@ -138,6 +138,8 @@ export interface PartnerDTO {
   xHandle: string | null;
   logo: MediaDTO | null;
   description: string | null;
+  tier: 1 | 2 | null;
+  role: string | null;
 }
 
 export interface CollaborationCardDTO {

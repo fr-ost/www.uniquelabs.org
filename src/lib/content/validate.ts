@@ -105,6 +105,8 @@ export function validateContent(c: ContentModule): string[] {
   for (const p of c.partners) {
     checkUrl(`partner "${p.slug}" website`, p.website);
     checkImage(`partner "${p.slug}" logo`, p.logo);
+    if (p.tier !== undefined && p.tier !== 1 && p.tier !== 2) add(`partner "${p.slug}"`, "tier must be 1 or 2");
+    if (p.x !== undefined && !/^[A-Za-z0-9_]{1,15}$/.test(p.x)) add(`partner "${p.slug}"`, `X handle "${p.x}" should be the username without "@"`);
   }
 
   for (const p of c.partnerships) {

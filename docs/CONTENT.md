@@ -65,6 +65,14 @@ Optional: `description` and `outcome` (Markdown), `client`, `date`,
 `services`, `cover`, `images`, `links`, related `products` and `partners`
 (slugs), `featured`.
 
+### Partners (Tier 1 / Tier 2)
+
+Each entry in `partners` can have a `tier` (1 or 2), a `role` (e.g. "Ambassador",
+"KOC Partner", "Launchpad Partner"), the X username in `x` (without "@") and a
+logo in `public/images/partners/`. Tier 1 partners appear on the home page and
+at the top of the Partnerships page; Tier 2 below. Order in the file is the
+order on the site.
+
 ### A partnership
 
 1. Add the partner to `partners` (with a logo in `public/images/partners/`).

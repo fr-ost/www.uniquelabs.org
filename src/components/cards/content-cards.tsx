@@ -212,3 +212,52 @@ export function CapabilityCard({ capability, index }: { capability: CapabilityDT
     </PointerGlow>
   );
 }
+
+/** A partner in the tiered network: logo, name, X username and role. Links to the partner's X profile. */
+export function PartnerTile({ partner, size = "default" }: { partner: PartnerDTO; size?: "default" | "compact" }) {
+  const compact = size === "compact";
+  const href = partner.xHandle ? `https://x.com/${partner.xHandle}` : partner.websiteUrl;
+  const initials = partner.name.replace(/[^A-Za-z0-9 ]/g, "").split(/\s+/).map((w) => w.charAt(0)).join("").slice(0, 2).toUpperCase();
+  const body = (
+    <>
+      <span
+        className={cn(
+          "relative flex shrink-0 items-center justify-center overflow-hidden border border-white/10 bg-ink-800",
+          compact ? "h-10 w-10 rounded-lg" : "h-14 w-14 rounded-xl",
+        )}
+      >
+        {partner.logo ? (
+          <MediaImage media={partner.logo} alt={`${partner.name} logo`} fill sizes={compact ? "40px" : "56px"} />
+        ) : (
+          <span aria-hidden className="font-display text-sm font-medium text-ink-200">
+            {initials}
+          </span>
+        )}
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className={cn("block truncate font-display font-medium tracking-[-0.02em] text-ink-50", compact ? "text-[0.9375rem]" : "text-lg")}>{partner.name}</span>
+        {partner.xHandle ? <span className="block truncate text-xs text-ink-400">@{partner.xHandle}</span> : null}
+        {partner.role ? (
+          compact ? (
+            <span className="mt-1 block truncate text-xs text-signal-300/90">{partner.role}</span>
+          ) : (
+            <span className="mt-2.5 inline-flex max-w-full truncate rounded-full border border-signal-500/30 bg-signal-500/10 px-2.5 py-0.5 text-xs text-signal-200">
+              {partner.role}
+            </span>
+          )
+        ) : null}
+      </span>
+    </>
+  );
+  const className = cn(
+    "group flex h-full items-center gap-4 transition-colors",
+    compact ? "rounded-xl border border-white/[0.07] p-3 hover:border-white/20 hover:bg-white/[0.03]" : "surface-card p-5 hover:border-white/20",
+  );
+  return href ? (
+    <a href={href} target="_blank" rel="noopener noreferrer" className={className} aria-label={`${partner.name}${partner.role ? `, ${partner.role}` : ""} (opens X in a new tab)`}>
+      {body}
+    </a>
+  ) : (
+    <div className={className}>{body}</div>
+  );
+}

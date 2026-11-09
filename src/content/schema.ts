@@ -204,6 +204,10 @@ export interface PartnerInput {
   x?: string;
   logo?: ImageInput;
   description?: string;
+  /** Network tier on the Partnerships page: 1 (featured) or 2. Omit to list the partner without a tier. */
+  tier?: 1 | 2;
+  /** How we worked together, e.g. "Ambassador", "KOC Partner", "Launchpad Partner". */
+  role?: string;
 }
 
 export interface PartnershipInput {

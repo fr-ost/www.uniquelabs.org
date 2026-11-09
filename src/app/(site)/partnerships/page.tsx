@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { CollaborationCard, PartnerMark } from "@/components/cards/content-cards";
+import { CollaborationCard, PartnerMark, PartnerTile } from "@/components/cards/content-cards";
 import { Reveal } from "@/components/motion/reveal";
 import { ClosingCta, EmptyState } from "@/components/sections/shared-sections";
 import { Eyebrow, PageHero } from "@/components/ui/section";
-import { getCollaborations, getCompany, getPartners } from "@/lib/content/public";
+import { getCollaborations, getCompany, getPartnerTiers } from "@/lib/content/public";
+import type { PartnerDTO } from "@/lib/content/types";
 import type { CollaborationCardDTO } from "@/lib/content/types";
 import { COLLABORATION_CATEGORY_LABELS } from "@/lib/labels";
 import { pageMetadata } from "@/lib/seo/metadata";
@@ -15,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const company = await getCompany();
   return pageMetadata({
     title: "Partnerships",
-    description: `Partners, integrations and joint projects of ${company.name} — each linked to its original source.`,
+    description: `Exchanges, launchpads, ecosystems and Web3 projects ${company.name} has worked with — as ambassadors, KOC and KOL partners and campaign partners.`,
     path: "/partnerships",
   });
 }
@@ -31,7 +32,9 @@ function groupByYear(items: CollaborationCardDTO[]) {
 }
 
 export default async function PartnershipsPage() {
-  const [collaborations, partners, company] = await Promise.all([getCollaborations(), getPartners(), getCompany()]);
+  const [collaborations, tiers, company] = await Promise.all([getCollaborations(), getPartnerTiers(), getCompany()]);
+  const partners = tiers.untiered;
+  const networkSize = tiers.tier1.length + tiers.tier2.length;
   const featured = collaborations.filter((c) => c.featured).slice(0, 2);
   const years = groupByYear(collaborations);
 
@@ -44,24 +47,28 @@ export default async function PartnershipsPage() {
             Partners & collaborations<span className="text-signal-500">.</span>
           </>
         }
-        description="The organisations and people we work with — integrations, co-created projects and partnerships, each linked to its original source."
+        description="Exchanges, launchpads, ecosystems and Web3 projects we've worked with — as ambassadors, KOC and KOL partners, launch partners and campaign partners."
         aside={
-          collaborations.length > 0 ? (
+          networkSize > 0 ? (
             <dl className="grid grid-cols-2 gap-4">
               <div className="surface-card p-5">
-                <dt className="text-eyebrow text-ink-500">Partnerships</dt>
-                <dd className="mt-3 font-display text-4xl tracking-[-0.05em] text-ink-50 tabular">{collaborations.length}</dd>
+                <dt className="text-eyebrow text-ink-500">Tier 1</dt>
+                <dd className="mt-3 font-display text-4xl tracking-[-0.05em] text-ink-50 tabular">{tiers.tier1.length}</dd>
               </div>
               <div className="surface-card p-5">
                 <dt className="text-eyebrow text-ink-500">Partners</dt>
-                <dd className="mt-3 font-display text-4xl tracking-[-0.05em] text-ink-50 tabular">{partners.length}</dd>
+                <dd className="mt-3 font-display text-4xl tracking-[-0.05em] text-ink-50 tabular">{networkSize}</dd>
               </div>
             </dl>
           ) : undefined
         }
       />
 
+      <PartnerTierSection id="tier-1" eyebrow="Tier 1" title="Tier 1 partners" description="Our most active relationships — leading exchanges, ecosystems and IDO launchpads." partners={tiers.tier1} />
+      <PartnerTierSection id="tier-2" eyebrow="Tier 2" title="Tier 2 partners" description="Projects we've run KOC, KOL and promotional campaigns with." partners={tiers.tier2} compact />
+
       {collaborations.length === 0 ? (
+        networkSize > 0 ? null : (
         <section className="container-site py-16 md:py-24">
           <EmptyState
             title="Partnerships are on their way"
@@ -69,6 +76,7 @@ export default async function PartnershipsPage() {
             action={{ href: "/contact", label: "Propose a partnership" }}
           />
         </section>
+        )
       ) : (
         <>
           {featured.length > 0 ? (
@@ -179,11 +187,52 @@ export default async function PartnershipsPage() {
       )}
 
       <ClosingCta
-        headline="Let's build something useful together."
-        body={`${company.name} is open to partnerships that make the internet more useful.`}
+        headline="Let's grow your project together."
+        body={`KOC campaigns, consultancy, digital marketing and blockchain development — talk to ${company.name}.`}
         primary={{ href: "/contact", label: "Start a conversation" }}
-        secondary={{ href: "/products", label: "Explore our products" }}
+        secondary={{ href: "/services", label: "Explore our services" }}
       />
     </>
+  );
+}
+
+function PartnerTierSection({
+  id,
+  eyebrow,
+  title,
+  description,
+  partners,
+  compact = false,
+}: {
+  id: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  partners: PartnerDTO[];
+  compact?: boolean;
+}) {
+  if (partners.length === 0) return null;
+  return (
+    <section id={id} className="scroll-mt-20 border-t border-white/[0.07] py-16 md:py-24" aria-labelledby={`${id}-title`}>
+      <div className="container-site">
+        <div className="flex items-end justify-between gap-6">
+          <div>
+            <Eyebrow>{eyebrow}</Eyebrow>
+            <h2 id={`${id}-title`} className="text-display-sm mt-5 text-ink-50">
+              {title}
+            </h2>
+            <p className="mt-3 max-w-xl text-ink-400">{description}</p>
+          </div>
+          <p className="text-eyebrow hidden shrink-0 text-ink-500 sm:block">{pluralize(partners.length, "partner")}</p>
+        </div>
+        <ul className={cn("mt-10 grid grid-cols-1 sm:grid-cols-2", compact ? "gap-2.5 lg:grid-cols-3 xl:grid-cols-4" : "gap-4 lg:grid-cols-3 xl:grid-cols-4")}>
+          {partners.map((partner, index) => (
+            <Reveal as="li" key={partner.slug} delay={compact ? 0 : (index % 4) * 60}>
+              <PartnerTile partner={partner} size={compact ? "compact" : "default"} />
+            </Reveal>
+          ))}
+        </ul>
+      </div>
+    </section>
   );
 }

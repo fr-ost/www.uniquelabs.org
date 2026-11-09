@@ -217,7 +217,16 @@ const productCards: ProductCardDTO[] = content.products.map((p) => ({
 const partnerDtos = new Map<string, PartnerDTO>(
   content.partners.map((p) => [
     p.slug,
-    { slug: p.slug, name: p.name, websiteUrl: p.website ?? null, xHandle: p.x ?? null, logo: media(p.logo, p.name), description: p.description ?? null },
+    {
+      slug: p.slug,
+      name: p.name,
+      websiteUrl: p.website ?? null,
+      xHandle: p.x ?? null,
+      logo: media(p.logo, p.name),
+      description: p.description ?? null,
+      tier: p.tier ?? null,
+      role: p.role ?? null,
+    },
   ]),
 );
 
@@ -406,6 +415,16 @@ export async function getFeaturedCollaborations(limit = 3): Promise<Collaboratio
 
 export async function getPartners(): Promise<PartnerDTO[]> {
   return [...partnerDtos.values()];
+}
+
+/** Partners grouped by tier, in content order (Tier 1 first). */
+export async function getPartnerTiers(): Promise<{ tier1: PartnerDTO[]; tier2: PartnerDTO[]; untiered: PartnerDTO[] }> {
+  const all = [...partnerDtos.values()];
+  return {
+    tier1: all.filter((p) => p.tier === 1),
+    tier2: all.filter((p) => p.tier === 2),
+    untiered: all.filter((p) => p.tier === null),
+  };
 }
 
 export function partnershipSlugs(): string[] {

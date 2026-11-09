@@ -3,6 +3,7 @@ import { CapabilityCard, CollaborationCard, PartnerMark, TeamCard } from "@/comp
 import { ProductCard } from "@/components/cards/product-card";
 import { ProjectCard } from "@/components/cards/project-card";
 import { Reveal } from "@/components/motion/reveal";
+import { MediaImage } from "@/components/ui/media-image";
 import { HomeHero } from "@/components/sections/home-hero";
 import { ClosingCta, DirectionStrip, PrinciplesSection } from "@/components/sections/shared-sections";
 import { JsonLdScript } from "@/components/seo/json-ld-script";
@@ -14,6 +15,7 @@ import {
   getFeaturedCollaborations,
   getFeaturedProducts,
   getFeaturedProjects,
+  getPartnerTiers,
   getPartners,
   getPrinciples,
   getRecentMilestones,
@@ -77,7 +79,7 @@ function JourneyPreview({ milestones }: { milestones: MilestoneDTO[] }) {
 }
 
 export default async function HomePage() {
-  const [company, principles, products, projects, capabilities, collaborations, partners, milestones, team, socials] = await Promise.all([
+  const [company, principles, products, projects, capabilities, collaborations, partners, milestones, team, socials, partnerTiers] = await Promise.all([
     getCompany(),
     getPrinciples(),
     getFeaturedProducts(5),
@@ -88,6 +90,7 @@ export default async function HomePage() {
     getRecentMilestones(4),
     getTeamPreview(5),
     getSocialLinks(),
+    getPartnerTiers(),
   ]);
 
   let counter = 0;
@@ -144,6 +147,43 @@ export default async function HomePage() {
                 </Reveal>
               ))}
             </div>
+          </div>
+        </section>
+      ) : null}
+
+      {/* Partners */}
+      {partnerTiers.tier1.length > 0 ? (
+        <section className="relative border-t border-white/[0.07] py-24 md:py-32" aria-labelledby="partners-title">
+          <div className="container-site">
+            <SectionHeader
+              index={next()}
+              eyebrow="Partners"
+              title={<span id="partners-title">Trusted across Web3.</span>}
+              description={`Exchanges, launchpads and ecosystems we've worked with — ${partnerTiers.tier1.length + partnerTiers.tier2.length} partners and counting.`}
+              action={<TextLink href="/partnerships">All partners</TextLink>}
+            />
+            <ul className="mt-14 grid grid-cols-3 pt-px pl-px sm:grid-cols-4 md:mt-20 lg:grid-cols-6 xl:grid-cols-8">
+              {partnerTiers.tier1.map((partner) => (
+                <li key={partner.slug} className="-mt-px -ml-px border border-white/[0.07]">
+                  <a
+                    href={partner.xHandle ? `https://x.com/${partner.xHandle}` : "/partnerships"}
+                    target={partner.xHandle ? "_blank" : undefined}
+                    rel={partner.xHandle ? "noopener noreferrer" : undefined}
+                    className="group flex h-full flex-col items-center gap-3 px-3 py-6 text-center transition-colors hover:bg-white/[0.03]"
+                  >
+                    <span className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-ink-800 grayscale-[40%] transition group-hover:grayscale-0">
+                      {partner.logo ? (
+                        <MediaImage media={partner.logo} alt={`${partner.name} logo`} fill sizes="48px" />
+                      ) : (
+                        <span aria-hidden className="font-display text-sm text-ink-200">{partner.name.slice(0, 2).toUpperCase()}</span>
+                      )}
+                    </span>
+                    <span className="w-full truncate text-sm text-ink-100">{partner.name}</span>
+                    {partner.role ? <span className="-mt-2 w-full truncate text-[0.6875rem] text-ink-500">{partner.role}</span> : null}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
       ) : null}
