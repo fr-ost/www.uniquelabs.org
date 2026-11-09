@@ -86,12 +86,12 @@ test.describe("public website", () => {
       await page.getByRole("button", { name: "Open menu" }).click();
       const menu = page.getByRole("dialog", { name: "Site navigation" });
       await expect(menu).toBeVisible();
-      await menu.getByRole("link", { name: /Projects/ }).click();
+      await menu.getByRole("link", { name: /^Team/ }).click();
     } else {
-      await page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Projects" }).click();
+      await page.getByRole("navigation", { name: "Primary" }).getByRole("link", { name: "Team" }).click();
     }
-    await expect(page).toHaveURL(/\/projects$/);
-    await expect(page.locator("h1")).toContainText(/Our work/);
+    await expect(page).toHaveURL(/\/team$/);
+    await expect(page.locator("h1")).toContainText(/people behind/);
   });
 
   test("company menu reaches the About page", async ({ page, isMobile }) => {

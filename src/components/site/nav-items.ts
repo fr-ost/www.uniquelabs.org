@@ -17,15 +17,14 @@ export function isGroup(entry: NavEntry): entry is NavGroup {
 
 export const COMPANY_NAV: NavItem[] = [
   { href: "/about", label: "About", description: "Who we are, why we exist, how we're organised" },
-  { href: "/team", label: "Team", description: "The people and teams behind our work" },
   { href: "/journey", label: "Journey", description: "Milestones, in order" },
 ];
 
 export const PRIMARY_NAV: NavEntry[] = [
   { href: "/services", label: "Services" },
   { href: "/products", label: "Products" },
-  { href: "/projects", label: "Projects" },
   { href: "/partnerships", label: "Partnerships" },
+  { href: "/team", label: "Team" },
   { label: "Company", items: COMPANY_NAV },
 ];
 
