@@ -15,7 +15,7 @@ extension TabNest to the products — here's the description and store link."*
 | `projects.ts` | **Projects / case studies** | Projects, project pages, Home |
 | `partnerships.ts` | **Partners** and **partnerships** | Partnerships, partnership pages, Home |
 | `milestones.ts` | The company **journey** (timeline) | Journey, Home |
-| `capabilities.ts` | "What we do" focus areas | What We Do, Home |
+| `capabilities.ts` | **Services** (KOC, consultancy, digital marketing, blockchain development, software, AI) | Services, Home |
 | `principles.ts` | The philosophy principles | Home, About |
 | `site.ts` | Search-engine settings, privacy policy, terms of use | All pages, Privacy, Terms |
 

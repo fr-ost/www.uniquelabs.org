@@ -19,10 +19,10 @@ export const COMPANY_NAV: NavItem[] = [
   { href: "/about", label: "About", description: "Who we are, why we exist, how we're organised" },
   { href: "/team", label: "Team", description: "The people and teams behind our work" },
   { href: "/journey", label: "Journey", description: "Milestones, in order" },
-  { href: "/what-we-do", label: "What We Do", description: "Our areas of focus" },
 ];
 
 export const PRIMARY_NAV: NavEntry[] = [
+  { href: "/services", label: "Services" },
   { href: "/products", label: "Products" },
   { href: "/projects", label: "Projects" },
   { href: "/partnerships", label: "Partnerships" },
@@ -33,10 +33,10 @@ export const FOOTER_NAV: Array<{ title: string; items: NavItem[] }> = [
   {
     title: "Work",
     items: [
+      { href: "/services", label: "Services" },
       { href: "/products", label: "Products" },
       { href: "/projects", label: "Projects" },
       { href: "/partnerships", label: "Partnerships" },
-      { href: "/what-we-do", label: "What We Do" },
     ],
   },
   {

@@ -14,7 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const company = await getCompany();
   return pageMetadata({
     title: "Products",
-    description: `Browse useful digital products from ${company.name} — Chrome extensions, web apps and utilities designed to make everyday digital life easier.`,
+    description: `Software built in-house by ${company.name} — Chrome extensions including UnfollowX Pro, GrowX, Unique PDF, FrameShot and Twofold.`,
     path: "/products",
   });
 }
@@ -74,7 +74,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Sea
             The product directory<span className="text-signal-500">.</span>
           </>
         }
-        description={`Useful products from the ${company.name} ecosystem — designed to simplify everyday digital experiences.`}
+        description={`Software we build in-house at ${company.name} — free and freemium Chrome extensions.`}
       />
 
       <section className="container-site py-14 md:py-20" aria-label="Product directory">
@@ -82,7 +82,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Sea
           <EmptyState
             title="No products published yet"
             body="Products appear here as soon as they are released. In the meantime, see what we focus on."
-            action={{ href: "/what-we-do", label: "What we do" }}
+            action={{ href: "/services", label: "Our services" }}
           />
         ) : (
           <>
@@ -158,7 +158,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Sea
         headline="Have an idea for a useful tool?"
         body="We'd like to hear about the problems you want solved."
         primary={{ href: "/contact", label: "Get in touch" }}
-        secondary={{ href: "/what-we-do", label: "What we do" }}
+        secondary={{ href: "/services", label: "Our services" }}
       />
     </>
   );

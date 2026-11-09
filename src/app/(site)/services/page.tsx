@@ -7,45 +7,39 @@ import { TextLink } from "@/components/ui/button";
 import { Markdown } from "@/components/ui/markdown";
 import { Eyebrow, PageHero, SectionHeader } from "@/components/ui/section";
 import { CapabilityIllustration } from "@/components/visuals/capability-illustration";
-import { getCapabilities, getCompany, getFeaturedProducts, getPrinciples } from "@/lib/content/public";
+import { getCapabilities, getCompany, getFeaturedProducts } from "@/lib/content/public";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { cn, indexLabel } from "@/lib/utils";
 
 export async function generateMetadata(): Promise<Metadata> {
   const company = await getCompany();
   return pageMetadata({
-    title: "What We Do",
+    title: "Services",
     description:
       company.whatWeDoIntro ??
-      `${company.name} designs and builds useful digital products, starting with Chrome extensions and expanding to the web.`,
-    path: "/what-we-do",
+      `${company.name} offers KOC and consultancy services, digital marketing and blockchain development.`,
+    path: "/services",
   });
 }
 
-export default async function WhatWeDoPage() {
-  const [company, capabilities, principles, products] = await Promise.all([
-    getCompany(),
-    getCapabilities(),
-    getPrinciples(),
-    getFeaturedProducts(3),
-  ]);
-  const howWeWork = principles.slice(0, 4);
+export default async function ServicesPage() {
+  const [company, capabilities, products] = await Promise.all([getCompany(), getCapabilities(), getFeaturedProducts(3)]);
 
   return (
     <>
       <PageHero
-        eyebrow="What we do"
+        eyebrow="Services"
         title={
           <>
-            Useful products, across the platforms people use<span className="text-signal-500">.</span>
+            Services to build, launch and grow<span className="text-signal-500">.</span>
           </>
         }
         description={company.whatWeDoIntro}
       />
 
       {capabilities.length > 0 ? (
-        <section className="container-site py-16 md:py-24" aria-label="Areas of focus">
-          <nav aria-label="Areas of focus" className="mb-16 hidden md:block">
+        <section className="container-site py-16 md:py-24" aria-label="Services">
+          <nav aria-label="Jump to a service" className="mb-16 hidden md:block">
             <ul className="flex flex-wrap gap-2">
               {capabilities.map((capability, index) => (
                 <li key={capability.id}>
@@ -110,8 +104,8 @@ export default async function WhatWeDoPage() {
       <section className="border-t border-white/[0.07] py-20 md:py-32" aria-labelledby="direction-title">
         <div className="container-site">
           <SectionHeader
-            eyebrow="Direction"
-            title={<span id="direction-title">Starting in the browser. Growing across platforms.</span>}
+            eyebrow="How we help"
+            title={<span id="direction-title">Build. Launch. Grow.</span>}
             description={company.longTermDirection}
           />
           <div className="mt-16 lg:grid lg:grid-cols-12 lg:gap-10">
@@ -122,26 +116,19 @@ export default async function WhatWeDoPage() {
         </div>
       </section>
 
-      {company.approach || howWeWork.length > 0 ? (
+      {company.approach ? (
         <section className="relative overflow-hidden bg-paper-100 text-paper-900" aria-labelledby="how-title">
           <div aria-hidden className="grid-lines-paper mask-fade-radial pointer-events-none absolute inset-0 opacity-70" />
           <div className="container-site relative grid grid-cols-1 gap-12 py-20 md:py-32 lg:grid-cols-12 lg:gap-10">
             <div className="lg:col-span-5">
               <Eyebrow tone="paper">How we work</Eyebrow>
               <h2 id="how-title" className="text-display-md mt-6 max-w-[14ch] text-paper-900">
-                Our approach to technology.
+                Our approach.
               </h2>
-              {company.approach ? <Markdown source={company.approach} className="prose-paper mt-8" /> : null}
             </div>
-            <ol className="grid grid-cols-1 gap-px self-start overflow-hidden rounded-[var(--radius-panel)] border border-paper-900/12 bg-paper-900/12 sm:grid-cols-2 lg:col-span-6 lg:col-start-7">
-              {howWeWork.map((principle, index) => (
-                <li key={principle.id} className="bg-paper-100 p-7">
-                  <span className="font-mono text-xs text-signal-700">{indexLabel(index + 1)}</span>
-                  <h3 className="mt-5 font-display text-lg font-medium tracking-[-0.02em] text-paper-900">{principle.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-paper-600">{principle.description}</p>
-                </li>
-              ))}
-            </ol>
+            <div className="lg:col-span-6 lg:col-start-7">
+              <Markdown source={company.approach} className="prose-paper text-lg" />
+            </div>
           </div>
         </section>
       ) : null}
@@ -151,9 +138,9 @@ export default async function WhatWeDoPage() {
           <div className="container-site">
             <div className="flex items-end justify-between gap-6">
               <div>
-                <Eyebrow>In practice</Eyebrow>
+                <Eyebrow>Built in-house</Eyebrow>
                 <h2 id="wwd-products" className="text-display-sm mt-5 text-ink-50">
-                  See it in our products
+                  Our own products
                 </h2>
               </div>
               <TextLink href="/products">All products</TextLink>

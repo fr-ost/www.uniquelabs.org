@@ -20,8 +20,8 @@ export default async function ContactPage() {
   const [company, socials] = await Promise.all([getCompany(), getSocialLinks()]);
   const contact = company.contact;
   const channels = [
-    { label: "General inquiries", hint: "Questions and feedback about our products", email: contact.generalEmail, icon: Sparkles },
-    { label: "Business", hint: "Commercial and business inquiries", email: contact.businessEmail, icon: Mail },
+    { label: "General inquiries", hint: "Questions about our services and products", email: contact.generalEmail, icon: Sparkles },
+    { label: "Business", hint: "KOC, consultancy, marketing and blockchain projects", email: contact.businessEmail, icon: Mail },
     { label: "Partnerships", hint: "Integrations, co-created projects and collaborations", email: contact.partnershipEmail, icon: Handshake },
     { label: "Press & media", hint: "Interviews, media and press materials", email: contact.pressEmail, icon: Newspaper },
   ].filter((c) => Boolean(c.email));
@@ -36,7 +36,7 @@ export default async function ContactPage() {
             Let&apos;s talk<span className="text-signal-500">.</span>
           </>
         }
-        description={contact.intro ?? "Questions, partnership ideas or feedback about our products — we read every message."}
+        description={contact.intro ?? "Tell us what you're working on — we read every message."}
       />
 
       <section className="container-site py-16 md:py-24">

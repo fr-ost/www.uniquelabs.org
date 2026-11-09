@@ -1,64 +1,62 @@
 import type { CapabilityInput } from "./schema";
 
 /**
- * "What we do" — the company's areas of focus (from the owner's brief).
- * They describe focus, not past work. `products` links related product slugs.
+ * Services ("what we do"), in display order — shown on /services and the home
+ * page. The first four are the company's core services (from the owner);
+ * software and AI support them. Describe what each service is, not results
+ * or clients. `products` links related product slugs.
  * Icons: puzzle, globe, app-window, zap, code, flask, pen-tool, shield, layers,
  * cpu, compass, sparkles, lock, gauge, boxes, workflow.
  */
 export const capabilities: CapabilityInput[] = [
   {
-    title: "Browser-based digital utilities",
-    summary: "Small, fast tools that live in the browser and remove friction from everyday tasks.",
-    description: "Focused utilities that run where people already work. We favour instant start-up, minimal permissions and on-device processing wherever practical.",
-    icon: "zap",
+    title: "KOC marketing",
+    summary: "Campaigns powered by key opinion consumers — real users and creators whose recommendations people trust.",
+    description:
+      "We plan and run KOC (key opinion consumer) campaigns for brands and Web3 projects: finding the right voices, shaping the message and coordinating each campaign so authentic recommendations reach the right audience.",
+    icon: "sparkles",
     featured: true,
   },
   {
-    title: "Chrome extension development",
-    summary: "Extensions designed around a single job, built on modern Manifest V3 foundations.",
-    description: "Chrome extensions are where Unique Labs starts. We design each one around a clear purpose, request only the permissions it needs, and keep it light.",
+    title: "Consultancy",
+    summary: "Strategic advice for brands and Web3 projects on how to build, launch and grow.",
+    description:
+      "From positioning and go-to-market planning to product and growth strategy, we work alongside founders and teams to turn ideas into a clear plan — and help put that plan into action.",
+    icon: "compass",
+    featured: true,
+  },
+  {
+    title: "Digital marketing",
+    summary: "Marketing across the channels where your audience spends its time.",
+    description:
+      "Social media, content, community and campaign management — digital marketing that helps brands and Web3 projects reach the right people, launch with momentum and keep growing.",
+    icon: "globe",
+    featured: true,
+  },
+  {
+    title: "Blockchain development",
+    summary: "Smart contracts, decentralised applications and Web3 products, built with care.",
+    description:
+      "We design and develop blockchain solutions for Web3 projects — from smart contracts to decentralised applications and the websites and tools around them.",
+    icon: "boxes",
+    featured: true,
+  },
+  {
+    title: "Software development",
+    summary: "Chrome extensions, websites and web apps — the same craft behind our own products.",
+    description:
+      "We build software in-house, including our own Chrome extensions. The same engineering, design and attention to detail goes into the products and tools we build for others.",
     icon: "puzzle",
     featured: true,
+    products: ["unfollowx-pro", "growx", "unique-pdf", "frameshot", "twofold"],
   },
   {
-    title: "Web-based applications",
-    summary: "Web apps and websites that extend our products beyond the browser toolbar.",
-    description: "Expanding into websites and web applications is a core part of our direction — bringing the same focus on usefulness, speed and privacy to the open web.",
-    icon: "app-window",
-    featured: true,
-  },
-  {
-    title: "Productivity solutions",
-    summary: "Tools that give people back time and attention, without getting in the way.",
-    description: "We look for repetitive, frustrating moments in everyday digital life and build tools that make them disappear.",
-    icon: "gauge",
-    featured: true,
-  },
-  {
-    title: "Software engineering",
-    summary: "Careful, maintainable engineering with low operating costs.",
-    description: "Sustainable products need sustainable engineering: simple architectures, few dependencies and costs low enough to keep core products free.",
-    icon: "code",
-    featured: true,
-  },
-  {
-    title: "Product research & experimentation",
-    summary: "Testing ideas against real problems before turning them into products.",
-    description: "Not every idea becomes a product. We prototype, test and discard freely so that what we release is worth people's time.",
+    title: "AI & experimentation",
+    summary: "Building at the intersection of technology, AI and experimentation.",
+    description:
+      "We prototype quickly, test ideas against real problems and put AI to work where it genuinely helps — as in Unique AI inside Unique PDF and the AI writer in GrowX.",
     icon: "flask",
     featured: true,
-  },
-  {
-    title: "User experience",
-    summary: "Interfaces that explain themselves and respect people's attention.",
-    description: "Good tools feel obvious. We design for clarity first — fewer settings, better defaults and honest copy.",
-    icon: "pen-tool",
-  },
-  {
-    title: "Privacy-conscious software",
-    summary: "Local-first processing and data minimisation as defaults, not afterthoughts.",
-    description: "We treat privacy and user trust as product requirements: collect as little as possible, process locally where practical, and say plainly what happens to data.",
-    icon: "shield",
+    products: ["unique-pdf", "growx"],
   },
 ];

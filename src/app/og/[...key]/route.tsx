@@ -11,14 +11,14 @@ import { COLLABORATION_CATEGORY_LABELS, PROJECT_STATUS_LABELS, RELEASE_STAGE_LAB
  */
 
 const PAGES: Record<string, { eyebrow: string; title: string }> = {
-  home: { eyebrow: "Digital product studio", title: "" },
+  home: { eyebrow: "KOC · Consultancy · Digital marketing · Web3", title: "" },
   about: { eyebrow: "About", title: "Useful technology, made accessible." },
   products: { eyebrow: "Products", title: "The product directory." },
   projects: { eyebrow: "Projects", title: "Selected work." },
   partnerships: { eyebrow: "Partnerships", title: "Partners & collaborations." },
   team: { eyebrow: "Our team", title: "The people behind Unique Labs." },
   journey: { eyebrow: "Our journey", title: "The story so far." },
-  "what-we-do": { eyebrow: "What we do", title: "Useful products, across the platforms people use." },
+  services: { eyebrow: "Services", title: "KOC, consultancy, digital marketing & blockchain development." },
   contact: { eyebrow: "Contact", title: "Let's talk." },
   privacy: { eyebrow: "Legal", title: "Privacy Policy" },
   terms: { eyebrow: "Legal", title: "Terms of Use" },

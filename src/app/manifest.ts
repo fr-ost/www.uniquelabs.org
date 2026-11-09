@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Unique Labs",
     short_name: "Unique Labs",
-    description: "Useful digital products that make everyday digital experiences better.",
+    description: "KOC and consultancy services, digital marketing and blockchain development — helping brands and Web3 projects build, launch and grow.",
     start_url: "/",
     display: "browser",
     background_color: "#0d0d10",

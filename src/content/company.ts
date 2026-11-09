@@ -1,61 +1,60 @@
 import type { CompanyInput } from "./schema";
 
 /**
- * Company identity and core copy. Everything here comes from the owner's
- * brief. Only add facts that are true and public — dates, locations, numbers
+ * Company identity and core copy. Everything here comes from the owner. Only add facts that are true and public — dates, locations, numbers
  * and people appear on the site exactly as written.
  */
 export const company: CompanyInput = {
   name: "Unique Labs",
-  tagline: "Tools that make the internet more useful.",
+  tagline: "Helping brands and Web3 projects build, launch and grow.",
   shortDescription:
-    "Unique Labs is building an ecosystem of useful digital products and utilities designed to make everyday digital experiences better.",
+    "Unique Labs offers KOC and consultancy services, digital marketing and blockchain development — helping brands and Web3 projects build, launch and grow.",
 
   // founded: "2024",            // shown on the About page when set
   // logo: { src: "/images/brand/logo.svg", alt: "Unique Labs", width: 512, height: 512 },
 
   hero: {
-    eyebrow: "Unique Labs — digital product studio",
-    headline: "Technology should make life easier.",
+    eyebrow: "KOC · Consultancy · Digital marketing · Web3",
+    headline: "Build, launch and grow.",
     description:
-      "At Unique Labs, we build useful digital products that simplify everyday experiences and make better technology accessible to everyone.",
-    primaryCta: "Explore Our Products",
+      "Unique Labs offers KOC and consultancy services, digital marketing and blockchain development — helping brands and Web3 projects build, launch and grow.",
+    primaryCta: "Explore our services",
     secondaryCta: "Discover Unique Labs",
   },
 
   intro: {
-    heading: "Software that earns its place in your day.",
-    body: "Unique Labs is building an ecosystem of useful digital products and utilities designed to make everyday digital experiences better. Our long-term direction is to develop genuinely useful products across multiple platforms — starting with Chrome extensions and expanding into websites and other digital platforms.",
+    heading: "At the intersection of technology, AI and experimentation.",
+    body: "Unique Labs is not just a software company. We offer KOC and consultancy services, digital marketing and blockchain development, helping brands and Web3 projects build, launch and grow. Alongside our services, we build our own software — Chrome extensions such as UnfollowX Pro, GrowX and Unique PDF.",
   },
 
   about: {
     whoWeAre:
-      "Unique Labs is a technology company and digital product studio. We design and build useful digital products and utilities for everyday life online — starting with Chrome extensions, and expanding into websites and other digital platforms.\n\nWe care about the details most people never see: how fast a tool starts, how little data it needs, and how clearly it explains itself.",
+      "Unique Labs works at the intersection of technology, AI and experimentation. We offer KOC and consultancy services, digital marketing and blockchain development — helping brands and Web3 projects build, launch and grow.\n\nWe also design and build our own software products, including the Chrome extensions UnfollowX Pro, GrowX, Unique PDF, FrameShot and Twofold.",
     whyWeExist:
-      "Everyday technology should make life easier — not more complicated, more expensive or more invasive. Unique Labs exists to build focused tools that solve real problems, respect the people who use them, and stay accessible to everyone.",
-    mission: "To build useful digital products that simplify everyday experiences and make better technology accessible to everyone.",
+      "Good ideas still need to be built, launched and seen. Unique Labs exists to help brands and Web3 projects do all three — bringing strategy, marketing and development together, so teams can go from idea to growth with one partner.",
+    mission: "To help brands and Web3 projects build, launch and grow — and to make useful technology accessible to everyone.",
     vision:
-      "A recognizable global technology brand whose products make the internet more useful — trusted because they are private by design, free at their core and built to last.",
+      "A trusted partner for brands and Web3 projects, and a recognizable technology brand built at the intersection of technology, AI and experimentation.",
     approach:
-      "We prefer local-first processing wherever practical, so your data can stay on your device. We keep operating costs low so core products can remain free without artificial paywalls. And we would rather release fewer, better products than many forgettable ones.\n\nEvery product starts from a real problem, and every release is judged on whether it makes that problem smaller.",
+      "We start from the goal, not the tool: what needs to be built, who needs to hear about it and what growth should look like. Strategy, marketing and development sit under one roof, so they work together instead of in silos.\n\nWe experiment constantly — testing ideas quickly, keeping what works and dropping what doesn't.",
     longTermDirection:
-      "We're starting with Chrome extensions — focused utilities that live where people already spend their day online. From there, our direction is to expand into websites, web applications and other digital platforms, growing an ecosystem of genuinely useful products under one recognizable brand.",
-    philosophyIntro: "Eight principles guide what we build — and just as importantly, what we choose not to build.",
+      "We will keep growing our services for brands and Web3 projects — KOC and consultancy, digital marketing and blockchain development — while continuing to build our own software and AI products.",
+    philosophyIntro: "Eight principles guide how we build our own products — and just as importantly, what we choose not to build.",
   },
 
   whatWeDoIntro:
-    "We design, build and maintain useful digital products — focused today on browser-based utilities and Chrome extensions, with websites and other digital platforms next.",
+    "KOC and consultancy services, digital marketing and blockchain development — helping brands and Web3 projects build, launch and grow, backed by our own software and AI work.",
 
   // Shown above the departments in team.ts (the section appears once departments are added).
-  structureIntro: "The teams behind our products, and what each one is responsible for.",
+  structureIntro: "The teams behind our services and products, and what each one is responsible for.",
 
   closing: {
-    headline: "We don't build technology just to add another product to the internet.",
-    body: "We build tools that make the internet more useful.",
+    headline: "Have something to build, launch or grow?",
+    body: "Let's talk about how Unique Labs can help.",
   },
 
   contact: {
-    intro: "Questions, partnership ideas or feedback about our products — we read every message.",
+    intro: "KOC campaigns, consultancy, digital marketing, blockchain development or questions about our products — tell us what you're working on.",
     // Add real addresses to show them on the Contact page and in the footer:
     emails: {
       // general: "hello@example.com",

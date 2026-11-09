@@ -8,7 +8,7 @@ const ROUTES = [
   "/partnerships",
   "/team",
   "/journey",
-  "/what-we-do",
+  "/services",
   "/contact",
   "/privacy",
   "/terms",
@@ -55,6 +55,9 @@ test.describe("public website", () => {
     const old = await request.get("/collaborations", { maxRedirects: 0 });
     expect(old.status()).toBe(308);
     expect(old.headers()["location"]).toMatch(/\/partnerships$/);
+    const wwd = await request.get("/what-we-do", { maxRedirects: 0 });
+    expect(wwd.status()).toBe(308);
+    expect(wwd.headers()["location"]).toMatch(/\/services$/);
     const admin = await request.get("/admin", { maxRedirects: 0 });
     expect([307, 308]).toContain(admin.status());
   });

@@ -38,10 +38,10 @@ function AnimatedHeadline({ text }: { text: string }) {
 }
 
 const FACTS: Array<{ term: string; detail: string }> = [
-  { term: "Starting with", detail: "Chrome extensions" },
-  { term: "Core products", detail: "Free, without artificial paywalls" },
-  { term: "Data", detail: "Local-first wherever practical" },
-  { term: "Standard", detail: "Quality over quantity" },
+  { term: "Launch", detail: "KOC & consultancy" },
+  { term: "Grow", detail: "Digital marketing" },
+  { term: "Build", detail: "Blockchain development" },
+  { term: "In-house", detail: "Software & AI products" },
 ];
 
 export function HomeHero({ company }: { company: CompanyDTO }) {
@@ -59,7 +59,7 @@ export function HomeHero({ company }: { company: CompanyDTO }) {
           </h1>
           <p className="text-lede mt-8 max-w-[34rem] animate-fade-up text-ink-300 [animation-delay:520ms]">{company.heroDescription}</p>
           <div className="mt-10 flex animate-fade-up flex-col gap-3 [animation-delay:640ms] sm:flex-row">
-            <ButtonLink href="/products" size="lg" arrow>
+            <ButtonLink href="/services" size="lg" arrow>
               {company.primaryCtaLabel}
             </ButtonLink>
             <ButtonLink href="/about" size="lg" variant="secondary">
@@ -70,7 +70,7 @@ export function HomeHero({ company }: { company: CompanyDTO }) {
 
         <div className="relative lg:col-span-5">
           <div className="mx-auto w-full max-w-[30rem] sm:max-w-[34rem] lg:max-w-none lg:scale-[1.04] xl:scale-[1.08]">
-            <HeroVisual labels={["Local-first", "Private by design", "Free at the core"]} />
+            <HeroVisual labels={["KOC & consultancy", "Digital marketing", "Blockchain"]} />
           </div>
         </div>
       </div>

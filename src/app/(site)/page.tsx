@@ -126,6 +126,28 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Services */}
+      {featuredCapabilities.length > 0 ? (
+        <section className="relative border-t border-white/[0.07] py-24 md:py-32" aria-labelledby="capabilities-title">
+          <div className="container-site">
+            <SectionHeader
+              index={next()}
+              eyebrow="Services"
+              title={<span id="capabilities-title">What we do.</span>}
+              description={company.whatWeDoIntro}
+              action={<TextLink href="/services">All services</TextLink>}
+            />
+            <div className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 md:mt-20 md:gap-5 lg:grid-cols-3">
+              {featuredCapabilities.map((capability, index) => (
+                <Reveal key={capability.id} delay={(index % 3) * 90}>
+                  <CapabilityCard capability={capability} index={index} />
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
       {/* Featured products */}
       {products.length > 0 ? (
         <section className="relative border-t border-white/[0.07] py-24 md:py-32" aria-labelledby="products-title">
@@ -133,8 +155,8 @@ export default async function HomePage() {
             <SectionHeader
               index={next()}
               eyebrow="Products"
-              title={<span id="products-title">Useful products, carefully made.</span>}
-              description="A selection of products from the Unique Labs ecosystem."
+              title={<span id="products-title">Software we build in-house.</span>}
+              description="Our own products — Chrome extensions built by the Unique Labs team."
               action={<TextLink href="/products">View all products</TextLink>}
             />
             <div className="mt-14 md:mt-20">
@@ -166,27 +188,6 @@ export default async function HomePage() {
         </section>
       ) : null}
 
-      {/* What we do */}
-      {featuredCapabilities.length > 0 ? (
-        <section className="relative border-t border-white/[0.07] py-24 md:py-32" aria-labelledby="capabilities-title">
-          <div className="container-site">
-            <SectionHeader
-              index={next()}
-              eyebrow="What we do"
-              title={<span id="capabilities-title">Focused on the tools people use every day.</span>}
-              description={company.whatWeDoIntro}
-              action={<TextLink href="/what-we-do">Explore what we do</TextLink>}
-            />
-            <div className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 md:mt-20 md:gap-5 lg:grid-cols-3">
-              {featuredCapabilities.map((capability, index) => (
-                <Reveal key={capability.id} delay={(index % 3) * 90}>
-                  <CapabilityCard capability={capability} index={index} />
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-      ) : null}
 
       <PrinciplesSection index={next()} principles={principles} intro={company.philosophyIntro} />
 

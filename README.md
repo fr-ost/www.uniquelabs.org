@@ -24,7 +24,7 @@ journey.
 ## Pages
 
 Home · About (incl. company structure) · Products (+ product pages) ·
-Projects (+ case studies) · Partnerships (+ detail pages) · What We Do ·
+Projects (+ case studies) · Partnerships (+ detail pages) · Services ·
 Team (+ profiles) · Journey · Contact · Privacy · Terms
 
 ## Tech stack

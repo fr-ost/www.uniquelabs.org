@@ -61,6 +61,8 @@ const nextConfig: NextConfig = {
       // "Collaborations" became "Partnerships".
       { source: "/collaborations", destination: "/partnerships", permanent: true },
       { source: "/collaborations/:slug", destination: "/partnerships/:slug", permanent: true },
+      // "What we do" became "Services".
+      { source: "/what-we-do", destination: "/services", permanent: true },
       // Retired sections.
       { source: "/intelligence/:path*", destination: "/", permanent: false },
       { source: "/admin/:path*", destination: "/", permanent: false },

@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const company = await getCompany();
   return pageMetadata({
     title: "Our Team",
-    description: `Meet the people behind ${company.name} — the team designing and building useful digital products.`,
+    description: `Meet the people behind ${company.name} — the team behind our services and products.`,
     path: "/team",
   });
 }

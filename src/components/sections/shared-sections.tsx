@@ -6,24 +6,24 @@ import type { PrincipleDTO } from "@/lib/content/types";
 import { cn, indexLabel } from "@/lib/utils";
 
 /**
- * The company's stated platform direction (from the owner's positioning):
- * starting with Chrome extensions, expanding to websites and other platforms.
+ * How Unique Labs helps (from the owner's positioning: helping brands and Web3
+ * projects build, launch and grow).
  */
 const DIRECTION = [
   {
-    label: "Starting point",
-    title: "Chrome extensions",
-    body: "Focused utilities that live where people already spend their day online.",
+    label: "Build",
+    title: "Blockchain, software & AI",
+    body: "Smart contracts, dApps, extensions, websites and AI-powered tools.",
   },
   {
-    label: "Expanding to",
-    title: "Websites & web apps",
-    body: "The same usefulness, speed and privacy — on the open web.",
+    label: "Launch",
+    title: "Strategy & KOC",
+    body: "Consultancy and KOC campaigns that put the right message in front of the right people.",
   },
   {
-    label: "Long-term direction",
-    title: "More digital platforms",
-    body: "A growing ecosystem of useful products under one recognizable brand.",
+    label: "Grow",
+    title: "Digital marketing",
+    body: "Content, community and campaigns that keep momentum going.",
   },
 ];
 
@@ -114,7 +114,7 @@ export function PrinciplesSection({
 export function ClosingCta({
   headline,
   body,
-  primary = { href: "/products", label: "Explore our products" },
+  primary = { href: "/services", label: "Explore our services" },
   secondary = { href: "/contact", label: "Get in touch" },
 }: {
   headline: string | null;

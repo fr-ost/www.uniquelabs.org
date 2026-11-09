@@ -6,7 +6,7 @@ changes; almost all changes are edits to the content files.
 
 ## Where things are
 
-- `src/content/*.ts` — **all website content** (company, structure & team,
+- `src/content/*.ts` — **all website content** (company, services, structure & team,
   products, projects, partnerships, milestones, focus areas, principles,
   SEO & legal). Schema with field docs: `src/content/schema.ts`.
   Guide: `docs/CONTENT.md`.

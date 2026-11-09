@@ -26,7 +26,7 @@ src/content/*.ts  ──▶  src/lib/content/public.ts  ──▶  pages (src/ap
 
 | Area | Routes |
 | --- | --- |
-| Pages | `/`, `/about`, `/products`, `/products/[slug]`, `/projects`, `/projects/[slug]`, `/partnerships`, `/partnerships/[slug]`, `/what-we-do`, `/team`, `/team/[slug]`, `/journey`, `/contact`, `/privacy`, `/terms` |
+| Pages | `/`, `/about`, `/products`, `/products/[slug]`, `/projects`, `/projects/[slug]`, `/partnerships`, `/partnerships/[slug]`, `/services`, `/team`, `/team/[slug]`, `/journey`, `/contact`, `/privacy`, `/terms` |
 | SEO | `/sitemap.xml`, `/robots.txt`, `/manifest.webmanifest`, `/og/[...key]`, `/icon.svg`, `/apple-icon.png` |
 | Redirects | `/collaborations/*` → `/partnerships/*` (permanent); retired `/admin`, `/intelligence` → `/` |
 

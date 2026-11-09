@@ -8,11 +8,11 @@ import type { SiteInput } from "./schema";
  */
 export const site: SiteInput = {
   seo: {
-    title: "Unique Labs — Useful digital products for everyday life",
+    title: "Unique Labs — KOC, consultancy, digital marketing & blockchain development",
     titleTemplate: "%s — Unique Labs",
     description:
-      "Unique Labs builds useful digital products that simplify everyday experiences and make better technology accessible to everyone — starting with Chrome extensions.",
-    keywords: ["Unique Labs", "digital product studio", "Chrome extensions", "browser extensions", "productivity tools", "privacy-first software"],
+      "Unique Labs offers KOC and consultancy services, digital marketing and blockchain development — helping brands and Web3 projects build, launch and grow. We also build our own software and AI products.",
+    keywords: ["Unique Labs", "KOC marketing", "consultancy", "digital marketing", "Web3 marketing", "blockchain development", "Web3 development", "AI", "Chrome extensions"],
     // twitterHandle: "@uniquelabs",
     // googleSiteVerification: "…",
     // bingSiteVerification: "…",
@@ -62,12 +62,16 @@ We may update this policy from time to time. The date at the top of this page sh
 
 Questions about this policy can be sent to {{contact}}.`,
 
-    termsUpdated: "2026-11-08",
+    termsUpdated: "2026-11-09",
     termsOfUse: `These Terms of Use govern your use of {{site}} (the "Website"), operated by {{company}}. By using the Website, you agree to these terms.
 
 ## Using the Website
 
 You may use the Website for lawful purposes only. Please don't attempt to disrupt it, gain unauthorized access to any part of it, or use it to send spam or harmful content.
+
+## Our services
+
+Information about our services on the Website is general and is not an offer. Any engagement for KOC, consultancy, digital marketing, blockchain development or other services is governed by a separate agreement between you and Unique Labs.
 
 ## Our products
 

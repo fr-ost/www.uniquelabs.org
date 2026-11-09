@@ -260,7 +260,7 @@ export default async function ProductPage({ params }: { params: Params }) {
                     <ul className="mt-3 flex flex-wrap gap-2">
                       {product.capabilities.map((c) => (
                         <li key={c.slug}>
-                          <Link href={`/what-we-do#${c.slug}`} className="inline-flex rounded-full border border-white/10 px-3 py-1 text-xs text-ink-200 hover:border-white/25">
+                          <Link href={`/services#${c.slug}`} className="inline-flex rounded-full border border-white/10 px-3 py-1 text-xs text-ink-200 hover:border-white/25">
                             {c.title}
                           </Link>
                         </li>

@@ -19,6 +19,7 @@ vi.mock("@/content", async (importOriginal) => {
       },
       { slug: "web-app", name: "Web App", summary: "A web app.", stage: "BETA", platforms: ["WEB_APP"] },
     ],
+    capabilities: [{ title: "Software development", summary: "We build software.", products: ["tab-tool"], featured: true }],
     projects: [
       { slug: "redesign", title: "Redesign", summary: "A redesign.", status: "COMPLETED", date: "2025", products: ["tab-tool"], partners: ["acme"] },
       { slug: "concept", title: "Concept", summary: "An idea.", status: "CONCEPT" },
