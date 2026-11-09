@@ -252,7 +252,7 @@ export interface TeamMemberInput {
   responsibilities?: string[];
   expertise?: string[];
   photo?: ImageInput;
-  links?: { linkedin?: string; x?: string; github?: string; website?: string };
+  links?: { linkedin?: string; x?: string; telegram?: string; github?: string; website?: string };
   joined?: DateInput;
   /** Give the person their own profile page (default true). */
   profilePage?: boolean;

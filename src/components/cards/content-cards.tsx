@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { PointerGlow } from "@/components/motion/pointer-glow";
 import { CapabilityIconView } from "@/components/visuals/capability-icon";
+import { SocialIcon } from "@/components/visuals/social-icon";
 import { MediaImage } from "@/components/ui/media-image";
 import type { CapabilityDTO, CollaborationCardDTO, PartnerDTO, TeamMemberDTO } from "@/lib/content/types";
 import { COLLABORATION_CATEGORY_LABELS } from "@/lib/labels";
@@ -158,14 +159,40 @@ export function TeamCard({ member, size = "default" }: { member: TeamMemberDTO; 
       {member.shortBio ? <p className="mt-3 line-clamp-3 text-sm text-ink-400">{member.shortBio}</p> : null}
     </>
   );
-  if (member.hasProfilePage) {
-    return (
-      <Link href={`/team/${member.slug}`} className="group block">
-        {content}
-      </Link>
-    );
-  }
-  return <div className="group">{content}</div>;
+  const socials = [
+    member.xUrl ? { platform: "X" as const, label: "X", url: member.xUrl } : null,
+    member.telegramUrl ? { platform: "TELEGRAM" as const, label: "Telegram", url: member.telegramUrl } : null,
+    member.linkedinUrl ? { platform: "LINKEDIN" as const, label: "LinkedIn", url: member.linkedinUrl } : null,
+    member.githubUrl ? { platform: "GITHUB" as const, label: "GitHub", url: member.githubUrl } : null,
+  ].filter((s): s is NonNullable<typeof s> => s !== null);
+  return (
+    <div className="group">
+      {member.hasProfilePage ? (
+        <Link href={`/team/${member.slug}`} className="block">
+          {content}
+        </Link>
+      ) : (
+        content
+      )}
+      {socials.length > 0 ? (
+        <ul className="mt-4 flex flex-wrap gap-2">
+          {socials.map((social) => (
+            <li key={social.platform}>
+              <a
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${member.name} on ${social.label}`}
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-ink-300 transition-colors hover:border-white/30 hover:text-ink-50"
+              >
+                <SocialIcon platform={social.platform} className="h-4 w-4" />
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+    </div>
+  );
 }
 
 export function CapabilityCard({ capability, index }: { capability: CapabilityDTO; index: number }) {

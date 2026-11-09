@@ -86,7 +86,7 @@ export default async function HomePage() {
     getFeaturedCollaborations(3),
     getPartners(),
     getRecentMilestones(4),
-    getTeamPreview(4),
+    getTeamPreview(5),
     getSocialLinks(),
   ]);
 
@@ -254,7 +254,7 @@ export default async function HomePage() {
               title={<span id="team-title">The people behind {company.name}.</span>}
               action={<TextLink href="/team">Meet the team</TextLink>}
             />
-            <div className="mt-14 grid grid-cols-2 gap-x-4 gap-y-12 md:mt-20 md:gap-x-5 lg:grid-cols-4">
+            <div className={cn("mt-14 grid grid-cols-2 gap-x-4 gap-y-12 md:mt-20 md:gap-x-5", team.length >= 5 ? "lg:grid-cols-5" : "lg:grid-cols-4")}>
               {team.map((member, index) => (
                 <Reveal key={member.id} delay={index * 90}>
                   <TeamCard member={member} />

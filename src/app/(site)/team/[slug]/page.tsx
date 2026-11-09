@@ -41,6 +41,7 @@ export default async function TeamMemberPage({ params }: { params: Params }) {
   const socials = [
     member.linkedinUrl ? { platform: "LINKEDIN" as const, label: "LinkedIn", url: member.linkedinUrl } : null,
     member.xUrl ? { platform: "X" as const, label: "X", url: member.xUrl } : null,
+    member.telegramUrl ? { platform: "TELEGRAM" as const, label: "Telegram", url: member.telegramUrl } : null,
     member.githubUrl ? { platform: "GITHUB" as const, label: "GitHub", url: member.githubUrl } : null,
     member.websiteUrl ? { platform: "WEBSITE" as const, label: displayHost(member.websiteUrl), url: member.websiteUrl } : null,
   ].filter((s): s is NonNullable<typeof s> => s !== null);

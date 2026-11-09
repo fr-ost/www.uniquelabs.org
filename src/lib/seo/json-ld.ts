@@ -99,7 +99,7 @@ export function productJsonLd(product: ProductDetailDTO, companyName: string): J
 }
 
 export function personJsonLd(member: TeamMemberDTO, companyName: string): JsonLd {
-  const sameAs = [member.linkedinUrl, member.xUrl, member.githubUrl, member.websiteUrl].filter(Boolean);
+  const sameAs = [member.linkedinUrl, member.xUrl, member.telegramUrl, member.githubUrl, member.websiteUrl].filter(Boolean);
   return {
     "@context": "https://schema.org",
     "@type": "Person",

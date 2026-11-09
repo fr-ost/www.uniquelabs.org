@@ -32,7 +32,7 @@ export default async function TeamPage() {
             <span className="text-signal-500">.</span>
           </>
         }
-        description="The team designing, building and maintaining our products."
+        description="The people behind our services and products."
       />
 
       <StructureSection departments={departments} intro={company.structureIntro} />
@@ -41,7 +41,7 @@ export default async function TeamPage() {
         <section className="container-site py-16 md:py-24">
           <EmptyState
             title="Team profiles haven't been published yet"
-            body="Profiles of the people behind our products will appear here."
+            body="Profiles of the people behind Unique Labs will appear here."
             action={{ href: "/about", label: `About ${company.name}` }}
           />
         </section>
@@ -118,8 +118,8 @@ export default async function TeamPage() {
       )}
 
       <ClosingCta
-        headline="Want to build useful things with us?"
-        body="We're always happy to hear from thoughtful people."
+        headline="Want to work with us?"
+        body="Tell us what you're building, launching or growing."
         primary={{ href: "/contact", label: "Get in touch" }}
         secondary={{ href: "/about", label: `About ${company.name}` }}
       />

@@ -276,6 +276,7 @@ const memberDtos: TeamMemberDTO[] = content.team.map((m) => {
     photo: media(m.photo, m.name),
     linkedinUrl: m.links?.linkedin ?? null,
     xUrl: m.links?.x ?? null,
+    telegramUrl: m.links?.telegram ?? null,
     githubUrl: m.links?.github ?? null,
     websiteUrl: m.links?.website ?? null,
     joined: parseDate(m.joined),

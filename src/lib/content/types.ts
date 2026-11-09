@@ -195,6 +195,7 @@ export interface TeamMemberDTO {
   photo: MediaDTO | null;
   linkedinUrl: string | null;
   xUrl: string | null;
+  telegramUrl: string | null;
   githubUrl: string | null;
   websiteUrl: string | null;
   joined: DatedValue | null;
