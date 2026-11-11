@@ -238,4 +238,103 @@ Backups are password-encrypted, and sync through Chrome Sync or Google Drive is 
     accentColor: "#6e6afc",
     featured: true,
   },
+  {
+    slug: "rowlio",
+    name: "Rowlio",
+    tagline: "Turn any webpage into structured data.",
+    summary:
+      "A free web scraper and data extractor for Chrome. Extract tables, listings, links, images and contact details into clean rows, then export to CSV, Excel or JSON. Everything runs in your browser.",
+    description: `Rowlio turns tables, product listings, search results, links, images, contact details and page metadata into clean rows you can review, tidy up and export to CSV, Excel, JSON, JSON Lines, TSV, Markdown or HTML.
+
+Everything happens inside your browser: no account, no server, no usage limits and no premium tier.
+
+### From page to file in three steps
+
+1. Open a page and let Rowlio show what it contains — tables, lists, links and images.
+2. Click one item and Rowlio finds the similar ones, with the fields inside them. Or use CSS selectors and XPath for full control.
+3. Review and clean the rows, then export them in the format you need.
+
+Pagination, infinite scroll and batch runs over a list of URLs are always started by you and bounded, with progress and a Stop button.`,
+    category: "browser-extensions",
+    platforms: ["CHROME_EXTENSION"],
+    stage: "AVAILABLE",
+    pricing: "FREE",
+    audience: "Anyone who needs data from web pages in a spreadsheet — no code required",
+    website: "https://rowlio.uniquelabs.org",
+    logo: { src: "/images/products/rowlio/logo.png", alt: "Rowlio logo", width: 128, height: 128 },
+    cover: { src: "/images/products/rowlio/cover.webp", alt: "Rowlio: turn any webpage into structured data", width: 1400, height: 560 },
+    screenshots: [
+      { src: "/images/products/rowlio/screenshot-1.webp", alt: "Rowlio home screen showing what a page contains", width: 1280, height: 800, caption: "See what a page contains the moment you open it" },
+      { src: "/images/products/rowlio/screenshot-2.webp", alt: "Rowlio visual selector on a product listing", width: 1280, height: 800, caption: "Click one item — Rowlio finds the rest" },
+      { src: "/images/products/rowlio/screenshot-3.webp", alt: "Rowlio export dialog", width: 1280, height: 800, caption: "Export to CSV, Excel, JSON and more" },
+    ],
+    features: [
+      { title: "Tables, done properly", description: "Finds every table on a page and handles multi-row headers, merged cells and nested tables." },
+      { title: "Visual selector", description: "Click one item and Rowlio finds the similar ones and their fields — title, price, image, link, rating and more." },
+      { title: "CSS & XPath", description: "Advanced selectors with validation, match counts, previews and on-page highlighting." },
+      { title: "Pagination & infinite scroll", description: "Follow next links, page numbers or your own selector — always user-started, bounded and stoppable." },
+      { title: "Batch URLs", description: "Run one extraction over a list of pages you supply; every row records the page it came from." },
+      { title: "Clean before you export", description: "Edit, sort, filter, remove duplicates, split and combine columns, with full undo and redo." },
+      { title: "Links, images & contacts", description: "Extract links, images, email addresses, phone numbers, social profiles, metadata and structured data." },
+      { title: "Export anywhere", description: "CSV, XLSX, JSON, JSON Lines, TSV, Markdown, HTML or the clipboard." },
+      { title: "100% local", description: "No account, no server, no limits — your data never leaves your browser." },
+    ],
+    links: [
+      { kind: "WEBSITE", url: "https://rowlio.uniquelabs.org" },
+      { kind: "PRIVACY_POLICY", url: "https://rowlio.uniquelabs.org/privacy" },
+    ],
+    accentColor: "#0d9467",
+    featured: true,
+  },
+  {
+    slug: "scorex",
+    name: "ScoreX",
+    tagline: "Boost your influencer score on X (Twitter).",
+    summary:
+      "A Chrome extension that replies to the smart accounts you choose on X, in your own voice, from your own browser. You approve every reply, or let it run within strict limits. Invite only — early access.",
+    description: `ScoreX helps you grow your influencer score on X (Twitter) by showing up in the right conversations, every day, in your own voice. Influencer and smart-follower scores rise when respected accounts notice and follow you — ScoreX makes that work steady and manageable.
+
+### Four steps, then it runs every day
+
+1. **Pick your targets.** Paste usernames or import a CSV.
+2. **ScoreX watches for posts.** When a target posts, it drafts a short reply that adds something the author would want to answer.
+3. **You approve.** Edit, skip or approve each draft — or switch to Full auto and it posts inside your daily limits.
+4. **Track follow-backs.** See who followed back, after how many replies, and which tones work best.
+
+### Careful by default
+
+ScoreX runs in your own logged-in X tab and never asks for your password. Review mode is the default, with hard daily caps, human-like pacing and breaks. It stops on X warnings such as a captcha or rate limit.
+
+### Good to know
+
+ScoreX is invite only for now and needs a license key from Unique Labs. Replies are written with your own OpenAI API key. It cannot guarantee follow-backs or a higher score, and you are responsible for using it in line with X's rules. ScoreX is not affiliated with or endorsed by X Corp.`,
+    category: "browser-extensions",
+    platforms: ["CHROME_EXTENSION"],
+    stage: "BETA",
+    audience: "People growing their influencer and smart-follower scores on X (Twitter)",
+    website: "https://scorex.uniquelabs.org",
+    logo: { src: "/images/products/scorex/logo.png", alt: "ScoreX logo", width: 128, height: 128 },
+    cover: { src: "/images/products/scorex/cover.webp", alt: "ScoreX: get followed back by the accounts that move your score", width: 1400, height: 560 },
+    screenshots: [
+      { src: "/images/products/scorex/screenshot-1.webp", alt: "ScoreX scores screen with score history", width: 1280, height: 800, caption: "Watch your score over time (sample data)" },
+      { src: "/images/products/scorex/screenshot-2.webp", alt: "ScoreX safety settings with daily limits", width: 1280, height: 800, caption: "Hard limits, pacing and a risk estimate (sample data)" },
+      { src: "/images/products/scorex/screenshot-3.webp", alt: "ScoreX follow-back history", width: 1280, height: 800, caption: "See who followed back (sample data)" },
+    ],
+    features: [
+      { title: "Replies worth answering", description: "Each reply takes one clear approach — a sharp question, an honest doubt, a concrete example — and weak drafts are rewritten." },
+      { title: "In your voice", description: "Replies follow your tone prompt and learn from your edits. No generic praise, no invented facts." },
+      { title: "You approve", description: "Review mode by default: nothing posts until you approve it." },
+      { title: "Spend replies where they pay off", description: "Follows an account before replying, stops once it follows back, and skips accounts that almost never do." },
+      { title: "Score tracking", description: "Your TwitterScore, Sorsa, Ethos and Moni scores over time, and the scores of your targets." },
+      { title: "Smart follower finder", description: "Scan big accounts for their smart followers and add the best ones as targets." },
+      { title: "Learns what works", description: "Stats by tone, model and tier show which replies bring follow-backs." },
+      { title: "Your data stays with you", description: "Targets, history and keys stay in your browser, with real cost tracking for your OpenAI usage." },
+    ],
+    links: [
+      { kind: "WEBSITE", url: "https://scorex.uniquelabs.org" },
+      { kind: "PRIVACY_POLICY", url: "https://scorex.uniquelabs.org/privacy" },
+    ],
+    accentColor: "#a3d900",
+    featured: true,
+  },
 ];

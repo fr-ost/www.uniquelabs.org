@@ -48,15 +48,15 @@ export const capabilities: CapabilityInput[] = [
       "We build software in-house, including our own Chrome extensions. The same engineering, design and attention to detail goes into the products and tools we build for others.",
     icon: "puzzle",
     featured: true,
-    products: ["unfollowx-pro", "growx", "unique-pdf", "frameshot", "twofold"],
+    products: ["unfollowx-pro", "growx", "unique-pdf", "frameshot", "twofold", "rowlio", "scorex"],
   },
   {
     title: "AI & experimentation",
     summary: "Building at the intersection of technology, AI and experimentation.",
     description:
-      "We prototype quickly, test ideas against real problems and put AI to work where it genuinely helps — as in Unique AI inside Unique PDF and the AI writer in GrowX.",
+      "We prototype quickly, test ideas against real problems and put AI to work where it genuinely helps — as in Unique AI inside Unique PDF, the AI writer in GrowX and the AI replies in ScoreX.",
     icon: "flask",
     featured: true,
-    products: ["unique-pdf", "growx"],
+    products: ["unique-pdf", "growx", "scorex"],
   },
 ];

@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import { CapabilityCard, CollaborationCard, PartnerMark, TeamCard } from "@/components/cards/content-cards";
 import { ProductCard } from "@/components/cards/product-card";
 import { ProjectCard } from "@/components/cards/project-card";
+import { CountUp } from "@/components/motion/count-up";
+import { Marquee } from "@/components/motion/marquee";
 import { Reveal } from "@/components/motion/reveal";
 import { MediaImage } from "@/components/ui/media-image";
 import { HomeHero } from "@/components/sections/home-hero";
 import { ClosingCta, DirectionStrip, PrinciplesSection } from "@/components/sections/shared-sections";
 import { JsonLdScript } from "@/components/seo/json-ld-script";
-import { TextLink } from "@/components/ui/button";
+import { ButtonLink, TextLink } from "@/components/ui/button";
 import { SectionHeader } from "@/components/ui/section";
 import {
   getCapabilities,
@@ -18,12 +20,13 @@ import {
   getPartnerTiers,
   getPartners,
   getPrinciples,
+  getProducts,
   getRecentMilestones,
   getSettings,
   getSocialLinks,
   getTeamPreview,
 } from "@/lib/content/public";
-import type { MilestoneDTO, ProductCardDTO } from "@/lib/content/types";
+import type { MilestoneDTO, PartnerDTO, ProductCardDTO } from "@/lib/content/types";
 import { MILESTONE_KIND_LABELS } from "@/lib/labels";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/seo/json-ld";
@@ -44,22 +47,55 @@ function splitFirstSentence(text: string): [string, string] {
   return match ? [match[1]!, match[2]!] : [text, ""];
 }
 
+/** One wide lead product, then the rest in an even grid. */
 function ProductsBento({ products }: { products: ProductCardDTO[] }) {
-  if (products.length === 1) {
-    return <ProductCard product={products[0]!} variant="feature" priority />;
-  }
   const [first, ...rest] = products;
+  if (!first) return null;
+  const columns =
+    rest.length === 1 ? "" : rest.length === 2 || rest.length === 4 ? "sm:grid-cols-2" : "sm:grid-cols-2 lg:grid-cols-3";
   return (
-    <div className="grid grid-cols-1 gap-4 md:gap-5 lg:grid-cols-12">
-      <Reveal className="lg:col-span-7 lg:row-span-2">
-        <ProductCard product={first!} variant="feature" />
+    <div className="space-y-4 md:space-y-5">
+      <Reveal kind="scale">
+        <ProductCard product={first} variant="wide" priority />
       </Reveal>
-      {rest.slice(0, 4).map((product, index) => (
-        <Reveal key={product.id} delay={index * 90} className={cn(rest.length === 1 ? "lg:col-span-5 lg:row-span-2" : "lg:col-span-5")}>
-          <ProductCard product={product} />
-        </Reveal>
-      ))}
+      {rest.length > 0 ? (
+        <div className={cn("grid grid-cols-1 gap-4 md:gap-5", columns)}>
+          {rest.map((product, index) => (
+            <Reveal key={product.id} delay={(index % 3) * 90}>
+              <ProductCard product={product} />
+            </Reveal>
+          ))}
+        </div>
+      ) : null}
     </div>
+  );
+}
+
+/** A partner as it appears in the moving rows on the home page. */
+function PartnerChip({ partner, duplicate }: { partner: PartnerDTO; duplicate: boolean }) {
+  const external = Boolean(partner.xHandle);
+  return (
+    <a
+      href={partner.xHandle ? `https://x.com/${partner.xHandle}` : "/partnerships"}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
+      tabIndex={duplicate ? -1 : undefined}
+      className="group flex items-center gap-3 rounded-2xl border border-white/[0.08] bg-white/[0.025] py-2.5 pr-5 pl-2.5 transition-colors duration-300 hover:border-white/20 hover:bg-white/[0.07]"
+    >
+      <span className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-ink-800">
+        {partner.logo ? (
+          <MediaImage media={partner.logo} alt="" fill sizes="44px" eager={!duplicate} />
+        ) : (
+          <span aria-hidden className="font-display text-sm text-ink-200">
+            {partner.name.slice(0, 2).toUpperCase()}
+          </span>
+        )}
+      </span>
+      <span className="whitespace-nowrap">
+        <span className="block text-[0.9375rem] leading-tight font-medium text-ink-50">{partner.name}</span>
+        {partner.role ? <span className="mt-1 block text-xs leading-tight text-ink-400 transition-colors group-hover:text-signal-300">{partner.role}</span> : null}
+      </span>
+    </a>
   );
 }
 
@@ -79,10 +115,10 @@ function JourneyPreview({ milestones }: { milestones: MilestoneDTO[] }) {
 }
 
 export default async function HomePage() {
-  const [company, principles, products, projects, capabilities, collaborations, partners, milestones, team, socials, partnerTiers] = await Promise.all([
+  const [company, principles, products, projects, capabilities, collaborations, partners, milestones, team, socials, partnerTiers, allProducts] = await Promise.all([
     getCompany(),
     getPrinciples(),
-    getFeaturedProducts(5),
+    getFeaturedProducts(7),
     getFeaturedProjects(3),
     getCapabilities(),
     getFeaturedCollaborations(3),
@@ -91,6 +127,7 @@ export default async function HomePage() {
     getTeamPreview(5),
     getSocialLinks(),
     getPartnerTiers(),
+    getProducts(),
   ]);
 
   let counter = 0;
@@ -98,10 +135,19 @@ export default async function HomePage() {
   const [introLead, introRest] = splitFirstSentence(company.introBody ?? company.shortDescription);
   const featuredCapabilities = (capabilities.some((c) => c.featured) ? capabilities.filter((c) => c.featured) : capabilities).slice(0, 6);
   const partnersWithLogos = partners.filter((partner) => partner.logo);
+  const partnerCount = partnerTiers.tier1.length + partnerTiers.tier2.length;
+  // Every figure below is counted from the content files — nothing is typed in by hand.
+  const stats = [
+    { label: "Partners worked with", value: partnerCount },
+    { label: "Tier 1 partners", value: partnerTiers.tier1.length },
+    { label: "Products built in-house", value: allProducts.length },
+    { label: "Core services", value: capabilities.length },
+  ].filter((stat) => stat.value > 0);
+  const partnerRows = [0, 1, 2].map((row) => partnerTiers.tier1.filter((_, index) => index % 3 === row));
 
   return (
     <>
-      <HomeHero company={company} />
+      <HomeHero company={company} stats={stats} partners={partnerTiers.tier1.filter((partner) => partner.logo).slice(0, 5)} partnerCount={partnerCount} />
 
       {/* Introduction */}
       <section className="relative py-24 md:py-36" aria-labelledby="intro-title">
@@ -153,37 +199,56 @@ export default async function HomePage() {
 
       {/* Partners */}
       {partnerTiers.tier1.length > 0 ? (
-        <section className="relative border-t border-white/[0.07] py-24 md:py-32" aria-labelledby="partners-title">
-          <div className="container-site">
+        <section className="relative overflow-hidden border-t border-white/[0.07] py-24 md:py-32" aria-labelledby="partners-title">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute top-1/2 left-1/2 h-[40rem] w-[70rem] -translate-x-1/2 -translate-y-1/2 animate-glow-pulse rounded-full bg-[radial-gradient(closest-side,rgba(139,92,246,0.10),transparent)]"
+          />
+          <div className="container-site relative">
             <SectionHeader
               index={next()}
               eyebrow="Partners"
               title={<span id="partners-title">Trusted across Web3.</span>}
-              description={`Exchanges, launchpads and ecosystems we've worked with — ${partnerTiers.tier1.length + partnerTiers.tier2.length} partners and counting.`}
+              description="Exchanges, launchpads and ecosystems we've worked with — as ambassadors, KOC and KOL partners and campaign partners."
               action={<TextLink href="/partnerships">All partners</TextLink>}
             />
-            <ul className="mt-14 grid grid-cols-3 pt-px pl-px sm:grid-cols-4 md:mt-20 lg:grid-cols-6 xl:grid-cols-8">
-              {partnerTiers.tier1.map((partner) => (
-                <li key={partner.slug} className="-mt-px -ml-px border border-white/[0.07]">
-                  <a
-                    href={partner.xHandle ? `https://x.com/${partner.xHandle}` : "/partnerships"}
-                    target={partner.xHandle ? "_blank" : undefined}
-                    rel={partner.xHandle ? "noopener noreferrer" : undefined}
-                    className="group flex h-full flex-col items-center gap-3 px-3 py-6 text-center transition-colors hover:bg-white/[0.03]"
-                  >
-                    <span className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-ink-800 grayscale-[40%] transition group-hover:grayscale-0">
-                      {partner.logo ? (
-                        <MediaImage media={partner.logo} alt={`${partner.name} logo`} fill sizes="48px" />
-                      ) : (
-                        <span aria-hidden className="font-display text-sm text-ink-200">{partner.name.slice(0, 2).toUpperCase()}</span>
-                      )}
-                    </span>
-                    <span className="w-full truncate text-sm text-ink-100">{partner.name}</span>
-                    {partner.role ? <span className="-mt-2 w-full truncate text-[0.6875rem] text-ink-500">{partner.role}</span> : null}
-                  </a>
-                </li>
+          </div>
+
+          <Reveal kind="fade" className="relative mt-14 space-y-3 md:mt-20 md:space-y-4">
+            {partnerRows.map((row, index) => (
+              <Marquee
+                key={index}
+                items={row}
+                getKey={(partner) => partner.slug}
+                label={`Tier 1 partners, row ${index + 1}`}
+                reverse={index === 1}
+                duration={[78, 92, 84][index]}
+                gap="0.875rem"
+                renderItem={(partner, duplicate) => <PartnerChip partner={partner} duplicate={duplicate} />}
+              />
+            ))}
+          </Reveal>
+
+          <div className="container-site relative mt-14 md:mt-20">
+            <Reveal className="grid grid-cols-3 items-start gap-x-4 gap-y-8 rounded-[var(--radius-panel)] border border-white/[0.08] bg-white/[0.02] p-6 md:p-9 lg:grid-cols-[repeat(3,minmax(0,1fr))_auto] lg:items-center">
+              {[
+                { label: "Partners in total", value: partnerCount },
+                { label: "Tier 1 partners", value: partnerTiers.tier1.length },
+                { label: "Tier 2 partners", value: partnerTiers.tier2.length },
+              ].map((stat) => (
+                <div key={stat.label}>
+                  <p className="font-display text-4xl font-medium tracking-[-0.05em] text-ink-50 sm:text-5xl md:text-6xl">
+                    <CountUp value={stat.value} />
+                  </p>
+                  <p className="text-eyebrow mt-3 leading-normal text-ink-400">{stat.label}</p>
+                </div>
               ))}
-            </ul>
+              <div className="col-span-3 lg:col-span-1">
+                <ButtonLink href="/partnerships" variant="secondary" arrow>
+                  See every partner
+                </ButtonLink>
+              </div>
+            </Reveal>
           </div>
         </section>
       ) : null}

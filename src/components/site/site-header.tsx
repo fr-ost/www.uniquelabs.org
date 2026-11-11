@@ -1,30 +1,15 @@
 "use client";
 
-import Link, { useLinkStatus } from "next/link";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { Wordmark } from "@/components/brand/logo";
-import { COMPANY_NAV, isGroup, PRIMARY_NAV, type NavGroup, type NavItem } from "@/components/site/nav-items";
+import { COMPANY_NAV, isGroup, PRIMARY_NAV, type NavEntry, type NavGroup, type NavItem } from "@/components/site/nav-items";
 import { cn } from "@/lib/utils";
 
 function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
-}
-
-/** Underline that also pulses while the linked route is loading. */
-function ActiveBar({ active }: { active: boolean }) {
-  const { pending } = useLinkStatus();
-  return (
-    <span
-      aria-hidden
-      className={cn(
-        "absolute inset-x-3 -bottom-px h-px origin-center bg-[linear-gradient(90deg,transparent,var(--color-signal-400),transparent)] transition-transform duration-500 ease-[var(--ease-out-expo)]",
-        active || pending ? "scale-x-100" : "scale-x-0",
-        pending && "animate-pulse-soft",
-      )}
-    />
-  );
 }
 
 function TopLink({ item, pathname }: { item: NavItem; pathname: string }) {
@@ -34,12 +19,11 @@ function TopLink({ item, pathname }: { item: NavItem; pathname: string }) {
       href={item.href}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "relative inline-flex h-10 items-center rounded-full px-3 text-[0.9rem] transition-colors duration-300 lg:px-3.5",
+        "relative inline-flex h-9 items-center rounded-full px-3.5 text-[0.9rem] transition-colors duration-300 lg:px-4",
         active ? "text-ink-50" : "text-ink-300 hover:text-ink-50",
       )}
     >
       {item.label}
-      <ActiveBar active={active} />
     </Link>
   );
 }
@@ -49,6 +33,9 @@ function CompanyMenu({ group, pathname }: { group: NavGroup; pathname: string })
   const panelId = useId();
   const wrapper = useRef<HTMLDivElement>(null);
   const closeTimer = useRef<number | undefined>(undefined);
+  // True while the menu is open because the pointer is over it. The click that
+  // usually follows a hover must not close it again.
+  const openedByHover = useRef(false);
   const active = group.items.some((item) => isActive(pathname, item.href));
 
   useEffect(() => {
@@ -73,11 +60,15 @@ function CompanyMenu({ group, pathname }: { group: NavGroup; pathname: string })
   const hoverOpen = (event: ReactPointerEvent) => {
     if (event.pointerType !== "mouse") return;
     window.clearTimeout(closeTimer.current);
+    if (!open) openedByHover.current = true;
     setOpen(true);
   };
   const hoverClose = (event: ReactPointerEvent) => {
     if (event.pointerType !== "mouse") return;
-    closeTimer.current = window.setTimeout(() => setOpen(false), 160);
+    closeTimer.current = window.setTimeout(() => {
+      openedByHover.current = false;
+      setOpen(false);
+    }, 160);
   };
 
   return (
@@ -86,26 +77,25 @@ function CompanyMenu({ group, pathname }: { group: NavGroup; pathname: string })
         type="button"
         aria-expanded={open}
         aria-controls={panelId}
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => {
+          if (open && openedByHover.current) {
+            openedByHover.current = false;
+            return;
+          }
+          setOpen((v) => !v);
+        }}
         className={cn(
-          "relative inline-flex h-10 items-center gap-1 rounded-full px-3 text-[0.9rem] transition-colors duration-300 lg:px-3.5",
+          "relative inline-flex h-9 items-center gap-1 rounded-full px-3.5 text-[0.9rem] transition-colors duration-300 lg:px-4",
           active || open ? "text-ink-50" : "text-ink-300 hover:text-ink-50",
         )}
       >
         {group.label}
         <ChevronDown aria-hidden className={cn("h-3.5 w-3.5 transition-transform duration-300", open && "rotate-180")} />
-        <span
-          aria-hidden
-          className={cn(
-            "absolute inset-x-3 -bottom-px h-px bg-[linear-gradient(90deg,transparent,var(--color-signal-400),transparent)] transition-transform duration-500",
-            active ? "scale-x-100" : "scale-x-0",
-          )}
-        />
       </button>
       <div
         id={panelId}
         hidden={!open}
-        className="absolute top-full left-1/2 z-50 w-[30rem] -translate-x-1/2 pt-3"
+        className="absolute top-full left-1/2 z-50 w-[30rem] -translate-x-1/2 pt-4"
         onClick={(event) => {
           if ((event.target as HTMLElement).closest("a")) setOpen(false);
         }}
@@ -138,6 +128,80 @@ function CompanyMenu({ group, pathname }: { group: NavGroup; pathname: string })
         </div>
       </div>
     </div>
+  );
+}
+
+/**
+ * Desktop navigation: a glass capsule whose highlight glides to the item under
+ * the pointer and rests on the current page. The highlight is positioned by
+ * writing styles directly (no re-renders while the pointer moves).
+ */
+function DesktopNav({ nav, pathname }: { nav: NavEntry[]; pathname: string }) {
+  const listRef = useRef<HTMLUListElement>(null);
+  const pillRef = useRef<HTMLLIElement>(null);
+
+  const moveTo = (target: HTMLElement | null) => {
+    const pill = pillRef.current;
+    if (!pill) return;
+    if (!target) {
+      pill.style.opacity = "0";
+      return;
+    }
+    // Appearing from nothing: jump into place, then fade in (no long slide).
+    const appearing = pill.style.opacity !== "1";
+    if (appearing) pill.style.transitionProperty = "opacity";
+    pill.style.width = `${target.offsetWidth}px`;
+    pill.style.transform = `translate3d(${target.offsetLeft}px, 0, 0)`;
+    if (appearing) {
+      void pill.offsetWidth;
+      pill.style.transitionProperty = "";
+    }
+    pill.style.opacity = "1";
+  };
+
+  const rest = () => moveTo(listRef.current?.querySelector<HTMLElement>('[data-nav-active="true"]') ?? null);
+
+  useEffect(() => {
+    rest();
+    window.addEventListener("resize", rest);
+    // Widths change slightly once the web fonts are in.
+    void document.fonts?.ready.then(rest);
+    return () => window.removeEventListener("resize", rest);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `rest` only reads refs
+  }, [pathname]);
+
+  return (
+    <nav aria-label="Primary" className="hidden md:block">
+      <ul
+        ref={listRef}
+        onPointerLeave={rest}
+        className="relative flex items-center rounded-full border border-white/[0.09] bg-white/[0.035] p-1 shadow-[0_1px_0_0_rgba(255,255,255,0.06)_inset] backdrop-blur-md"
+      >
+        <li
+          ref={pillRef}
+          role="presentation"
+          aria-hidden
+          className="pointer-events-none absolute inset-y-1 left-0 rounded-full bg-white/[0.09] opacity-0 shadow-[0_1px_0_0_rgba(255,255,255,0.08)_inset] transition-[transform,width,opacity] duration-500 ease-[var(--ease-out-expo)]"
+        />
+        {nav.map((entry) => {
+          const active = isGroup(entry) ? entry.items.some((item) => isActive(pathname, item.href)) : isActive(pathname, entry.href);
+          return (
+            <li
+              key={isGroup(entry) ? entry.label : entry.href}
+              data-nav-active={active}
+              className="relative"
+              onPointerEnter={(event) => {
+                if (event.pointerType === "mouse") moveTo(event.currentTarget);
+              }}
+              onFocus={(event) => moveTo(event.currentTarget)}
+              onBlur={rest}
+            >
+              {isGroup(entry) ? <CompanyMenu group={entry} pathname={pathname} /> : <TopLink item={entry} pathname={pathname} />}
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
   );
 }
 
@@ -196,30 +260,17 @@ export function SiteHeader({ companyName, socials }: { companyName: string; soci
             <Wordmark name={companyName} />
           </Link>
 
-          <nav aria-label="Primary" className="hidden md:block">
-            <ul className="flex items-center">
-              {nav.map((entry) =>
-                isGroup(entry) ? (
-                  <li key={entry.label}>
-                    <CompanyMenu group={entry} pathname={pathname} />
-                  </li>
-                ) : (
-                  <li key={entry.href}>
-                    <TopLink item={entry} pathname={pathname} />
-                  </li>
-                ),
-              )}
-            </ul>
-          </nav>
+          <DesktopNav nav={nav} pathname={pathname} />
 
           <div className="flex shrink-0 items-center gap-2">
             <Link
               href="/contact"
               className={cn(
-                "group hidden h-10 items-center gap-2 rounded-full px-4 text-sm font-medium transition-all duration-300 md:inline-flex",
+                "group relative hidden h-10 items-center gap-2 overflow-hidden rounded-full px-4 text-sm font-medium transition-all duration-300 active:scale-[0.98] md:inline-flex",
+                "before:pointer-events-none before:absolute before:inset-y-0 before:left-[-70%] before:w-[50%] before:skew-x-[-22deg] before:bg-[linear-gradient(90deg,transparent,rgba(255,107,53,0.42),transparent)] before:transition-[left] before:duration-[1100ms] before:ease-[var(--ease-out-expo)] hover:before:left-[130%]",
                 isActive(pathname, "/contact")
                   ? "bg-signal-500 text-white"
-                  : "bg-ink-50 text-ink-950 shadow-[0_8px_30px_-10px_rgba(255,107,53,0.6)] hover:bg-white",
+                  : "bg-ink-50 text-ink-950 shadow-[0_8px_30px_-10px_rgba(255,107,53,0.6)] hover:bg-white hover:shadow-[0_12px_36px_-10px_rgba(255,107,53,0.8)]",
               )}
             >
               Contact
@@ -266,10 +317,10 @@ export function SiteHeader({ companyName, socials }: { companyName: string; soci
         <div className="absolute inset-x-0 top-[var(--header-height)] max-h-[calc(100dvh-var(--header-height))] animate-slide-down overflow-y-auto border-b border-white/[0.08] bg-ink-950/95 backdrop-blur-xl">
           <nav aria-label="Mobile" className="container-site pt-4 pb-8">
             <ul className="divide-y divide-white/[0.06]">
-              {mobileLinks.map((item) => {
+              {mobileLinks.map((item, index) => {
                 const active = isActive(pathname, item.href);
                 return (
-                  <li key={item.href}>
+                  <li key={item.href} className="animate-fade-up" style={{ animationDelay: `${60 + index * 55}ms` }}>
                     <Link
                       href={item.href}
                       aria-current={active ? "page" : undefined}

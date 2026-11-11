@@ -29,7 +29,7 @@ export const company: CompanyInput = {
 
   about: {
     whoWeAre:
-      "Unique Labs works at the intersection of technology, AI and experimentation. We offer KOC and consultancy services, digital marketing and blockchain development — helping brands and Web3 projects build, launch and grow.\n\nWe also design and build our own software products, including the Chrome extensions UnfollowX Pro, GrowX, Unique PDF, FrameShot and Twofold.",
+      "Unique Labs works at the intersection of technology, AI and experimentation. We offer KOC and consultancy services, digital marketing and blockchain development — helping brands and Web3 projects build, launch and grow.\n\nWe also design and build our own software products, including the Chrome extensions UnfollowX Pro, GrowX, Unique PDF, FrameShot, Twofold, Rowlio and ScoreX.",
     whyWeExist:
       "Good ideas still need to be built, launched and seen. Unique Labs exists to help brands and Web3 projects do all three — bringing strategy, marketing and development together, so teams can go from idea to growth with one partner.",
     mission: "To help brands and Web3 projects build, launch and grow — and to make useful technology accessible to everyone.",

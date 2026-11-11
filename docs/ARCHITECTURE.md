@@ -45,6 +45,10 @@ src/content/*.ts  ──▶  src/lib/content/public.ts  ──▶  pages (src/ap
   (`#ff6b35`) plus gradient glows; quiet status colours.
 - **Type**: Sora (display), Inter (text), JetBrains Mono (labels), self-hosted.
 - **Identity**: a geometric “U” whose right arm releases a signal-coloured dot.
-- **Motion**: CSS entrance animations, scroll reveals that never hide content
-  without JavaScript, pointer glows on fine pointers only; everything respects
-  `prefers-reduced-motion`.
+- **Motion** (`src/components/motion/`, keyframes in `globals.css`): CSS
+  entrance animations and a per-page fade (`(site)/template.tsx`); scroll
+  reveals that never hide content from no-JS visitors or crawlers; inertia
+  scrolling for mouse/trackpad users (Lenis — phones keep native scrolling);
+  a reading-progress hairline (CSS scroll-driven); count-up numbers that are
+  always counted from the content files; CSS marquees; a pointer spotlight.
+  Everything is switched off or simplified for `prefers-reduced-motion`.

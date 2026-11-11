@@ -97,9 +97,22 @@ test.describe("public website", () => {
   test("company menu reaches the About page", async ({ page, isMobile }) => {
     test.skip(isMobile, "The dropdown is a desktop control");
     await page.goto("/");
-    await page.getByRole("navigation", { name: "Primary" }).getByRole("button", { name: /Company/ }).click();
-    await page.getByRole("link", { name: /^About/ }).first().click();
+    const primary = page.getByRole("navigation", { name: "Primary" });
+    await primary.getByRole("button", { name: /Company/ }).click();
+    // The link inside the dropdown itself (not the footer link), so this fails if the menu closes on click.
+    await primary.getByRole("link", { name: /^About/ }).click();
     await expect(page).toHaveURL(/\/about$/);
+  });
+
+  test("products link to their own site with a Product Page button", async ({ page }) => {
+    await page.goto("/products/rowlio");
+    const button = page.getByRole("link", { name: /^Product Page/ }).first();
+    await expect(button).toHaveAttribute("href", "https://rowlio.uniquelabs.org");
+    // The address itself is not shown as link text anywhere on the page.
+    await expect(page.getByRole("link", { name: /rowlio\.uniquelabs\.org/ })).toHaveCount(0);
+
+    await page.goto("/products");
+    await expect(page.getByRole("link", { name: /^Product Page/ })).toHaveCount(7);
   });
 
   test("keyboard users can skip to the content", async ({ page, isMobile }) => {

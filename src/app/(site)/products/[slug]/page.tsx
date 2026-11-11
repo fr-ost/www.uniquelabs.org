@@ -14,10 +14,10 @@ import { Markdown } from "@/components/ui/markdown";
 import { MediaImage } from "@/components/ui/media-image";
 import { Eyebrow } from "@/components/ui/section";
 import { getCompany, getProduct, getProducts, productSlugs } from "@/lib/content/public";
-import { LINK_KIND_LABELS, PLATFORM_LABELS, PRICING_LABELS } from "@/lib/labels";
+import { PLATFORM_LABELS, PRICING_LABELS } from "@/lib/labels";
 import { productJsonLd } from "@/lib/seo/json-ld";
 import { clampDescription, pageMetadata } from "@/lib/seo/metadata";
-import { displayHost, formatDate, indexLabel } from "@/lib/utils";
+import { formatDate, indexLabel } from "@/lib/utils";
 
 type Params = Promise<{ slug: string }>;
 
@@ -80,7 +80,7 @@ export default async function ProductPage({ params }: { params: Params }) {
                   <StageBadge stage={product.stage} />
                 </div>
               </div>
-              <h1 className="text-display-lg mt-8 animate-fade-up text-ink-50">{product.name}</h1>
+              <h1 className="text-display-lg mt-8 animate-blur-in text-ink-50">{product.name}</h1>
               {product.tagline ? (
                 <p className="mt-4 animate-fade-up font-display text-xl tracking-[-0.02em] text-ink-200 [animation-delay:80ms] md:text-2xl">
                   {product.tagline}
@@ -88,14 +88,14 @@ export default async function ProductPage({ params }: { params: Params }) {
               ) : null}
               <p className="text-lede mt-6 max-w-xl animate-fade-up text-ink-300 [animation-delay:160ms]">{product.summary}</p>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                {product.primaryCtaUrl ? (
-                  <ButtonLink href={product.primaryCtaUrl} external arrow size="lg">
-                    {product.primaryCtaLabel ?? "Get it"}
+                {product.websiteUrl ? (
+                  <ButtonLink href={product.websiteUrl} external arrow size="lg">
+                    Product Page
                   </ButtonLink>
                 ) : null}
-                {product.websiteUrl ? (
-                  <ButtonLink href={product.websiteUrl} external variant="secondary" size="lg" arrow>
-                    {displayHost(product.websiteUrl)}
+                {product.primaryCtaUrl ? (
+                  <ButtonLink href={product.primaryCtaUrl} external variant={product.websiteUrl ? "secondary" : "primary"} size="lg" arrow>
+                    {product.primaryCtaLabel ?? "Get it"}
                   </ButtonLink>
                 ) : null}
               </div>
@@ -195,9 +195,8 @@ export default async function ProductPage({ params }: { params: Params }) {
                   {product.links.map((link) => (
                     <li key={link.id}>
                       <a href={link.url} target="_blank" rel="noopener noreferrer" className="group flex items-center justify-between gap-3 py-3 text-sm">
-                        <span>
-                          <span className="block text-ink-100 group-hover:text-white">{link.label}</span>
-                          <span className="block text-xs text-ink-500">{LINK_KIND_LABELS[link.kind]} · {displayHost(link.url)}</span>
+                        <span className="text-ink-100 transition-colors group-hover:text-white">
+                          {link.kind === "WEBSITE" ? "Product Page" : link.kind === "STORE_LISTING" ? "Chrome Web Store" : link.label}
                         </span>
                         <ArrowUpRight aria-hidden className="h-4 w-4 text-ink-500 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-ink-50" />
                         <span className="sr-only"> (opens in a new tab)</span>
@@ -284,7 +283,7 @@ export default async function ProductPage({ params }: { params: Params }) {
             <ul className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-3">
               {others.map((p) => (
                 <li key={p.id}>
-                  <Link href={`/products/${p.slug}`} className="group flex items-center gap-4 rounded-[var(--radius-card)] border border-white/[0.08] p-4 transition-colors hover:border-white/20 hover:bg-white/[0.02]">
+                  <Link href={`/products/${p.slug}`} className="lift group flex items-center gap-4 rounded-[var(--radius-card)] border border-white/[0.08] p-4 hover:border-white/20 hover:bg-white/[0.03]">
                     <ProductLogo logo={p.logo} name={p.name} accent={p.accentColor} size="sm" />
                     <span className="min-w-0">
                       <span className="block truncate font-display text-base font-medium tracking-[-0.02em] text-ink-50">{p.name}</span>

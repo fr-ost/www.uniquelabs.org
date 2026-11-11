@@ -48,7 +48,8 @@ Every file starts with a commented **template** you can copy.
   stage: "AVAILABLE",                      // AVAILABLE · BETA · COMING_SOON · DISCONTINUED
   pricing: "FREE",
   released: "2025-06",                     // "2025", "2025-06" or "2025-06-14"
-  cta: { label: "Add to Chrome", url: "https://chromewebstore.google.com/detail/…" },
+  website: "https://tabnest.example",      // shown as the "Product Page" button (the address itself is never displayed)
+  cta: { label: "Add to Chrome", url: "https://chromewebstore.google.com/detail/…" },  // optional second button
   logo: { src: "/images/products/tabnest/logo.png", alt: "TabNest logo", width: 256, height: 256 },
   cover: { src: "/images/products/tabnest/cover.png", alt: "TabNest in action" },
   features: [{ title: "Works offline", description: "…" }],

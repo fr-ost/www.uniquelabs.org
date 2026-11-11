@@ -4,6 +4,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { CollaborationCard, PartnerMark, PartnerTile } from "@/components/cards/content-cards";
 import { Reveal } from "@/components/motion/reveal";
 import { ClosingCta, EmptyState } from "@/components/sections/shared-sections";
+import { Expandable } from "@/components/ui/expandable";
 import { Eyebrow, PageHero } from "@/components/ui/section";
 import { getCollaborations, getCompany, getPartnerTiers } from "@/lib/content/public";
 import type { PartnerDTO } from "@/lib/content/types";
@@ -225,13 +226,28 @@ function PartnerTierSection({
           </div>
           <p className="text-eyebrow hidden shrink-0 text-ink-500 sm:block">{pluralize(partners.length, "partner")}</p>
         </div>
-        <ul className={cn("mt-10 grid grid-cols-1 sm:grid-cols-2", compact ? "gap-2.5 lg:grid-cols-3 xl:grid-cols-4" : "gap-4 lg:grid-cols-3 xl:grid-cols-4")}>
-          {partners.map((partner, index) => (
-            <Reveal as="li" key={partner.slug} delay={compact ? 0 : (index % 4) * 60}>
-              <PartnerTile partner={partner} size={compact ? "compact" : "default"} />
-            </Reveal>
-          ))}
-        </ul>
+        {compact ? (
+          // The long list: two columns even on phones, and collapsed until asked for.
+          <div className="mt-10">
+            <Expandable collapsedHeight={620} moreLabel={`Show all ${partners.length} partners`}>
+              <ul className="grid grid-cols-2 gap-2 sm:gap-2.5 lg:grid-cols-3 xl:grid-cols-4">
+                {partners.map((partner) => (
+                  <li key={partner.slug} className="lazy-row min-w-0">
+                    <PartnerTile partner={partner} size="compact" />
+                  </li>
+                ))}
+              </ul>
+            </Expandable>
+          </div>
+        ) : (
+          <ul className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {partners.map((partner, index) => (
+              <Reveal as="li" key={partner.slug} delay={(index % 4) * 60}>
+                <PartnerTile partner={partner} />
+              </Reveal>
+            ))}
+          </ul>
+        )}
       </div>
     </section>
   );

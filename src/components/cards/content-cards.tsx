@@ -199,10 +199,10 @@ export function CapabilityCard({ capability, index }: { capability: CapabilityDT
   return (
     <PointerGlow
       as="article"
-      className="surface-card group relative flex h-full flex-col overflow-hidden p-6 transition-colors duration-500 hover:border-white/20 md:p-7"
+      className="surface-card lift group relative flex h-full flex-col overflow-hidden p-6 hover:border-white/20 md:p-7"
     >
       <div className="flex items-center justify-between">
-        <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-ink-800 text-ink-50 transition-colors duration-500 group-hover:border-signal-500/50 group-hover:text-signal-400">
+        <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-ink-800 text-ink-50 transition-[color,border-color,transform,box-shadow] duration-500 ease-[var(--ease-out-expo)] group-hover:-rotate-6 group-hover:scale-110 group-hover:border-signal-500/50 group-hover:text-signal-400 group-hover:shadow-[0_0_30px_-6px_rgba(255,107,53,0.6)]">
           <CapabilityIconView name={capability.icon} className="h-5 w-5" />
         </span>
         <span className="text-eyebrow text-ink-500">{String(index + 1).padStart(2, "0")}</span>
@@ -222,8 +222,8 @@ export function PartnerTile({ partner, size = "default" }: { partner: PartnerDTO
     <>
       <span
         className={cn(
-          "relative flex shrink-0 items-center justify-center overflow-hidden border border-white/10 bg-ink-800",
-          compact ? "h-10 w-10 rounded-lg" : "h-14 w-14 rounded-xl",
+          "relative flex shrink-0 items-center justify-center overflow-hidden border border-white/10 bg-ink-800 transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-[1.06]",
+          compact ? "h-9 w-9 rounded-lg sm:h-10 sm:w-10" : "h-14 w-14 rounded-xl",
         )}
       >
         {partner.logo ? (
@@ -235,11 +235,11 @@ export function PartnerTile({ partner, size = "default" }: { partner: PartnerDTO
         )}
       </span>
       <span className="min-w-0 flex-1">
-        <span className={cn("block truncate font-display font-medium tracking-[-0.02em] text-ink-50", compact ? "text-[0.9375rem]" : "text-lg")}>{partner.name}</span>
-        {partner.xHandle ? <span className="block truncate text-xs text-ink-400">@{partner.xHandle}</span> : null}
+        <span className={cn("block truncate font-display font-medium tracking-[-0.02em] text-ink-50", compact ? "text-sm sm:text-[0.9375rem]" : "text-lg")}>{partner.name}</span>
+        {partner.xHandle ? <span className={cn("truncate text-xs text-ink-400", compact ? "hidden sm:block" : "block")}>@{partner.xHandle}</span> : null}
         {partner.role ? (
           compact ? (
-            <span className="mt-1 block truncate text-xs text-signal-300/90">{partner.role}</span>
+            <span className="mt-0.5 block truncate text-[0.6875rem] text-signal-300/90 sm:mt-1 sm:text-xs">{partner.role}</span>
           ) : (
             <span className="mt-2.5 inline-flex max-w-full truncate rounded-full border border-signal-500/30 bg-signal-500/10 px-2.5 py-0.5 text-xs text-signal-200">
               {partner.role}
@@ -250,8 +250,10 @@ export function PartnerTile({ partner, size = "default" }: { partner: PartnerDTO
     </>
   );
   const className = cn(
-    "group flex h-full items-center gap-4 transition-colors",
-    compact ? "rounded-xl border border-white/[0.07] p-3 hover:border-white/20 hover:bg-white/[0.03]" : "surface-card p-5 hover:border-white/20",
+    "group flex h-full items-center transition-colors duration-300",
+    compact
+      ? "gap-2.5 rounded-xl border border-white/[0.07] p-2.5 hover:border-white/20 hover:bg-white/[0.04] sm:gap-3 sm:p-3"
+      : "surface-card lift gap-4 p-5 hover:border-white/20",
   );
   return href ? (
     <a href={href} target="_blank" rel="noopener noreferrer" className={className} aria-label={`${partner.name}${partner.role ? `, ${partner.role}` : ""} (opens X in a new tab)`}>

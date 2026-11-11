@@ -44,7 +44,7 @@ export function ProjectCard({
       as="article"
       accent={project.accentColor}
       className={cn(
-        "surface-card group relative flex h-full flex-col overflow-hidden transition-[border-color] duration-500 hover:border-white/20",
+        "surface-card lift group relative flex h-full flex-col overflow-hidden hover:border-white/20",
         wide && "lg:flex-row",
       )}
     >

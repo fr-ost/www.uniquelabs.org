@@ -11,7 +11,8 @@ const base =
 
 const variants: Record<Variant, string> = {
   primary:
-    "bg-ink-50 text-ink-950 shadow-[0_1px_0_0_rgba(255,255,255,0.4)_inset,0_10px_30px_-12px_rgba(255,107,53,0.55)] hover:bg-white hover:shadow-[0_1px_0_0_rgba(255,255,255,0.4)_inset,0_14px_40px_-12px_rgba(255,107,53,0.75)]",
+    // The ::before is a soft glint that sweeps across on hover.
+    "overflow-hidden bg-ink-50 text-ink-950 shadow-[0_1px_0_0_rgba(255,255,255,0.4)_inset,0_10px_30px_-12px_rgba(255,107,53,0.55)] hover:bg-white hover:shadow-[0_1px_0_0_rgba(255,255,255,0.4)_inset,0_16px_44px_-12px_rgba(255,107,53,0.8)] before:pointer-events-none before:absolute before:inset-y-0 before:left-[-70%] before:w-[50%] before:skew-x-[-22deg] before:bg-[linear-gradient(90deg,transparent,rgba(255,107,53,0.42),transparent)] before:transition-[left] before:duration-[1100ms] before:ease-[var(--ease-out-expo)] hover:before:left-[130%]",
   secondary:
     "border border-white/12 bg-white/[0.03] text-ink-50 backdrop-blur-sm hover:border-white/25 hover:bg-white/[0.07]",
   ghost: "text-ink-200 hover:text-ink-50",

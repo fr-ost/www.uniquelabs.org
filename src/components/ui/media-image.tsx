@@ -15,6 +15,7 @@ export function MediaImage({
   fill = false,
   quality,
   alt,
+  eager = false,
 }: {
   media: MediaDTO;
   className?: string;
@@ -23,6 +24,8 @@ export function MediaImage({
   fill?: boolean;
   quality?: 60 | 75 | 85;
   alt?: string;
+  /** Load straight away without preloading (use `priority` for above-the-fold images). */
+  eager?: boolean;
 }) {
   const isSvg = media.mimeType === "image/svg+xml";
   const altText = alt ?? media.alt;
@@ -31,6 +34,7 @@ export function MediaImage({
     className: cn(fill ? "object-cover" : "h-auto", className),
     unoptimized: isSvg,
     priority,
+    loading: eager && !priority ? ("eager" as const) : undefined,
     quality: quality ?? 75,
     sizes: sizes ?? (fill ? "100vw" : undefined),
   };

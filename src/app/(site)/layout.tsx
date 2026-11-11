@@ -48,6 +48,7 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
 
   return (
     <MotionProvider>
+      <div aria-hidden className="scroll-progress" />
       <a
         href="#main"
         className="sr-only z-[100] rounded-full bg-ink-50 px-4 py-2 text-sm font-medium text-ink-950 focus:not-sr-only focus:fixed focus:left-4 focus:top-4"

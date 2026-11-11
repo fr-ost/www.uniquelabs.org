@@ -14,7 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const company = await getCompany();
   return pageMetadata({
     title: "Products",
-    description: `Software built in-house by ${company.name} — Chrome extensions including UnfollowX Pro, GrowX, Unique PDF, FrameShot and Twofold.`,
+    description: `Software built in-house by ${company.name} — Chrome extensions including UnfollowX Pro, GrowX, Unique PDF, FrameShot, Twofold, Rowlio and ScoreX.`,
     path: "/products",
   });
 }
@@ -74,7 +74,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Sea
             The product directory<span className="text-signal-500">.</span>
           </>
         }
-        description={`Software we build in-house at ${company.name} — free and freemium Chrome extensions.`}
+        description={`Software we build in-house at ${company.name} — Chrome extensions for X (Twitter), PDFs, screen capture, security and web data.`}
       />
 
       <section className="container-site py-14 md:py-20" aria-label="Product directory">
@@ -145,7 +145,7 @@ export default async function ProductsPage({ searchParams }: { searchParams: Sea
               <ul className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-3">
                 {products.map((product, index) => (
                   <Reveal as="li" key={product.id} delay={(index % 3) * 80}>
-                    <ProductCard product={product} />
+                    <ProductCard product={product} priority={index === 0} />
                   </Reveal>
                 ))}
               </ul>

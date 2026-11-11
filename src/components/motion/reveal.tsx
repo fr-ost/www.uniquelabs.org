@@ -37,6 +37,7 @@ export function Reveal({
   delay = 0,
   as,
   style,
+  kind = "up",
 }: {
   children: ReactNode;
   className?: string;
@@ -44,6 +45,8 @@ export function Reveal({
   delay?: number;
   as?: ElementType;
   style?: CSSProperties;
+  /** `up` rises into place (default), `blur` comes into focus, `scale` grows slightly, `fade` only fades. */
+  kind?: "up" | "blur" | "scale" | "fade";
 }) {
   const ref = useRef<HTMLElement>(null);
   const Component = (as ?? "div") as ElementType;
@@ -65,6 +68,7 @@ export function Reveal({
     <Component
       ref={ref}
       className={className}
+      data-reveal-kind={kind === "up" ? undefined : kind}
       style={delay ? { ...style, ["--reveal-delay" as string]: `${delay}ms` } : style}
     >
       {children}

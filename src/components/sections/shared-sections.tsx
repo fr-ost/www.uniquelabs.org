@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/motion/reveal";
+import { Spotlight } from "@/components/motion/spotlight";
 import { LogoMark } from "@/components/brand/logo";
 import { ButtonLink } from "@/components/ui/button";
 import { Eyebrow, SectionHeader } from "@/components/ui/section";
@@ -127,13 +128,14 @@ export function ClosingCta({
       <div aria-hidden className="grid-lines mask-fade-radial pointer-events-none absolute inset-0 opacity-50" />
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-full h-[48rem] w-[48rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,107,53,0.22),transparent_60%)] blur-3xl"
+        className="pointer-events-none absolute left-1/2 top-full h-[48rem] w-[48rem] -translate-x-1/2 -translate-y-1/2 animate-glow-pulse rounded-full bg-[radial-gradient(circle,rgba(255,107,53,0.26),transparent_60%)] blur-3xl"
       />
+      <Spotlight size={520} />
       <div className="container-site relative py-28 text-center md:py-40">
         <Reveal>
           <LogoMark className="mx-auto h-12 w-12 text-ink-50" />
         </Reveal>
-        <Reveal delay={80}>
+        <Reveal delay={80} kind="blur">
           <h2 id="closing-title" className="text-display-lg mx-auto mt-10 max-w-[20ch] text-ink-50">
             {headline ?? "Let's build something genuinely useful."}
           </h2>
