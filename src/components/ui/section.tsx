@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { PauseOffscreen } from "@/components/motion/pause-offscreen";
 import { Reveal } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
 
@@ -67,7 +68,7 @@ export function SectionHeader({
         </Eyebrow>
       </div>
       <div className="lg:col-span-9">
-        <Reveal kind="blur">
+        <Reveal kind="soft">
           <TitleTag
             className={cn("text-display-md max-w-[18ch]", tone === "dark" ? "text-ink-50" : "text-paper-900")}
           >
@@ -75,7 +76,7 @@ export function SectionHeader({
           </TitleTag>
         </Reveal>
         {description || action ? (
-          <Reveal kind="blur" delay={120} className="mt-6 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <Reveal kind="soft" delay={120} className="mt-6 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             {description ? (
               <div
                 className={cn(
@@ -110,16 +111,17 @@ export function PageHero({
 }) {
   return (
     <section className="relative overflow-hidden border-b border-white/[0.07] pt-[calc(var(--header-height)+3.5rem)] pb-16 md:pt-[calc(var(--header-height)+6rem)] md:pb-24">
+      <PauseOffscreen />
       <div aria-hidden className="grid-lines mask-fade-radial pointer-events-none absolute inset-0 opacity-60" />
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-40 right-[-10%] h-[36rem] w-[36rem] animate-glow-pulse rounded-full bg-[radial-gradient(circle,rgba(255,107,53,0.18),transparent_62%)] blur-2xl"
+        className="pointer-events-none absolute -top-40 right-[-10%] h-[36rem] w-[36rem] animate-glow-pulse rounded-full bg-[radial-gradient(circle,rgba(255,107,53,0.16),transparent_66%)]"
       />
       <div className="container-site relative">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
           <div className={aside ? "lg:col-span-8" : "lg:col-span-10"}>
             <Eyebrow className="animate-fade-in">{eyebrow}</Eyebrow>
-            <h1 className="text-display-lg mt-7 max-w-[16ch] animate-blur-in text-ink-50 [animation-delay:80ms]">
+            <h1 className="text-display-lg mt-7 max-w-[16ch] animate-fade-up text-ink-50 [animation-delay:80ms]">
               {title}
             </h1>
             {description ? (

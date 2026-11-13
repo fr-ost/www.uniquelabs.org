@@ -80,7 +80,7 @@ export default async function ProductPage({ params }: { params: Params }) {
                   <StageBadge stage={product.stage} />
                 </div>
               </div>
-              <h1 className="text-display-lg mt-8 animate-blur-in text-ink-50">{product.name}</h1>
+              <h1 className="text-display-lg mt-8 animate-fade-up text-ink-50">{product.name}</h1>
               {product.tagline ? (
                 <p className="mt-4 animate-fade-up font-display text-xl tracking-[-0.02em] text-ink-200 [animation-delay:80ms] md:text-2xl">
                   {product.tagline}

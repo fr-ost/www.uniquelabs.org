@@ -46,7 +46,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={`${sora.variable} ${inter.variable} ${mono.variable}`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${sora.variable} ${inter.variable} ${mono.variable}`}>
       <body className="bg-ink-900 text-ink-100">{children}</body>
     </html>
   );

@@ -7,14 +7,14 @@ type Variant = "primary" | "secondary" | "ghost" | "paper" | "paper-outline";
 type Size = "md" | "lg" | "sm";
 
 const base =
-  "group/btn relative inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium tracking-[-0.01em] transition-[background-color,color,border-color,box-shadow,transform] duration-300 ease-[var(--ease-out-expo)] active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0";
+  "group/btn relative inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium tracking-[-0.01em] transition-[background-color,color,border-color,transform] duration-300 ease-[var(--ease-out-expo)] active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 [&_svg]:shrink-0";
 
 const variants: Record<Variant, string> = {
   primary:
     // The ::before is a soft glint that sweeps across on hover.
-    "overflow-hidden bg-ink-50 text-ink-950 shadow-[0_1px_0_0_rgba(255,255,255,0.4)_inset,0_10px_30px_-12px_rgba(255,107,53,0.55)] hover:bg-white hover:shadow-[0_1px_0_0_rgba(255,255,255,0.4)_inset,0_16px_44px_-12px_rgba(255,107,53,0.8)] before:pointer-events-none before:absolute before:inset-y-0 before:left-[-70%] before:w-[50%] before:skew-x-[-22deg] before:bg-[linear-gradient(90deg,transparent,rgba(255,107,53,0.42),transparent)] before:transition-[left] before:duration-[1100ms] before:ease-[var(--ease-out-expo)] hover:before:left-[130%]",
+    "overflow-hidden bg-ink-50 text-ink-950 shadow-[0_1px_0_0_rgba(255,255,255,0.4)_inset,0_10px_30px_-12px_rgba(255,107,53,0.6)] hover:bg-white before:pointer-events-none before:absolute before:inset-y-0 before:w-[50%] before:skew-x-[-22deg] before:bg-[linear-gradient(90deg,transparent,rgba(255,107,53,0.42),transparent)] before:left-0 before:-translate-x-[160%] before:transition-transform before:duration-[1100ms] before:ease-[var(--ease-out-expo)] hover:before:translate-x-[320%]",
   secondary:
-    "border border-white/12 bg-white/[0.03] text-ink-50 backdrop-blur-sm hover:border-white/25 hover:bg-white/[0.07]",
+    "border border-white/12 bg-white/[0.04] text-ink-50 hover:border-white/25 hover:bg-white/[0.07]",
   ghost: "text-ink-200 hover:text-ink-50",
   paper: "bg-paper-900 text-paper-50 hover:bg-black",
   "paper-outline": "border border-paper-900/20 text-paper-900 hover:border-paper-900/50 hover:bg-paper-900/[0.04]",

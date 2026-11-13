@@ -77,7 +77,7 @@ export function ProductPageLink({
       rel="noopener noreferrer"
       tabIndex={tabIndex}
       className={cn(
-        "group/pp relative z-10 inline-flex h-10 shrink-0 items-center gap-2 rounded-full border border-white/14 bg-white/[0.05] px-4 text-sm font-medium text-ink-50 backdrop-blur-sm transition-[background-color,border-color,color,transform] duration-300 ease-[var(--ease-out-expo)] hover:border-signal-500 hover:bg-signal-500 hover:text-ink-950 active:scale-[0.97]",
+        "group/pp relative z-10 inline-flex h-10 shrink-0 items-center gap-2 rounded-full border border-white/14 bg-white/[0.06] px-4 text-sm font-medium text-ink-50 transition-[background-color,border-color,color,transform] duration-300 ease-[var(--ease-out-expo)] hover:border-signal-500 hover:bg-signal-500 hover:text-ink-950 active:scale-[0.97]",
         className,
       )}
     >

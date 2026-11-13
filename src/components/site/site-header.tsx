@@ -78,8 +78,11 @@ function CompanyMenu({ group, pathname }: { group: NavGroup; pathname: string })
         aria-expanded={open}
         aria-controls={panelId}
         onClick={() => {
-          if (open && openedByHover.current) {
+          // Decided from the ref, not from `open`: a click can arrive before
+          // the hover's state update has been rendered.
+          if (openedByHover.current) {
             openedByHover.current = false;
+            setOpen(true);
             return;
           }
           setOpen((v) => !v);
@@ -100,7 +103,7 @@ function CompanyMenu({ group, pathname }: { group: NavGroup; pathname: string })
           if ((event.target as HTMLElement).closest("a")) setOpen(false);
         }}
       >
-        <div className="glass animate-slide-down rounded-[var(--radius-panel)] bg-ink-900/85 p-2 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.7)]">
+        <div className="glass animate-slide-down rounded-[var(--radius-panel)] bg-ink-900 p-2 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.7)]">
           <ul className="grid grid-cols-2 gap-1">
             {group.items.map((item) => {
               const itemActive = isActive(pathname, item.href);
@@ -175,7 +178,7 @@ function DesktopNav({ nav, pathname }: { nav: NavEntry[]; pathname: string }) {
       <ul
         ref={listRef}
         onPointerLeave={rest}
-        className="relative flex items-center rounded-full border border-white/[0.09] bg-white/[0.035] p-1 shadow-[0_1px_0_0_rgba(255,255,255,0.06)_inset] backdrop-blur-md"
+        className="relative flex items-center rounded-full border border-white/[0.09] bg-white/[0.04] p-1 shadow-[0_1px_0_0_rgba(255,255,255,0.06)_inset]"
       >
         <li
           ref={pillRef}
@@ -211,6 +214,7 @@ export function SiteHeader({ companyName, socials }: { companyName: string; soci
   const [open, setOpen] = useState(false);
   const [lastPathname, setLastPathname] = useState(pathname);
   const toggleRef = useRef<HTMLButtonElement>(null);
+  const topMarkerRef = useRef<HTMLSpanElement>(null);
   const nav = PRIMARY_NAV;
 
   // Close the mobile menu whenever the route changes.
@@ -219,11 +223,15 @@ export function SiteHeader({ companyName, socials }: { companyName: string; soci
     if (open) setOpen(false);
   }
 
+  // The bar gets its background once the page has moved. A marker at the very
+  // top of the page is watched instead of listening to every scroll event, so
+  // scrolling runs no script at all.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const marker = topMarkerRef.current;
+    if (!marker) return;
+    const observer = new IntersectionObserver(([entry]) => setScrolled(!entry?.isIntersecting));
+    observer.observe(marker);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -247,11 +255,12 @@ export function SiteHeader({ companyName, socials }: { companyName: string; soci
 
   return (
     <>
+      <span ref={topMarkerRef} aria-hidden className="pointer-events-none absolute top-0 left-0 h-3 w-px" />
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-50 h-[var(--header-height)] transition-[background-color,border-color,backdrop-filter] duration-500",
+          "fixed inset-x-0 top-0 z-50 h-[var(--header-height)] transition-[background-color,border-color] duration-500",
           scrolled || open
-            ? "border-b border-white/[0.07] bg-ink-950/70 backdrop-blur-xl backdrop-saturate-150"
+            ? "border-b border-white/[0.07] bg-ink-950/80 backdrop-blur-md"
             : "border-b border-transparent",
         )}
       >
@@ -266,11 +275,11 @@ export function SiteHeader({ companyName, socials }: { companyName: string; soci
             <Link
               href="/contact"
               className={cn(
-                "group relative hidden h-10 items-center gap-2 overflow-hidden rounded-full px-4 text-sm font-medium transition-all duration-300 active:scale-[0.98] md:inline-flex",
-                "before:pointer-events-none before:absolute before:inset-y-0 before:left-[-70%] before:w-[50%] before:skew-x-[-22deg] before:bg-[linear-gradient(90deg,transparent,rgba(255,107,53,0.42),transparent)] before:transition-[left] before:duration-[1100ms] before:ease-[var(--ease-out-expo)] hover:before:left-[130%]",
+                "group relative hidden h-10 items-center gap-2 overflow-hidden rounded-full px-4 text-sm font-medium transition-[background-color,color,transform] duration-300 active:scale-[0.98] md:inline-flex",
+                "before:pointer-events-none before:absolute before:inset-y-0 before:left-0 before:w-[50%] before:-translate-x-[160%] before:skew-x-[-22deg] before:bg-[linear-gradient(90deg,transparent,rgba(255,107,53,0.42),transparent)] before:transition-transform before:duration-[1100ms] before:ease-[var(--ease-out-expo)] hover:before:translate-x-[320%]",
                 isActive(pathname, "/contact")
                   ? "bg-signal-500 text-white"
-                  : "bg-ink-50 text-ink-950 shadow-[0_8px_30px_-10px_rgba(255,107,53,0.6)] hover:bg-white hover:shadow-[0_12px_36px_-10px_rgba(255,107,53,0.8)]",
+                  : "bg-ink-50 text-ink-950 shadow-[0_8px_30px_-10px_rgba(255,107,53,0.65)] hover:bg-white",
               )}
             >
               Contact
@@ -313,8 +322,8 @@ export function SiteHeader({ companyName, socials }: { companyName: string; soci
         hidden={!open}
         className="fixed inset-0 z-40 md:hidden"
       >
-        <button type="button" tabIndex={-1} aria-hidden className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setOpen(false)} />
-        <div className="absolute inset-x-0 top-[var(--header-height)] max-h-[calc(100dvh-var(--header-height))] animate-slide-down overflow-y-auto border-b border-white/[0.08] bg-ink-950/95 backdrop-blur-xl">
+        <button type="button" tabIndex={-1} aria-hidden className="absolute inset-0 bg-black/75" onClick={() => setOpen(false)} />
+        <div className="absolute inset-x-0 top-[var(--header-height)] max-h-[calc(100dvh-var(--header-height))] animate-slide-down overflow-y-auto border-b border-white/[0.08] bg-ink-950">
           <nav aria-label="Mobile" className="container-site pt-4 pb-8">
             <ul className="divide-y divide-white/[0.06]">
               {mobileLinks.map((item, index) => {

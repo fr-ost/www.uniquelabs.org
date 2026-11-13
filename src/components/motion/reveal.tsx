@@ -12,23 +12,46 @@ import { useEffect, useRef, type CSSProperties, type ElementType, type ReactNode
  * - Reduced-motion users never see the effect (see globals.css).
  */
 
-let observer: IntersectionObserver | null = null;
+let revealObserver: IntersectionObserver | null = null;
+let startObserver: IntersectionObserver | null = null;
 
-function getObserver() {
-  if (observer || typeof window === "undefined") return observer;
-  observer = new IntersectionObserver(
+/** Reveals hidden elements as they scroll into view. */
+function getRevealObserver() {
+  revealObserver ??= new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
         if (entry.isIntersecting) {
           const el = entry.target as HTMLElement;
           el.dataset.reveal = "visible";
-          observer?.unobserve(el);
+          revealObserver?.unobserve(el);
         }
       }
     },
     { rootMargin: "0px 0px -8% 0px", threshold: 0.12 },
   );
-  return observer;
+  return revealObserver;
+}
+
+/**
+ * Sorts elements once, right after the page becomes interactive: anything
+ * already on screen is left alone; the rest is hidden and handed to the reveal
+ * observer. The browser reports positions for all elements in one batch, so
+ * no layout is forced while the page is starting up.
+ */
+function getStartObserver() {
+  startObserver ??= new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        const el = entry.target as HTMLElement;
+        startObserver?.unobserve(el);
+        if (entry.isIntersecting) continue;
+        el.dataset.reveal = "hidden";
+        getRevealObserver().observe(el);
+      }
+    },
+    { rootMargin: "0px 0px -8% 0px", threshold: 0 },
+  );
+  return startObserver;
 }
 
 export function Reveal({
@@ -45,23 +68,21 @@ export function Reveal({
   delay?: number;
   as?: ElementType;
   style?: CSSProperties;
-  /** `up` rises into place (default), `blur` comes into focus, `scale` grows slightly, `fade` only fades. */
-  kind?: "up" | "blur" | "scale" | "fade";
+  /** `up` rises into place (default), `soft` rises a shorter distance, `scale` grows slightly, `fade` only fades. */
+  kind?: "up" | "soft" | "scale" | "fade";
 }) {
   const ref = useRef<HTMLElement>(null);
   const Component = (as ?? "div") as ElementType;
 
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    if (!el || typeof IntersectionObserver === "undefined") return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const rect = el.getBoundingClientRect();
-    const inView = rect.top < window.innerHeight * 0.92 && rect.bottom > 0;
-    if (inView) return;
-    el.dataset.reveal = "hidden";
-    const io = getObserver();
-    io?.observe(el);
-    return () => io?.unobserve(el);
+    getStartObserver().observe(el);
+    return () => {
+      startObserver?.unobserve(el);
+      revealObserver?.unobserve(el);
+    };
   }, []);
 
   return (

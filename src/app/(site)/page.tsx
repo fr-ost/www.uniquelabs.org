@@ -4,6 +4,7 @@ import { ProductCard } from "@/components/cards/product-card";
 import { ProjectCard } from "@/components/cards/project-card";
 import { CountUp } from "@/components/motion/count-up";
 import { Marquee } from "@/components/motion/marquee";
+import { PauseOffscreen } from "@/components/motion/pause-offscreen";
 import { Reveal } from "@/components/motion/reveal";
 import { MediaImage } from "@/components/ui/media-image";
 import { HomeHero } from "@/components/sections/home-hero";
@@ -84,7 +85,7 @@ function PartnerChip({ partner, duplicate }: { partner: PartnerDTO; duplicate: b
     >
       <span className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-ink-800">
         {partner.logo ? (
-          <MediaImage media={partner.logo} alt="" fill sizes="44px" eager={!duplicate} />
+          <MediaImage media={partner.logo} alt="" fill sizes="44px" eager />
         ) : (
           <span aria-hidden className="font-display text-sm text-ink-200">
             {partner.name.slice(0, 2).toUpperCase()}
@@ -200,6 +201,7 @@ export default async function HomePage() {
       {/* Partners */}
       {partnerTiers.tier1.length > 0 ? (
         <section className="relative overflow-hidden border-t border-white/[0.07] py-24 md:py-32" aria-labelledby="partners-title">
+          <PauseOffscreen />
           <div
             aria-hidden
             className="pointer-events-none absolute top-1/2 left-1/2 h-[40rem] w-[70rem] -translate-x-1/2 -translate-y-1/2 animate-glow-pulse rounded-full bg-[radial-gradient(closest-side,rgba(139,92,246,0.10),transparent)]"

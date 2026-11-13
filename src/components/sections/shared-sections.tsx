@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/motion/reveal";
+import { PauseOffscreen } from "@/components/motion/pause-offscreen";
 import { Spotlight } from "@/components/motion/spotlight";
 import { LogoMark } from "@/components/brand/logo";
 import { ButtonLink } from "@/components/ui/button";
@@ -94,7 +95,7 @@ export function PrinciplesSection({
               as="li"
               key={principle.id}
               delay={(i % 4) * 90}
-              className="group relative bg-paper-100 p-7 transition-colors duration-500 hover:bg-paper-50 md:p-8"
+              className="group relative bg-paper-100 p-7 transition-colors duration-200 hover:bg-paper-50 md:p-8"
             >
               <span className="font-display text-5xl font-light tracking-[-0.05em] text-paper-400 transition-colors duration-500 group-hover:text-signal-600 md:text-6xl">
                 {indexLabel(i + 1)}
@@ -125,17 +126,18 @@ export function ClosingCta({
 }) {
   return (
     <section className="relative overflow-hidden border-t border-white/[0.07]" aria-labelledby="closing-title">
+      <PauseOffscreen />
       <div aria-hidden className="grid-lines mask-fade-radial pointer-events-none absolute inset-0 opacity-50" />
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-full h-[48rem] w-[48rem] -translate-x-1/2 -translate-y-1/2 animate-glow-pulse rounded-full bg-[radial-gradient(circle,rgba(255,107,53,0.26),transparent_60%)] blur-3xl"
+        className="pointer-events-none absolute left-1/2 top-full h-[48rem] w-[48rem] -translate-x-1/2 -translate-y-1/2 animate-glow-pulse rounded-full bg-[radial-gradient(closest-side,rgba(255,107,53,0.22),rgba(255,107,53,0.07)_55%,transparent)]"
       />
-      <Spotlight size={520} />
+      <Spotlight />
       <div className="container-site relative py-28 text-center md:py-40">
         <Reveal>
           <LogoMark className="mx-auto h-12 w-12 text-ink-50" />
         </Reveal>
-        <Reveal delay={80} kind="blur">
+        <Reveal delay={80} kind="soft">
           <h2 id="closing-title" className="text-display-lg mx-auto mt-10 max-w-[20ch] text-ink-50">
             {headline ?? "Let's build something genuinely useful."}
           </h2>

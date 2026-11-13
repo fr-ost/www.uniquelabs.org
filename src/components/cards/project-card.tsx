@@ -71,7 +71,7 @@ export function ProjectCard({
             </span>
           </div>
         )}
-        <ProjectStatus status={project.status} className="absolute top-4 left-4 backdrop-blur" />
+        <ProjectStatus status={project.status} className="absolute top-4 left-4" />
       </div>
       <div className={cn("flex flex-1 flex-col", feature ? "p-7 md:p-9" : "p-6 md:p-7", wide && "lg:p-10")}>
         {meta ? <p className="text-eyebrow text-ink-400">{meta}</p> : null}

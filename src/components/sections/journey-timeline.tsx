@@ -1,9 +1,4 @@
-"use client";
-
 import Link from "next/link";
-import { useRef } from "react";
-import { useScroll, useSpring } from "motion/react";
-import * as m from "motion/react-m";
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import { Reveal } from "@/components/motion/reveal";
@@ -12,23 +7,18 @@ import { MILESTONE_KIND_LABELS } from "@/lib/labels";
 import { cn, formatDate, yearOf } from "@/lib/utils";
 
 /**
- * Interactive vertical timeline: a progress line fills as you scroll and
- * year markers anchor each period. Single column on mobile, alternating
- * columns on desktop.
+ * Vertical timeline: a progress line fills as you scroll (pure CSS, see
+ * `.timeline-progress` in globals.css) and year markers anchor each period.
+ * Single column on mobile, alternating columns on desktop.
  */
 export function JourneyTimeline({ milestones }: { milestones: MilestoneDTO[] }) {
-  const ref = useRef<HTMLOListElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 70%", "end 60%"] });
-  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 });
-
   return (
-    <ol ref={ref} className="relative">
+    <ol className="relative">
       {/* Track + animated progress */}
       <div aria-hidden className="absolute top-0 bottom-0 left-[0.6875rem] w-px bg-white/10 md:left-1/2 md:-translate-x-1/2" />
-      <m.div
+      <div
         aria-hidden
-        style={{ scaleY: progress }}
-        className="absolute top-0 bottom-0 left-[0.6875rem] w-px origin-top bg-gradient-to-b from-signal-500 via-signal-400 to-signal-500/40 md:left-1/2 md:-translate-x-1/2"
+        className="timeline-progress absolute top-0 bottom-0 left-[0.6875rem] w-px bg-gradient-to-b from-signal-500 via-signal-400 to-signal-500/40 md:left-1/2 md:-translate-x-1/2"
       />
 
       {milestones.map((milestone, index) => {

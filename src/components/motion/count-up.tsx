@@ -34,10 +34,15 @@ export function CountUp({
 
   useEffect(() => {
     const el = ref.current;
-    if (!el) return;
+    const text = el?.firstChild;
+    if (!el || !text) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const finalText = format(value) + suffix;
+    // Update the existing text node (and only when the number changes).
+    const show = (next: string) => {
+      if (text.nodeValue !== next) text.nodeValue = next;
+    };
     let frame = 0;
     let timer = 0;
     let observer: IntersectionObserver | null = null;
@@ -47,20 +52,20 @@ export function CountUp({
       const tick = (now: number) => {
         const progress = Math.min(1, (now - start) / duration);
         const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-        el.textContent = format(value * eased) + suffix;
+        show(format(value * eased) + suffix);
         if (progress < 1) frame = requestAnimationFrame(tick);
       };
       frame = requestAnimationFrame(tick);
     };
 
     if (startOnMount) {
-      el.textContent = format(0) + suffix;
+      show(format(0) + suffix);
       timer = window.setTimeout(run, delay);
     } else {
       const rect = el.getBoundingClientRect();
       const onScreen = rect.top < window.innerHeight && rect.bottom > 0;
       if (onScreen) return;
-      el.textContent = format(0) + suffix;
+      show(format(0) + suffix);
       observer = new IntersectionObserver(
         (entries) => {
           if (entries.some((entry) => entry.isIntersecting)) {
@@ -77,14 +82,13 @@ export function CountUp({
       window.clearTimeout(timer);
       cancelAnimationFrame(frame);
       observer?.disconnect();
-      el.textContent = finalText;
+      show(finalText);
     };
   }, [value, suffix, duration, delay, startOnMount]);
 
   return (
     <span ref={ref} className={cn("tabular", className)}>
-      {format(value)}
-      {suffix}
+      {format(value) + suffix}
     </span>
   );
 }

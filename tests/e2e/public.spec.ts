@@ -115,6 +115,22 @@ test.describe("public website", () => {
     await expect(page.getByRole("link", { name: /^Product Page/ })).toHaveCount(7);
   });
 
+  test("product filters work in the browser and can be shared as a link", async ({ page }) => {
+    await page.goto("/products");
+    const cards = page.locator('section[aria-label="Product directory"] ul > li');
+    const total = await cards.count();
+    expect(total).toBeGreaterThan(1);
+    await page.getByRole("group", { name: "Filter by status" }).getByRole("link", { name: "Beta" }).click();
+    await expect(page).toHaveURL(/\/products\?status=BETA$/);
+    await expect(page.getByText(/· filtered/)).toBeVisible();
+    const filtered = await cards.count();
+    expect(filtered).toBeGreaterThan(0);
+    expect(filtered).toBeLessThan(total);
+    // The same view opens from the address alone.
+    await page.goto("/products?status=BETA");
+    await expect(cards).toHaveCount(filtered);
+  });
+
   test("keyboard users can skip to the content", async ({ page, isMobile }) => {
     test.skip(isMobile, "Keyboard navigation is a desktop concern");
     await page.goto("/about");

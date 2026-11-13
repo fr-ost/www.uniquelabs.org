@@ -14,7 +14,7 @@ export function StageBadge({ stage, className }: { stage: ReleaseStage; classNam
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-2 rounded-full border border-white/10 bg-ink-950/60 px-2.5 py-1 text-[0.6875rem] font-medium uppercase tracking-[0.12em] backdrop-blur-sm",
+        "inline-flex items-center gap-2 rounded-full border border-white/10 bg-ink-950/70 px-2.5 py-1 text-[0.6875rem] font-medium uppercase tracking-[0.12em]",
         style.text,
         className,
       )}

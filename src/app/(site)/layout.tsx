@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { MotionProvider } from "@/components/motion/motion-provider";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
 import { getCompany, getSettings, getSocialLinks } from "@/lib/content/public";
@@ -47,7 +46,7 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
   const [company, socials] = await Promise.all([getCompany(), getSocialLinks()]);
 
   return (
-    <MotionProvider>
+    <>
       <div aria-hidden className="scroll-progress" />
       <a
         href="#main"
@@ -60,6 +59,6 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
         {children}
       </main>
       <SiteFooter company={company} socials={socials} siteUrl={siteUrl()} />
-    </MotionProvider>
+    </>
   );
 }

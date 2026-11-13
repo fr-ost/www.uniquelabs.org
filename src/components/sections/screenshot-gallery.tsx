@@ -81,7 +81,7 @@ export function ScreenshotGallery({ shots, productName }: { shots: Shot[]; produ
 
       <dialog
         ref={dialogRef}
-        className="m-auto max-h-[92vh] w-[min(92vw,1400px)] overflow-visible bg-transparent p-0 backdrop:bg-ink-950/90 backdrop:backdrop-blur-sm"
+        className="m-auto max-h-[92vh] w-[min(92vw,1400px)] overflow-visible bg-transparent p-0 backdrop:bg-ink-950/95"
         aria-label={`${productName} screenshots`}
         onClick={(event) => {
           if (event.target === dialogRef.current) close();

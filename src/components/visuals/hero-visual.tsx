@@ -7,7 +7,7 @@ import { useEffect, useRef } from "react";
  * concentric contour lines (like an engineering drawing), the signal dot with
  * an orbit, graduation ticks and annotation callouts.
  *
- * Layers drift subtly with the pointer on fine-pointer devices. Everything is
+ * Three layers drift subtly with the pointer on mouse devices. Everything is
  * static for touch devices and users who prefer reduced motion.
  */
 
@@ -53,55 +53,69 @@ export function HeroVisual({ labels, annotations = true }: { labels: [string, st
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!fine || reduced) return;
 
+    // Each layer is an HTML element moved with `transform` (compositor only):
+    // the drawing itself is never repainted while the pointer moves.
+    const layers = Array.from(el.querySelectorAll<HTMLElement>("[data-depth]")).map((node) => ({
+      node,
+      depth: Number(node.dataset.depth),
+    }));
+
     let frame = 0;
     let targetX = 0;
     let targetY = 0;
     let x = 0;
     let y = 0;
 
+    const tick = () => {
+      x += (targetX - x) * 0.09;
+      y += (targetY - y) * 0.09;
+      for (const { node, depth } of layers) {
+        node.style.transform = `translate3d(${(x * depth).toFixed(2)}px, ${(y * depth).toFixed(2)}px, 0)`;
+      }
+      frame = Math.abs(targetX - x) > 0.004 || Math.abs(targetY - y) > 0.004 ? requestAnimationFrame(tick) : 0;
+    };
+
     const onMove = (event: PointerEvent) => {
+      if (event.pointerType !== "mouse") return;
       targetX = (event.clientX / window.innerWidth) * 2 - 1;
       targetY = (event.clientY / window.innerHeight) * 2 - 1;
       if (!frame) frame = requestAnimationFrame(tick);
     };
 
-    const tick = () => {
-      x += (targetX - x) * 0.07;
-      y += (targetY - y) * 0.07;
-      el.style.setProperty("--px", x.toFixed(4));
-      el.style.setProperty("--py", y.toFixed(4));
-      if (Math.abs(targetX - x) > 0.001 || Math.abs(targetY - y) > 0.001) {
-        frame = requestAnimationFrame(tick);
-      } else {
-        frame = 0;
-      }
-    };
+    // Only listen while the drawing is on screen.
+    let listening = false;
+    const observer = new IntersectionObserver(([entry]) => {
+      const visible = Boolean(entry?.isIntersecting);
+      if (visible === listening) return;
+      listening = visible;
+      if (visible) window.addEventListener("pointermove", onMove, { passive: true });
+      else window.removeEventListener("pointermove", onMove);
+    });
+    observer.observe(el);
 
-    window.addEventListener("pointermove", onMove, { passive: true });
     return () => {
+      observer.disconnect();
       window.removeEventListener("pointermove", onMove);
       if (frame) cancelAnimationFrame(frame);
     };
   }, []);
 
-  const layer = (depth: number) => ({
-    transform: `translate3d(calc(var(--px, 0) * ${depth}px), calc(var(--py, 0) * ${depth}px), 0)`,
-  });
-
   return (
     <div ref={ref} className="relative aspect-[600/640] w-full select-none" aria-hidden>
-      {/* Ambient light behind the signal dot */}
-      <div
-        className="absolute rounded-full bg-[radial-gradient(circle,rgba(255,107,53,0.42),rgba(255,107,53,0.08)_45%,transparent_70%)] blur-2xl animate-fade-in [animation-delay:600ms]"
-        style={{
-          left: `${((RIGHT_X - 170) / 600) * 100}%`,
-          top: `${((DOT_Y - 170) / 640) * 100}%`,
-          width: `${(340 / 600) * 100}%`,
-          height: `${(340 / 640) * 100}%`,
-          ...layer(-18),
-        }}
-      />
+      {/* Ambient light behind the signal dot (a plain gradient: no blur filter) */}
+      <div data-depth="-18" className="absolute inset-0 will-change-transform">
+        <div
+          className="absolute animate-fade-in rounded-full bg-[radial-gradient(closest-side,rgba(255,107,53,0.30),rgba(255,107,53,0.12)_42%,rgba(255,107,53,0.03)_72%,transparent)] [animation-delay:600ms]"
+          style={{
+            left: `${((RIGHT_X - 210) / 600) * 100}%`,
+            top: `${((DOT_Y - 210) / 640) * 100}%`,
+            width: `${(420 / 600) * 100}%`,
+            height: `${(420 / 640) * 100}%`,
+          }}
+        />
+      </div>
 
+      <div data-depth="9" className="absolute inset-0 will-change-transform">
       <svg viewBox="0 0 600 640" className="absolute inset-0 h-full w-full overflow-visible" fill="none">
         <defs>
           <linearGradient id="hv-mark" x1="0" y1="0" x2="0" y2="1">
@@ -116,7 +130,7 @@ export function HeroVisual({ labels, annotations = true }: { labels: [string, st
         </defs>
 
         {/* Outer contours */}
-        <g style={layer(10)}>
+        <g>
           {CONTOURS.map((c, i) => (
             <path
               key={i}
@@ -133,7 +147,7 @@ export function HeroVisual({ labels, annotations = true }: { labels: [string, st
         </g>
 
         {/* Graduation ticks along the left stem */}
-        <g style={layer(6)} className="animate-fade-in [animation-delay:1100ms]">
+        <g className="animate-fade-in [animation-delay:1100ms]">
           {TICKS.map((y, i) => (
             <line
               key={y}
@@ -148,7 +162,7 @@ export function HeroVisual({ labels, annotations = true }: { labels: [string, st
         </g>
 
         {/* The mark */}
-        <g style={layer(0)}>
+        <g>
           <path
             d={`M${LEFT_X} ${LEFT_TOP}V${BOWL_Y}A${R} ${R} 0 0 0 ${RIGHT_X} ${BOWL_Y}V${RIGHT_TOP}`}
             stroke="url(#hv-mark)"
@@ -172,7 +186,7 @@ export function HeroVisual({ labels, annotations = true }: { labels: [string, st
         </g>
 
         {/* Orbit + signal dot */}
-        <g style={layer(-14)}>
+        <g>
           <circle
             cx={RIGHT_X}
             cy={DOT_Y}
@@ -182,12 +196,6 @@ export function HeroVisual({ labels, annotations = true }: { labels: [string, st
             strokeDasharray="2 7"
             className="animate-fade-in [animation-delay:1300ms]"
           />
-          <g
-            className="animate-orbit motion-reduce:animate-none"
-            style={{ transformOrigin: `${RIGHT_X}px ${DOT_Y}px` }}
-          >
-            <circle cx={RIGHT_X + 88} cy={DOT_Y} r={4.5} fill="#f5f5f7" className="animate-fade-in [animation-delay:1500ms]" />
-          </g>
           <g className="animate-fade-up [animation-delay:900ms]">
             <circle cx={RIGHT_X} cy={DOT_Y} r={DOT_R} fill="url(#hv-dot)" />
             <circle cx={RIGHT_X} cy={DOT_Y} r={DOT_R + 10} stroke="#ff6b35" strokeOpacity={0.35} />
@@ -195,7 +203,7 @@ export function HeroVisual({ labels, annotations = true }: { labels: [string, st
         </g>
 
         {/* Crosshair registration marks */}
-        <g stroke="white" strokeOpacity={0.35} style={layer(4)} className="animate-fade-in [animation-delay:1400ms]">
+        <g stroke="white" strokeOpacity={0.35} className="animate-fade-in [animation-delay:1400ms]">
           {[
             [70, 112],
             [540, 96],
@@ -210,30 +218,45 @@ export function HeroVisual({ labels, annotations = true }: { labels: [string, st
         </g>
 
         {/* Leader lines for annotations */}
-        <g stroke="white" strokeOpacity={0.3} style={layer(4)} className={annotations ? "animate-fade-in [animation-delay:1600ms]" : "hidden"}>
+        <g stroke="white" strokeOpacity={0.3} className={annotations ? "animate-fade-in [animation-delay:1600ms]" : "hidden"}>
           <polyline points={`${RIGHT_X + 8},${DOT_Y - DOT_R - 12} ${RIGHT_X + 8},${150} ${RIGHT_X + 26},${150}`} />
           <polyline points={`${LEFT_X - STROKE / 2 - 6},${LEFT_TOP + 8} ${LEFT_X - 52},${196} ${LEFT_X - 52},${190}`} />
           <polyline points={`${CX},${BOWL_Y + R + STROKE / 2 + 10} ${CX + 40},${600} ${CX + 78},${600}`} />
         </g>
       </svg>
 
+        {/* Orbiting dot. An HTML element, so the endless rotation runs on the
+            compositor; inside the SVG it would repaint the drawing every frame. */}
+        <div
+          className="absolute animate-orbit motion-reduce:animate-none"
+          style={{
+            left: `${((RIGHT_X - 88) / 600) * 100}%`,
+            top: `${((DOT_Y - 88) / 640) * 100}%`,
+            width: `${(176 / 600) * 100}%`,
+            height: `${(176 / 640) * 100}%`,
+          }}
+        >
+          <span className="absolute top-1/2 right-0 aspect-square w-[5.1%] translate-x-1/2 -translate-y-1/2 animate-fade-in rounded-full bg-ink-50 [animation-delay:1500ms]" />
+        </div>
+      </div>
+
       {/* Annotation labels (HTML for crisp mono type) */}
-      <div className={annotations ? "pointer-events-none absolute inset-0 hidden whitespace-nowrap font-mono text-[10px] uppercase leading-none tracking-[0.16em] text-ink-300 sm:block" : "hidden"}>
+      <div data-depth="4" className={annotations ? "pointer-events-none absolute inset-0 hidden will-change-transform whitespace-nowrap font-mono text-[10px] uppercase leading-none tracking-[0.16em] text-ink-300 sm:block" : "hidden"}>
         <span
           className="absolute -translate-y-1/2 animate-fade-in [animation-delay:1700ms]"
-          style={{ left: `${((RIGHT_X + 32) / 600) * 100}%`, top: `${(150 / 640) * 100}%`, ...layer(4) }}
+          style={{ left: `${((RIGHT_X + 32) / 600) * 100}%`, top: `${(150 / 640) * 100}%` }}
         >
           <span className="text-signal-400">01</span> {labels[0]}
         </span>
         <span
           className="absolute -translate-y-full animate-fade-in rounded-sm bg-ink-900/70 py-0.5 [animation-delay:1800ms]"
-          style={{ left: `${((LEFT_X - 64) / 600) * 100}%`, top: `${(184 / 640) * 100}%`, ...layer(4) }}
+          style={{ left: `${((LEFT_X - 64) / 600) * 100}%`, top: `${(184 / 640) * 100}%` }}
         >
           <span className="text-signal-400">02</span> {labels[1]}
         </span>
         <span
           className="absolute -translate-y-1/2 animate-fade-in [animation-delay:1900ms]"
-          style={{ left: `${((CX + 84) / 600) * 100}%`, top: `${(600 / 640) * 100}%`, ...layer(4) }}
+          style={{ left: `${((CX + 84) / 600) * 100}%`, top: `${(600 / 640) * 100}%` }}
         >
           <span className="text-signal-400">03</span> {labels[2]}
         </span>

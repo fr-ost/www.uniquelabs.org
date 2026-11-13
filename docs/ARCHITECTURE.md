@@ -46,9 +46,24 @@ src/content/*.ts  ──▶  src/lib/content/public.ts  ──▶  pages (src/ap
 - **Type**: Sora (display), Inter (text), JetBrains Mono (labels), self-hosted.
 - **Identity**: a geometric “U” whose right arm releases a signal-coloured dot.
 - **Motion** (`src/components/motion/`, keyframes in `globals.css`): CSS
-  entrance animations and a per-page fade (`(site)/template.tsx`); scroll
-  reveals that never hide content from no-JS visitors or crawlers; inertia
-  scrolling for mouse/trackpad users (Lenis — phones keep native scrolling);
-  a reading-progress hairline (CSS scroll-driven); count-up numbers that are
-  always counted from the content files; CSS marquees; a pointer spotlight.
+  entrance animations and a short per-page fade (`(site)/template.tsx`);
+  scroll reveals that never hide content from no-JS visitors or crawlers; a
+  reading-progress hairline and the journey line (CSS scroll-driven); count-up
+  numbers that are always counted from the content files; CSS marquees; a
+  pointer spotlight and card glow.
   Everything is switched off or simplified for `prefers-reduced-motion`.
+- **Motion performance rules** (keep these when adding effects):
+  - Scrolling is the browser's own — no scroll library and no `scroll`
+    listeners. Use `IntersectionObserver` or CSS scroll-driven animations.
+  - Animate only `transform` and `opacity`. No animated `filter: blur`,
+    `box-shadow`, `background-position` or layout properties.
+  - No `backdrop-filter` except the one on the site header, and no
+    `mix-blend-mode` over moving content.
+  - Pointer effects move a fixed-size element with `transform` once per frame
+    (see `pointer-glow.tsx`, `spotlight.tsx`); never repaint a gradient or set
+    a CSS variable on a container while the pointer moves.
+  - Endless animations inside an SVG repaint it every frame — use an HTML
+    element instead (see the orbit in `hero-visual.tsx`).
+  - Sections with looping decoration include `<PauseOffscreen />`, which
+    pauses it while the section is off screen.
+  - No animation libraries: there is no `motion` or `lenis` dependency.

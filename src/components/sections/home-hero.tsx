@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Fragment } from "react";
 import { ArrowRight } from "lucide-react";
 import { CountUp } from "@/components/motion/count-up";
+import { PauseOffscreen } from "@/components/motion/pause-offscreen";
 import { Spotlight } from "@/components/motion/spotlight";
 import { ButtonLink } from "@/components/ui/button";
 import { MediaImage } from "@/components/ui/media-image";
@@ -27,7 +28,7 @@ function AnimatedHeadline({ text }: { text: string }) {
             <Fragment key={`${word}-${index}`}>
               <span className="-mb-[0.16em] inline-block overflow-hidden pb-[0.16em] align-bottom">
                 <span className="inline-block animate-word-rise" style={{ animationDelay: `${120 + index * 70}ms` }}>
-                  <span className={last ? "text-gradient animate-shimmer" : undefined}>{word}</span>
+                  <span className={last ? "text-gradient" : undefined}>{word}</span>
                   {last && endsWithPeriod ? <span className="text-signal-500">.</span> : null}
                 </span>
               </span>
@@ -61,6 +62,7 @@ export function HomeHero({
 }) {
   return (
     <section className="relative isolate overflow-hidden" aria-labelledby="hero-title">
+      <PauseOffscreen />
       <Aurora />
       <div aria-hidden className="grid-lines mask-fade-radial pointer-events-none absolute inset-0 opacity-60" />
       <div className="grain pointer-events-none absolute inset-0" aria-hidden />
@@ -69,7 +71,7 @@ export function HomeHero({
       <div className="container-site relative grid min-h-[min(100svh,62rem)] grid-cols-1 items-center gap-12 pt-[calc(var(--header-height)+2.5rem)] pb-12 lg:grid-cols-12 lg:gap-10 lg:pb-14">
         <div className="relative z-10 lg:col-span-7">
           {company.heroEyebrow ? (
-            <p className="inline-flex max-w-full animate-fade-in items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.045] py-2 pr-4 pl-3 font-mono text-[0.625rem] leading-relaxed font-medium tracking-[0.14em] text-ink-200 uppercase shadow-[0_1px_0_0_rgba(255,255,255,0.06)_inset] backdrop-blur-md sm:text-[0.6875rem] sm:tracking-[0.16em]">
+            <p className="inline-flex max-w-full animate-fade-in items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.045] py-2 pr-4 pl-3 font-mono text-[0.625rem] leading-relaxed font-medium tracking-[0.14em] text-ink-200 uppercase shadow-[0_1px_0_0_rgba(255,255,255,0.06)_inset] sm:text-[0.6875rem] sm:tracking-[0.16em]">
               <span aria-hidden className="relative flex h-2 w-2 shrink-0">
                 <span className="absolute inline-flex h-full w-full animate-ping-slow rounded-full bg-signal-500/70" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-signal-500" />
@@ -80,7 +82,7 @@ export function HomeHero({
           <h1 id="hero-title" className="text-display-xl mt-8 max-w-[11.5ch] text-ink-50">
             <AnimatedHeadline text={company.heroHeadline} />
           </h1>
-          <p className="text-lede mt-8 max-w-[34rem] animate-blur-in text-ink-300 [animation-delay:520ms]">{company.heroDescription}</p>
+          <p className="text-lede mt-8 max-w-[34rem] animate-fade-up text-ink-300 [animation-delay:520ms]">{company.heroDescription}</p>
           <div className="mt-10 flex animate-fade-up flex-col gap-3 [animation-delay:640ms] sm:flex-row">
             <ButtonLink href="/services" size="lg" arrow>
               {company.primaryCtaLabel}

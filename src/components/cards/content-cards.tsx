@@ -39,7 +39,7 @@ export function CollaborationCard({
     <PointerGlow
       as="article"
       className={cn(
-        "surface-card group relative flex h-full flex-col overflow-hidden transition-colors duration-500 hover:border-white/20",
+        "surface-card group relative flex h-full flex-col overflow-hidden hover:border-white/20",
         feature ? "p-7 md:p-9" : "p-6 md:p-7",
       )}
     >

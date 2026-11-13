@@ -34,7 +34,7 @@ Team (+ profiles) · Journey · Contact · Privacy · Terms
 | Framework | Next.js 16 (App Router, static generation), React 19 |
 | Language | TypeScript 6 (strict) |
 | Styling | Tailwind CSS 4, self-hosted Sora / Inter / JetBrains Mono |
-| Motion | Motion + CSS, respects `prefers-reduced-motion` |
+| Motion | CSS only (transform / opacity), respects `prefers-reduced-motion` |
 | Tests | Vitest (content validation), Playwright (desktop + mobile) |
 
 ## Local development

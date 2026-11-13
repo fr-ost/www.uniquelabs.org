@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { ProductCard } from "@/components/cards/product-card";
 import { Reveal } from "@/components/motion/reveal";
+import { ProductDirectory } from "@/components/sections/product-directory";
 import { ClosingCta, EmptyState } from "@/components/sections/shared-sections";
 import { PageHero } from "@/components/ui/section";
 import { getCompany, getProductCategories, getProductPlatforms, getProducts } from "@/lib/content/public";
 import { PLATFORM_LABELS, RELEASE_STAGE_LABELS } from "@/lib/labels";
 import { pageMetadata } from "@/lib/seo/metadata";
-import { cn, pluralize } from "@/lib/utils";
-import type { Platform, ReleaseStage } from "@/lib/content/enums";
 
 export async function generateMetadata(): Promise<Metadata> {
   const company = await getCompany();
@@ -19,51 +17,14 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
-type SearchParams = Promise<{ category?: string; platform?: string; status?: string }>;
-
-function FilterChip({ href, active, children }: { href: string; active: boolean; children: React.ReactNode }) {
-  return (
-    <Link
-      href={href}
-      scroll={false}
-      aria-current={active ? "true" : undefined}
-      className={cn(
-        "inline-flex h-9 items-center rounded-full border px-4 text-sm transition-colors duration-300",
-        active
-          ? "border-ink-50 bg-ink-50 text-ink-950"
-          : "border-white/10 text-ink-300 hover:border-white/25 hover:text-ink-50",
-      )}
-    >
-      {children}
-    </Link>
-  );
-}
-
-function buildHref(current: Record<string, string | undefined>, key: string, value: string | undefined) {
-  const params = new URLSearchParams();
-  for (const [k, v] of Object.entries({ ...current, [key]: value })) {
-    if (v) params.set(k, v);
-  }
-  const query = params.toString();
-  return query ? `/products?${query}` : "/products";
-}
-
-export default async function ProductsPage({ searchParams }: { searchParams: SearchParams }) {
-  const sp = await searchParams;
-  const category = sp.category && /^[a-z0-9-]{1,80}$/.test(sp.category) ? sp.category : undefined;
-  const platform = sp.platform && Object.hasOwn(PLATFORM_LABELS, sp.platform) ? (sp.platform as Platform) : undefined;
-  const stage = sp.status && Object.hasOwn(RELEASE_STAGE_LABELS, sp.status) ? (sp.status as ReleaseStage) : undefined;
-
-  const [products, allProducts, categories, platforms, company] = await Promise.all([
-    getProducts({ category, platform, stage }),
+export default async function ProductsPage() {
+  const [products, categories, platforms, company] = await Promise.all([
     getProducts(),
     getProductCategories(),
     getProductPlatforms(),
     getCompany(),
   ]);
-  const stages = [...new Set(allProducts.map((p) => p.stage))];
-  const current = { category, platform, status: stage };
-  const filtered = Boolean(category || platform || stage);
+  const stages = [...new Set(products.map((p) => p.stage))];
 
   return (
     <>
@@ -78,79 +39,37 @@ export default async function ProductsPage({ searchParams }: { searchParams: Sea
       />
 
       <section className="container-site py-14 md:py-20" aria-label="Product directory">
-        {allProducts.length === 0 ? (
+        {products.length === 0 ? (
           <EmptyState
             title="No products published yet"
             body="Products appear here as soon as they are released. In the meantime, see what we focus on."
             action={{ href: "/services", label: "Our services" }}
           />
         ) : (
-          <>
-            <div className="flex flex-col gap-6 border-b border-white/[0.07] pb-8 lg:flex-row lg:items-end lg:justify-between">
-              <div className="space-y-4">
-                {categories.length > 1 ? (
-                  <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Filter by category">
-                    <span className="text-eyebrow mr-2 w-20 text-ink-500">Category</span>
-                    <FilterChip href={buildHref(current, "category", undefined)} active={!category}>
-                      All
-                    </FilterChip>
-                    {categories.map((c) => (
-                      <FilterChip key={c.slug} href={buildHref(current, "category", c.slug)} active={category === c.slug}>
-                        {c.name}
-                      </FilterChip>
-                    ))}
-                  </div>
-                ) : null}
-                {platforms.length > 1 ? (
-                  <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Filter by platform">
-                    <span className="text-eyebrow mr-2 w-20 text-ink-500">Platform</span>
-                    <FilterChip href={buildHref(current, "platform", undefined)} active={!platform}>
-                      All
-                    </FilterChip>
-                    {platforms.map((p) => (
-                      <FilterChip key={p} href={buildHref(current, "platform", p)} active={platform === p}>
-                        {PLATFORM_LABELS[p]}
-                      </FilterChip>
-                    ))}
-                  </div>
-                ) : null}
-                {stages.length > 1 ? (
-                  <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Filter by status">
-                    <span className="text-eyebrow mr-2 w-20 text-ink-500">Status</span>
-                    <FilterChip href={buildHref(current, "status", undefined)} active={!stage}>
-                      All
-                    </FilterChip>
-                    {stages.map((s) => (
-                      <FilterChip key={s} href={buildHref(current, "status", s)} active={stage === s}>
-                        {RELEASE_STAGE_LABELS[s]}
-                      </FilterChip>
-                    ))}
-                  </div>
-                ) : null}
-              </div>
-              <p className="text-eyebrow shrink-0 text-ink-400" aria-live="polite">
-                {pluralize(products.length, "product")}
-                {filtered ? " · filtered" : ""}
-              </p>
-            </div>
-
-            {products.length === 0 ? (
+          <ProductDirectory
+            categories={categories.map((c) => ({ value: c.slug, label: c.name }))}
+            platforms={platforms.map((p) => ({ value: p, label: PLATFORM_LABELS[p] }))}
+            stages={stages.map((s) => ({ value: s, label: RELEASE_STAGE_LABELS[s] }))}
+            empty={
               <EmptyState
                 className="mt-10"
                 title="No products match these filters"
                 body="Try a different combination, or clear the filters to see everything."
                 action={{ href: "/products", label: "Clear filters" }}
               />
-            ) : (
-              <ul className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-5 lg:grid-cols-3">
-                {products.map((product, index) => (
-                  <Reveal as="li" key={product.id} delay={(index % 3) * 80}>
-                    <ProductCard product={product} priority={index === 0} />
-                  </Reveal>
-                ))}
-              </ul>
-            )}
-          </>
+            }
+            items={products.map((product, index) => ({
+              slug: product.slug,
+              category: product.category?.slug ?? null,
+              platforms: product.platforms,
+              stage: product.stage,
+              node: (
+                <Reveal as="li" key={product.id} delay={(index % 3) * 80}>
+                  <ProductCard product={product} priority={index === 0} />
+                </Reveal>
+              ),
+            }))}
+          />
         )}
       </section>
 

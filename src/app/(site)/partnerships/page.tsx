@@ -232,7 +232,7 @@ function PartnerTierSection({
             <Expandable collapsedHeight={620} moreLabel={`Show all ${partners.length} partners`}>
               <ul className="grid grid-cols-2 gap-2 sm:gap-2.5 lg:grid-cols-3 xl:grid-cols-4">
                 {partners.map((partner) => (
-                  <li key={partner.slug} className="lazy-row min-w-0">
+                  <li key={partner.slug} className="min-w-0">
                     <PartnerTile partner={partner} size="compact" />
                   </li>
                 ))}
