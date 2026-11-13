@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const company = await getCompany();
   return pageMetadata({
     title: "Our Journey",
-    description: `The verified milestones in the story of ${company.name} — products, launches, collaborations and growth.`,
+    description: `How ${company.name} grew from a group of friends hunting airdrops in 2019 into a Web3 growth and software company.`,
     path: "/journey",
   });
 }
@@ -28,7 +28,7 @@ export default async function JourneyPage() {
             The story so far<span className="text-signal-500">.</span>
           </>
         }
-        description={`Verified milestones from ${company.name}'s history — every entry is based on a confirmed record.`}
+        description={`${company.name} started in 2019 as a group of friends hunting airdrops and doing pay-to-work jobs. We kept exploring — and this is where it led.`}
       >
         {years.length > 1 ? (
           <nav aria-label="Jump to year">
