@@ -1,19 +1,22 @@
 import type { Metadata } from "next";
+import { TeamCard } from "@/components/cards/content-cards";
+import { CountUp } from "@/components/motion/count-up";
 import { Reveal } from "@/components/motion/reveal";
 import { ClosingCta, DirectionStrip, PrinciplesSection } from "@/components/sections/shared-sections";
 import { StructureSection } from "@/components/sections/structure-section";
 import { Markdown } from "@/components/ui/markdown";
-import { PageHero } from "@/components/ui/section";
-import { getCompany, getDepartments, getPrinciples } from "@/lib/content/public";
+import { TextLink } from "@/components/ui/button";
+import { PageHero, SectionHeader } from "@/components/ui/section";
+import { getCapabilities, getCompany, getDepartments, getMilestones, getPartners, getPrinciples, getProducts, getTeamPreview } from "@/lib/content/public";
 import { clampDescription, pageMetadata } from "@/lib/seo/metadata";
-import { formatDate, indexLabel } from "@/lib/utils";
+import { cn, indexLabel, yearOf } from "@/lib/utils";
 
 export async function generateMetadata(): Promise<Metadata> {
   const company = await getCompany();
   return pageMetadata({
     title: "About",
     description: clampDescription(
-      `${company.name}: who we are, why we exist, and the principles behind every product we build. ${company.shortDescription}`,
+      `${company.name}: a group of friends who started with airdrops in 2019 and grew into a Web3 growth and software company. ${company.shortDescription}`,
     ),
     path: "/about",
   });
@@ -47,7 +50,23 @@ function Chapter({
 }
 
 export default async function AboutPage() {
-  const [company, principles, departments] = await Promise.all([getCompany(), getPrinciples(), getDepartments()]);
+  const [company, principles, departments, partners, products, capabilities, milestones, team] = await Promise.all([
+    getCompany(),
+    getPrinciples(),
+    getDepartments(),
+    getPartners(),
+    getProducts(),
+    getCapabilities(),
+    getMilestones(),
+    getTeamPreview(5),
+  ]);
+  // Numbers come from the content files, never typed in.
+  const firstYear = milestones.length > 0 ? Math.min(...milestones.map((m) => Number(yearOf(m.date)))) : null;
+  const stats = [
+    { label: "Partners", value: partners.length },
+    { label: "Products", value: products.length },
+    { label: "Services", value: capabilities.length },
+  ].filter((stat) => stat.value > 0);
 
   const chapters = [
     { id: "who-we-are", title: "Who we are", body: company.whoWeAre, lead: true },
@@ -68,19 +87,27 @@ export default async function AboutPage() {
         eyebrow={`About ${company.name}`}
         title={
           <>
-            Useful technology, made accessible<span className="text-signal-500">.</span>
+            From a group of friends to a Web3 growth partner<span className="text-signal-500">.</span>
           </>
         }
         description={company.shortDescription}
         aside={
-          company.founded ? (
-            <dl className="surface-card p-6">
-              <dt className="text-eyebrow text-ink-400">Established</dt>
-              <dd className="mt-3 font-display text-3xl tracking-[-0.04em] text-ink-50">
-                {formatDate(company.founded.date, company.founded.precision)}
-              </dd>
-            </dl>
-          ) : undefined
+          <dl className="surface-card grid grid-cols-2 gap-x-6 gap-y-7 p-6 md:p-7">
+            {firstYear ? (
+              <div className="flex flex-col-reverse">
+                <dt className="text-eyebrow mt-3 text-ink-400">Started</dt>
+                <dd className="font-display text-3xl tracking-[-0.04em] text-ink-50 tabular">{firstYear}</dd>
+              </div>
+            ) : null}
+            {stats.map((stat) => (
+              <div key={stat.label} className="flex flex-col-reverse">
+                <dt className="text-eyebrow mt-3 text-ink-400">{stat.label}</dt>
+                <dd className="font-display text-3xl tracking-[-0.04em] text-ink-50">
+                  <CountUp value={stat.value} />
+                </dd>
+              </div>
+            ))}
+          </dl>
         }
       />
 
@@ -167,6 +194,31 @@ export default async function AboutPage() {
             </div>
           </div>
         </div>
+      ) : null}
+
+      {team.length > 0 ? (
+        <section className="relative border-t border-white/[0.07] py-24 md:py-32" aria-labelledby="about-team-title">
+          <div className="container-site">
+            <SectionHeader
+              eyebrow="The people"
+              title={<span id="about-team-title">Still the same friends.</span>}
+              description="The group that started together in 2019 leads the company today."
+              action={<TextLink href="/team">Meet the team</TextLink>}
+            />
+            <div className={cn("mt-14 grid grid-cols-2 gap-x-4 gap-y-12 md:mt-20 md:gap-x-5", team.length >= 5 ? "lg:grid-cols-5" : "lg:grid-cols-4")}>
+              {team.map((member, index) => (
+                <Reveal key={member.id} delay={index * 90}>
+                  <TeamCard member={member} />
+                </Reveal>
+              ))}
+            </div>
+            {milestones.length > 0 ? (
+              <p className="mt-14 text-ink-300">
+                Want the whole story, year by year? <TextLink href="/journey">Read our journey</TextLink>
+              </p>
+            ) : null}
+          </div>
+        </section>
       ) : null}
 
       <StructureSection departments={departments} intro={company.structureIntro} />
