@@ -54,10 +54,11 @@ whoWeAre:
   },
 
   contact: {
-    intro: "KOC campaigns, consultancy, digital marketing, blockchain development or questions about our products — tell us what you're working on.",
-    // Add real addresses to show them on the Contact page and in the footer:
+    intro: "KOC campaigns, consultancy, digital marketing, blockchain development or questions about our products — email us, or message one of our admins on Telegram.",
+    // Shown on the Contact page and in the footer. `general` is the main company address.
+    // The Telegram contacts on the Contact page come from the team members' links in team.ts.
     emails: {
-      // general: "hello@example.com",
+      general: "contact@uniquelabs.org",
       // business: "business@example.com",
       // partnerships: "partners@example.com",
       // press: "press@example.com",
