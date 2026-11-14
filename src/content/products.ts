@@ -313,6 +313,7 @@ ScoreX is invite only for now and needs a license key from Unique Labs. Replies 
     stage: "BETA",
     audience: "People growing their influencer and smart-follower scores on X (Twitter)",
     website: "https://scorex.uniquelabs.org",
+    cta: { label: "Add to Chrome", url: "https://chromewebstore.google.com/detail/pckgdccdipdllagmieedopalgdoheklo" },
     logo: { src: "/images/products/scorex/logo.png", alt: "ScoreX logo", width: 128, height: 128 },
     cover: { src: "/images/products/scorex/cover.webp", alt: "ScoreX: get followed back by the accounts that move your score", width: 1400, height: 560 },
     screenshots: [
@@ -340,10 +341,10 @@ ScoreX is invite only for now and needs a license key from Unique Labs. Replies 
   {
     slug: "xaicg",
     name: "XAICG",
-    tagline: "X AI Comment/Reply Generator — replies for X, in your own voice.",
+    tagline: "X AI Comment/Reply Generator for Twitter — replies for X, in your own voice.",
     summary:
       "A Chrome extension that drafts comments, replies, posts and threads for X (Twitter) in your own voice. You read every draft and post it yourself. Free trial, no API key needed. In beta.",
-    description: `X AI Comment/Reply Generator (XAICG) drafts comments, replies, posts and threads for X (Twitter) in your own voice. It adds **AI Reply** and **Question** buttons to every post on x.com: click one and a draft is typed into X's own reply box. Change it if you like, then press Reply. Nothing is ever posted for you.
+    description: `X AI Comment/Reply Generator for Twitter (XAICG) drafts comments, replies, posts and threads for X (Twitter) in your own voice. It adds **AI Reply** and **Question** buttons to every post on x.com: click one and a draft is typed into X's own reply box. Change it if you like, then press Reply. Nothing is ever posted for you.
 
 ### What you can do
 
@@ -353,6 +354,7 @@ ScoreX is invite only for now and needs a license key from Unique Labs. Replies 
 - Write original posts in three lengths, or turn one idea into a thread of three to eight posts
 - Rewrite a draft of your own so it reads better and keeps your facts, names and links
 - Write in English, in the post's own language, or in one of 17 languages you choose
+- Soft sound effects when a draft arrives and when you send your reply — switch them off in Settings if you prefer quiet
 
 ### Sounds like you
 
@@ -371,14 +373,14 @@ XAICG is in beta, so details may change. It reads only the post you click — ne
     pricing: "PAID",
     website: "https://xaicg.uniquelabs.org",
     cta: { label: "Add to Chrome", url: "https://chromewebstore.google.com/detail/lpophlkocboadjhancbdikipnphffgil" },
-    logo: { src: "/images/products/xaicg/logo.png", alt: "XAICG logo", width: 128, height: 128 },
-    cover: { src: "/images/products/xaicg/cover.webp", alt: "XAICG: replies for X, in your own voice", width: 1400, height: 560 },
+    logo: { src: "/images/products/xaicg/logo-v2.png", alt: "XAICG logo", width: 128, height: 128 },
+    cover: { src: "/images/products/xaicg/cover-v2.webp", alt: "XAICG: replies for X, in your own voice", width: 1400, height: 560 },
     screenshots: [
-      { src: "/images/products/xaicg/screenshot-1.webp", alt: "XAICG drafting a reply into the reply box on a sample timeline", width: 1280, height: 800, caption: "Reply in your own voice, in one click (sample timeline)" },
-      { src: "/images/products/xaicg/screenshot-2.webp", alt: "XAICG tone menu with casual, witty, supportive and more", width: 1280, height: 800, caption: "Pick a tone when you want one (sample timeline)" },
-      { src: "/images/products/xaicg/screenshot-3.webp", alt: "XAICG compose window writing posts and a thread", width: 1280, height: 800, caption: "Posts and threads from a rough idea" },
-      { src: "/images/products/xaicg/screenshot-4.webp", alt: "XAICG voice settings: tone, reply length, language, emoji and persona", width: 1280, height: 800, caption: "Make it sound like you" },
-      { src: "/images/products/xaicg/screenshot-5.webp", alt: "XAICG settings showing account, plan and license", width: 1280, height: 800, caption: "A free trial, then a license that follows you (sample account)" },
+      { src: "/images/products/xaicg/screenshot-1-v2.webp", alt: "XAICG drafting a reply into the reply box on a sample timeline", width: 1280, height: 800, caption: "Reply on X in your own voice, in one click (sample timeline)" },
+      { src: "/images/products/xaicg/screenshot-2-v2.webp", alt: "XAICG tone menu with casual, witty, supportive and more", width: 1280, height: 800, caption: "A tone for every moment (sample timeline)" },
+      { src: "/images/products/xaicg/screenshot-3-v2.webp", alt: "XAICG compose window writing posts and a thread", width: 1280, height: 800, caption: "Posts and threads from a rough idea" },
+      { src: "/images/products/xaicg/screenshot-4-v2.webp", alt: "XAICG voice settings: tone, reply length, language, emoji and persona", width: 1280, height: 800, caption: "Make it sound like you" },
+      { src: "/images/products/xaicg/screenshot-5-v2.webp", alt: "XAICG settings showing account, plan and license", width: 1280, height: 800, caption: "Start free. Your plan follows you (sample account)" },
     ],
     features: [
       { title: "One click on any post", description: "AI Reply and Question buttons sit in each post's action bar. The draft lands in X's own reply box, ready for you to read." },
@@ -393,7 +395,8 @@ XAICG is in beta, so details may change. It reads only the post you click — ne
     links: [
       { kind: "WEBSITE", url: "https://xaicg.uniquelabs.org" },
       { kind: "PRIVACY_POLICY", url: "https://xaicg.uniquelabs.org/privacy" },
+      { kind: "SUPPORT", url: "https://xaicg.uniquelabs.org/support" },
     ],
-    accentColor: "#0052ff",
+    accentColor: "#fcd535",
   },
 ];
