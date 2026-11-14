@@ -79,7 +79,7 @@ export const milestones: MilestoneInput[] = [
     date: "2026",
     kind: "PRODUCT",
     description:
-      "The same friends, now a company: KOC and consultancy services, digital marketing and blockchain development for 243 partners, and seven Chrome extensions built in-house — from UnfollowX Pro and GrowX to Rowlio and ScoreX.",
+      "The same friends, now a company: KOC and consultancy services, digital marketing and blockchain development for 243 partners, and seven Chrome extensions built in-house — from UnfollowX Pro and GrowX to Rowlio and ScoreX, with an eighth, XAIGC, in development.",
     featured: true,
   },
 ];
