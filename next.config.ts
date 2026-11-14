@@ -63,6 +63,8 @@ const nextConfig: NextConfig = {
       { source: "/collaborations/:slug", destination: "/partnerships/:slug", permanent: true },
       // "What we do" became "Services".
       { source: "/what-we-do", destination: "/services", permanent: true },
+      // XAICG was briefly listed under its working name.
+      { source: "/products/xaigc", destination: "/products/xaicg", permanent: true },
       // Retired sections.
       { source: "/intelligence/:path*", destination: "/", permanent: false },
       { source: "/admin/:path*", destination: "/", permanent: false },

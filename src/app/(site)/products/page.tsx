@@ -12,7 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const company = await getCompany();
   return pageMetadata({
     title: "Products",
-    description: `Software built in-house by ${company.name} — Chrome extensions including UnfollowX Pro, GrowX, Unique PDF, FrameShot, Twofold, Rowlio, ScoreX and XAIGC (beta).`,
+    description: `Software built in-house by ${company.name} — Chrome extensions including UnfollowX Pro, GrowX, Unique PDF, FrameShot, Twofold, Rowlio, ScoreX and XAICG.`,
     path: "/products",
   });
 }

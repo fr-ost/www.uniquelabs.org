@@ -112,7 +112,7 @@ test.describe("public website", () => {
     await expect(page.getByRole("link", { name: /rowlio\.uniquelabs\.org/ })).toHaveCount(0);
 
     await page.goto("/products");
-    await expect(page.getByRole("link", { name: /^Product Page/ })).toHaveCount(7);
+    await expect(page.getByRole("link", { name: /^Product Page/ })).toHaveCount(8);
   });
 
   test("product filters work in the browser and can be shared as a link", async ({ page }) => {

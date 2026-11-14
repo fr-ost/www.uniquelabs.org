@@ -338,48 +338,62 @@ ScoreX is invite only for now and needs a license key from Unique Labs. Replies 
     featured: true,
   },
   {
-    slug: "xaigc",
-    name: "XAIGC",
-    tagline: "AI content generator for X (Twitter) — under development.",
+    slug: "xaicg",
+    name: "XAICG",
+    tagline: "X AI Comment/Reply Generator — replies for X, in your own voice.",
     summary:
-      "Beta, still under development: a Chrome extension that drafts replies, questions, posts and threads for X in your own voice. You review every draft — nothing is posted automatically.",
-    description: `XAIGC writes drafts for X (Twitter) in your own voice: replies, questions, quote lines, original posts and threads. It adds **AI Reply** and **Question** buttons to every post and a compose studio to the toolbar.
+      "A Chrome extension that drafts comments, replies, posts and threads for X (Twitter) in your own voice. You read every draft and post it yourself. Free trial, no API key needed. In beta.",
+    description: `X AI Comment/Reply Generator (XAICG) drafts comments, replies, posts and threads for X (Twitter) in your own voice. It adds **AI Reply** and **Question** buttons to every post on x.com: click one and a draft is typed into X's own reply box. Change it if you like, then press Reply. Nothing is ever posted for you.
 
-### You stay in control
+### What you can do
 
-Drafts are typed into X's reply box for you to review, or only copied to the clipboard if you prefer. XAIGC never posts, likes, follows or sends anything on your behalf.
+- Reply to any post with one click, or ask a short, specific question about it
+- Pick a tone when you want one — casual, witty, supportive, skeptical, analytical, blunt, technical or professional — or let Auto fit the post
+- "Try another" steps through more drafts without using another generation
+- Write original posts in three lengths, or turn one idea into a thread of three to eight posts
+- Rewrite a draft of your own so it reads better and keeps your facts, names and links
+- Write in English, in the post's own language, or in one of 17 languages you choose
 
 ### Sounds like you
 
-Describe your persona once and choose a default tone, reply length, language and emoji preference. They apply to everything XAIGC writes. A tone menu covers casual, witty, supportive, skeptical, analytical, blunt, technical and professional.
+Describe your persona once, or start from a preset and edit it. XAICG is built to avoid the usual signs of AI writing: no generic praise, no hype words, no hashtags you did not ask for. It reacts to one concrete detail in the post and keeps track of your recent drafts so it does not repeat itself.
 
-### No API key to manage
+### Free trial and plans
 
-The writing engine runs on the XAIGC server, so you don't need your own OpenAI key. Sign in with Google and your free trial or license follows your account to any browser; a license key also works on its own.
+No OpenAI account or API key is needed: install it, sign in with Google and start writing. The free trial is 20 generations with every tone and writing mode, no card needed. Paid plans are Starter ($0.99 a month, 60 generations a day, one browser), Pro ($1.99 a month, 200 a day, two browsers) and Agency ($4.99 a month, 600 a day, five browsers). A license belongs to your Google account, so it follows you to a new computer.
 
 ### Good to know
 
-XAIGC is in beta and still under development, so it is not publicly available yet and details may change. The text of the post you choose is sent to the XAIGC server and on to OpenAI to write the draft; the server does not store that text or the draft. XAIGC does not read your X password, direct messages or followers.`,
+XAICG is in beta, so details may change. It reads only the post you click — never your direct messages, followers or password. The post's text is sent to the XAICG server and on to OpenAI to write the draft; the server does not save that text or the draft. XAICG is an independent product and is not affiliated with or endorsed by X Corp.`,
     category: "browser-extensions",
     platforms: ["CHROME_EXTENSION"],
     stage: "BETA",
-    logo: { src: "/images/products/xaigc/logo.png", alt: "XAIGC logo", width: 128, height: 128 },
-    cover: { src: "/images/products/xaigc/cover.webp", alt: "XAIGC: AI content generator for X, in beta and under development", width: 1400, height: 560 },
+    pricing: "PAID",
+    website: "https://xaicg.uniquelabs.org",
+    cta: { label: "Add to Chrome", url: "https://chromewebstore.google.com/detail/lpophlkocboadjhancbdikipnphffgil" },
+    logo: { src: "/images/products/xaicg/logo.png", alt: "XAICG logo", width: 128, height: 128 },
+    cover: { src: "/images/products/xaicg/cover.webp", alt: "XAICG: replies for X, in your own voice", width: 1400, height: 560 },
     screenshots: [
-      { src: "/images/products/xaigc/screenshot-1.webp", alt: "XAIGC compose studio with Post, Thread and Rewrite modes", width: 1280, height: 800, caption: "Compose studio: posts, threads and rewrites (beta interface)" },
-      { src: "/images/products/xaigc/screenshot-2.webp", alt: "XAIGC voice settings: tone, reply length, language, emoji and persona", width: 1280, height: 800, caption: "Your voice: tone, length, language and persona (beta interface)" },
-      { src: "/images/products/xaigc/screenshot-3.webp", alt: "XAIGC settings for where drafts go on x.com", width: 1280, height: 800, caption: "Choose where drafts go — the reply box or the clipboard (beta interface)" },
+      { src: "/images/products/xaicg/screenshot-1.webp", alt: "XAICG drafting a reply into the reply box on a sample timeline", width: 1280, height: 800, caption: "Reply in your own voice, in one click (sample timeline)" },
+      { src: "/images/products/xaicg/screenshot-2.webp", alt: "XAICG tone menu with casual, witty, supportive and more", width: 1280, height: 800, caption: "Pick a tone when you want one (sample timeline)" },
+      { src: "/images/products/xaicg/screenshot-3.webp", alt: "XAICG compose window writing posts and a thread", width: 1280, height: 800, caption: "Posts and threads from a rough idea" },
+      { src: "/images/products/xaicg/screenshot-4.webp", alt: "XAICG voice settings: tone, reply length, language, emoji and persona", width: 1280, height: 800, caption: "Make it sound like you" },
+      { src: "/images/products/xaicg/screenshot-5.webp", alt: "XAICG settings showing account, plan and license", width: 1280, height: 800, caption: "A free trial, then a license that follows you (sample account)" },
     ],
     features: [
-      { title: "AI Reply and Question buttons", description: "On every post, with a tone menu from casual and witty to analytical and professional." },
-      { title: "Nothing posts automatically", description: "Drafts go into X's reply box for review. A clipboard-only mode is available." },
-      { title: "Try another", description: "Step through alternative drafts without spending another generation." },
-      { title: "Compose studio", description: "Write original posts and threads, or rewrite a draft, from the toolbar popup." },
-      { title: "In your voice", description: "A persona description, default tone, reply length, language and emoji preference that apply to everything." },
-      { title: "Sign in with Google", description: "Your trial or license follows your account to a new browser, with no key to type." },
-      { title: "No API key needed", description: "The writing engine runs on the XAIGC server; nothing to set up in the extension." },
-      { title: "Private by design", description: "The server does not store the posts you reply to or the drafts it writes." },
+      { title: "One click on any post", description: "AI Reply and Question buttons sit in each post's action bar. The draft lands in X's own reply box, ready for you to read." },
+      { title: "A tone for the moment", description: "Auto fits each post, or pick casual, witty, supportive, skeptical, analytical, blunt, technical or professional." },
+      { title: "Try another, for free", description: "Each request brings back several drafts. Step through them without spending another generation." },
+      { title: "Posts, threads and rewrites", description: "The toolbar popup turns a rough idea into post drafts or a full thread, and tightens a draft you already wrote." },
+      { title: "Your voice, saved once", description: "Describe how you sound; set reply length, language and emoji. It applies to everything XAICG writes." },
+      { title: "You stay in control", description: "Nothing is ever posted for you. A copy-only mode never touches the page." },
+      { title: "No API key", description: "The writing happens on the XAICG server. Sign in with Google and start; your plan follows your account." },
+      { title: "Private by design", description: "It reads only the post you click, and the server does not save that text or the draft." },
     ],
-    accentColor: "#8ba2ff",
+    links: [
+      { kind: "WEBSITE", url: "https://xaicg.uniquelabs.org" },
+      { kind: "PRIVACY_POLICY", url: "https://xaicg.uniquelabs.org/privacy" },
+    ],
+    accentColor: "#0052ff",
   },
 ];
