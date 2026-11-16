@@ -429,7 +429,7 @@ Prefer to stay hands-on? Manual **REP · D · QS · RG** buttons on every post d
 
 ### Good to know
 
-UniqueFarm is proprietary software for private use, and no external license is sold separately right now. The extension is on the Chrome Web Store, but it only unlocks with an access key from Unique Labs. It works with your own OpenAI API key, and replies are billed to that OpenAI account. Your key, settings, reply history and dedup memory stay on your device; the extension never asks for your X password. It needs Chrome 116 or newer.`,
+UniqueFarm is proprietary software for private use. The extension is live on the Chrome Web Store, but it only unlocks with an access key, and license sales have not started yet — no external license is sold separately right now. It works with your own OpenAI API key, and replies are billed to that OpenAI account. Your key, settings, reply history and dedup memory stay on your device; the extension never asks for your X password. It needs Chrome 116 or newer.`,
     category: "browser-extensions",
     platforms: ["CHROME_EXTENSION"],
     stage: "PRIVATE",
