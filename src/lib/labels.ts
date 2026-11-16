@@ -30,6 +30,7 @@ export const RELEASE_STAGE_LABELS: Record<ReleaseStage, string> = {
   AVAILABLE: "Live",
   BETA: "Beta",
   COMING_SOON: "Coming soon",
+  PRIVATE: "Private",
   DISCONTINUED: "Archived",
 };
 

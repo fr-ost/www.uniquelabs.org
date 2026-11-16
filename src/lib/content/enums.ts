@@ -3,7 +3,7 @@
 export type DatePrecision = "DAY" | "MONTH" | "YEAR";
 
 /** Product lifecycle, shown as a status badge. */
-export type ReleaseStage = "AVAILABLE" | "BETA" | "COMING_SOON" | "DISCONTINUED";
+export type ReleaseStage = "AVAILABLE" | "BETA" | "COMING_SOON" | "PRIVATE" | "DISCONTINUED";
 
 export type Platform =
   | "CHROME_EXTENSION"

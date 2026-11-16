@@ -6,6 +6,7 @@ const stageStyles: Record<ReleaseStage, { dot: string; text: string }> = {
   AVAILABLE: { dot: "bg-live shadow-[0_0_0_3px_rgba(116,217,182,0.18)]", text: "text-live" },
   BETA: { dot: "bg-beta shadow-[0_0_0_3px_rgba(242,196,90,0.18)]", text: "text-beta" },
   COMING_SOON: { dot: "bg-soon shadow-[0_0_0_3px_rgba(156,184,242,0.18)]", text: "text-soon" },
+  PRIVATE: { dot: "bg-iris-400 shadow-[0_0_0_3px_rgba(167,139,250,0.18)]", text: "text-iris-400" },
   DISCONTINUED: { dot: "bg-archived", text: "text-archived" },
 };
 

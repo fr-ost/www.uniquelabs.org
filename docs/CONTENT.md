@@ -45,7 +45,7 @@ Every file starts with a commented **template** you can copy.
   description: "Longer **Markdown** text…",
   category: "browser-extensions",          // a slug from `categories`
   platforms: ["CHROME_EXTENSION"],
-  stage: "AVAILABLE",                      // AVAILABLE · BETA · COMING_SOON · DISCONTINUED
+  stage: "AVAILABLE",                      // AVAILABLE · BETA · COMING_SOON · PRIVATE · DISCONTINUED
   pricing: "FREE",
   released: "2025-06",                     // "2025", "2025-06" or "2025-06-14"
   website: "https://tabnest.example",      // shown as the "Product Page" button (the address itself is never displayed)

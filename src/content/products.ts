@@ -19,7 +19,7 @@ export const categories: CategoryInput[] = [
  *   description: "Longer **Markdown** description.",
  *   category: "browser-extensions",
  *   platforms: ["CHROME_EXTENSION", "EDGE_ADDON"],
- *   stage: "AVAILABLE",                      // AVAILABLE · BETA · COMING_SOON · DISCONTINUED
+ *   stage: "AVAILABLE",                      // AVAILABLE · BETA · COMING_SOON · PRIVATE · DISCONTINUED
  *   pricing: "FREE",                         // FREE · FREEMIUM · PAID · OPEN_SOURCE · UNSPECIFIED
  *   released: "2025-06",
  *   cta: { label: "Add to Chrome", url: "https://chromewebstore.google.com/detail/…" },
@@ -398,5 +398,65 @@ XAICG is in beta, so details may change. It reads only the post you click — ne
       { kind: "SUPPORT", url: "https://xaicg.uniquelabs.org/support" },
     ],
     accentColor: "#fcd535",
+  },
+  {
+    slug: "uniquefarm",
+    name: "UniqueFarm",
+    tagline: "Grow on X without sounding like a bot.",
+    summary:
+      "Proprietary, private-use software: no external license is sold separately right now. A Chrome side-panel for X (Twitter) that reads the post, writes a reply in your voice and posts it with human timing, breaks and a review hold.",
+    description: `**Proprietary and private.** UniqueFarm is proprietary software for private use. No external license is sold separately right now.
+
+UniqueFarm is a Chrome side-panel for X (Twitter). It reads the real post — text, images, quoted tweets and linked articles — writes a reply in your voice with your own OpenAI key, and posts it with human timing, breaks and a review hold. You can stop everything in one click.
+
+### Four tools, one voice
+
+- **Automate.** Paste post links and press Start. It cleans and de-duplicates the list, opens each post in its own tab, likes, reads, writes and posts. One slider mixes short replies, deeper takes and genuine questions.
+- **Reply Guy.** Answers everyone under your own post: likes each comment and replies as the author, skipping your own replies and anyone you already answered.
+- **KOL Engage.** Give it profile links. It finds their recent original posts and likes, bookmarks, reposts or comments on them — never on their replies or threads.
+- **Home Feed.** Works your For-you feed with one comment per top-level post, skipping ads, your own posts and anything already done.
+
+Prefer to stay hands-on? Manual **REP · D · QS · RG** buttons on every post draft a reply, a deeper take, a question or an author reply. You read it, you press Post.
+
+### Built to behave
+
+- **Stop means stop.** Every tool halts within a second, the comment being written is cancelled before it posts, and a stopped run never resumes by itself.
+- **Review hold.** The finished comment sits in the box for a few seconds so you can read or edit it first.
+- **Never the wrong box.** Replies go through the post's own reply composer; if it does not open, the item is skipped.
+- **Human timing.** Random read time, randomized delays and breaks after every batch.
+- **Dedup memory.** It remembers every post it commented on, so nothing is answered twice.
+- **Cost guard.** Hard caps on daily and monthly OpenAI spend.
+
+### Good to know
+
+UniqueFarm is proprietary software for private use, and no external license is sold separately right now. The extension is on the Chrome Web Store, but it only unlocks with an access key from Unique Labs. It works with your own OpenAI API key, and replies are billed to that OpenAI account. Your key, settings, reply history and dedup memory stay on your device; the extension never asks for your X password. It needs Chrome 116 or newer.`,
+    category: "browser-extensions",
+    platforms: ["CHROME_EXTENSION"],
+    stage: "PRIVATE",
+    website: "https://farm.uniquelabs.org",
+    cta: { label: "Add to Chrome", url: "https://chromewebstore.google.com/detail/plfapamdnnjlgjahajdgeaiknjljijln" },
+    logo: { src: "/images/products/uniquefarm/logo.png", alt: "UniqueFarm logo", width: 128, height: 128 },
+    cover: { src: "/images/products/uniquefarm/cover.webp", alt: "UniqueFarm: grow on X without sounding like a bot", width: 1400, height: 560 },
+    screenshots: [
+      { src: "/images/products/uniquefarm/screenshot-1.webp", alt: "UniqueFarm's tools: Automate, Reply Guy, KOL Engage, Home Feed and more", width: 1280, height: 800, caption: "Four tools, one voice" },
+      { src: "/images/products/uniquefarm/screenshot-2.webp", alt: "UniqueFarm safety controls: stop, pause, review hold, breaks and cost guard", width: 1280, height: 800, caption: "Built to behave: stop, pause, review hold and cost guard" },
+      { src: "/images/products/uniquefarm/screenshot-3.webp", alt: "Table of OpenAI models supported by UniqueFarm", width: 1280, height: 800, caption: "Bring your own OpenAI key and pick a model" },
+      { src: "/images/products/uniquefarm/screenshot-4.webp", alt: "UniqueFarm setup in four steps: install, unlock, add your OpenAI key, run", width: 1280, height: 800, caption: "Two minutes to the first comment" },
+    ],
+    features: [
+      { title: "Automate", description: "Paste links, press Start. Mix short replies, deeper takes and genuine questions with one slider." },
+      { title: "Reply Guy", description: "Answer everyone under your own post, skipping anyone you already answered." },
+      { title: "KOL Engage", description: "Like, bookmark, repost or comment on the recent original posts of the creators you choose." },
+      { title: "Home Feed", description: "Work your For-you feed, one comment per top-level post, skipping ads and your own posts." },
+      { title: "Human timing", description: "Random read time, randomized delays, breaks after every batch and a review hold before posting." },
+      { title: "Dedup memory", description: "Remembers every post it commented on and survives reinstalls. Export, import or sync it." },
+      { title: "Stats and cost guard", description: "Live progress, per-tool stats, token usage and daily or monthly spend caps on your OpenAI key." },
+      { title: "A real Stop button", description: "One click halts every tool within a second, and nothing more gets posted." },
+    ],
+    links: [
+      { kind: "WEBSITE", url: "https://farm.uniquelabs.org" },
+      { kind: "PRIVACY_POLICY", url: "https://farm.uniquelabs.org/privacy" },
+    ],
+    accentColor: "#ff2e88",
   },
 ];

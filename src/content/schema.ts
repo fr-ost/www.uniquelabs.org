@@ -149,7 +149,7 @@ export interface ProductInput {
   /** A category slug from `categories`. */
   category?: string;
   platforms?: Platform[];
-  /** AVAILABLE (live) · BETA · COMING_SOON · DISCONTINUED */
+  /** AVAILABLE (live) · BETA · COMING_SOON · PRIVATE (proprietary, not offered publicly) · DISCONTINUED */
   stage: ReleaseStage;
   pricing?: PricingModel;
   audience?: string;
