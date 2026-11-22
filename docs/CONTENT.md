@@ -102,6 +102,16 @@ In `src/content/company.ts` set `contact.emails` (general, business,
 partnerships, press) and add `socials`, e.g.
 `{ platform: "X", url: "https://x.com/uniquelabs" }`.
 
+## Search (SEO)
+
+The full SEO program — what is done, what is planned, and the open questions — is in [`docs/seo/SEO-PROGRAM.md`](seo/SEO-PROGRAM.md). Rules for content edits:
+
+- **Products:** give each product a `seo: { title, description }`. The title is at most 46 characters (the site adds " — Unique Labs"); the description is 140–155 characters and must not end in "…".
+- **Company:** `founded`, `contact.country`, `contact.address` and `socials` feed the Organization structured data and the footer. Add the company's X and Telegram profiles to `socials` when they exist.
+- **Team:** `shortBio`, `bio`, `expertise` and `links.linkedin` improve the profile pages and their structured data.
+- **Projects:** `/projects` stays out of search results (noindex, not in the sitemap) until the first project is added.
+- Site-wide title, description and search-console verification codes are in `src/content/site.ts`.
+
 ## Images
 
 - Store images under `public/images/…` and reference them as

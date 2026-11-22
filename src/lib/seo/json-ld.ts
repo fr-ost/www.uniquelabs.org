@@ -4,6 +4,10 @@ import { PLATFORM_LABELS } from "@/lib/labels";
 
 type JsonLd = Record<string, unknown>;
 
+/** Search engines prefer two-letter country codes (ISO 3166-1) in addresses. */
+const COUNTRY_CODES: Record<string, string> = { bangladesh: "BD" };
+const countryCode = (country: string) => COUNTRY_CODES[country.trim().toLowerCase()] ?? country;
+
 /**
  * The company. One node with a stable @id that every other block points to.
  * `founders` are the team members whose position names them as a founder.
@@ -46,11 +50,11 @@ export function organizationJsonLd(company: CompanyDTO, socials: SocialLinkDTO[]
             addressLocality: address.city ?? undefined,
             addressRegion: address.region ?? undefined,
             postalCode: address.postalCode ?? undefined,
-            addressCountry: address.country ?? undefined,
+            addressCountry: address.country ? countryCode(address.country) : undefined,
           },
         }
       : country
-        ? { address: { "@type": "PostalAddress", addressCountry: country }, location: { "@type": "Place", name: country } }
+        ? { address: { "@type": "PostalAddress", addressCountry: countryCode(country) }, location: { "@type": "Place", name: country } }
         : {}),
     areaServed: "Worldwide",
     ...(email

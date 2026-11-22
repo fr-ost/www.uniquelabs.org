@@ -14,6 +14,7 @@ changes; almost all changes are edits to the content files.
 - `src/lib/content/public.ts` — turns content into page data (DTOs) and runs
   the content validator (`src/lib/content/validate.ts`) at build time.
 - `src/app/(site)/…` — pages; `src/components/…` — UI.
+- `docs/seo/SEO-PROGRAM.md` — the SEO program (done items, plan, open questions).
 
 ## Rules
 
