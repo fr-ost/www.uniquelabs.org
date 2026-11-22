@@ -23,11 +23,15 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;
-  const member = await getTeamMember(slug);
+  const [member, company] = await Promise.all([getTeamMember(slug), getCompany()]);
   if (!member) return { title: "Team member not found", robots: { index: false } };
   return pageMetadata({
-    title: `${member.name} — ${member.position}`,
-    description: clampDescription(member.shortBio ?? `${member.name}, ${member.position}.`),
+    title: `${member.name}, ${member.position} of ${company.name}`,
+    absoluteTitle: true,
+    description: clampDescription(
+      member.shortBio ??
+        `${member.name} is ${member.position} at ${company.name}, a Web3 growth and software company from Bangladesh. Profile, role and links to X and Telegram.`,
+    ),
     path: `/team/${member.slug}`,
     type: "profile",
   });

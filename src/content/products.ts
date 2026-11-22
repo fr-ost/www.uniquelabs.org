@@ -83,6 +83,10 @@ Works with both the new and the classic X website, in English, Spanish, Portugue
       { kind: "STORE_LISTING", url: "https://chromewebstore.google.com/detail/x-twitter-mass-unfollow-t/igpjmagghnibmjkkdcgpjgpkfkpiglnl" },
       { kind: "PRIVACY_POLICY", url: "https://www.unfollowx.com/privacy" },
     ],
+    seo: {
+      title: "UnfollowX Pro: Free Mass Unfollow Tool for X",
+      description: "UnfollowX Pro is a free Chrome extension that shows who doesn't follow you back on X (Twitter) and unfollows them at a safe pace. No limits, no sign-up.",
+    },
     accentColor: "#3d5afe",
     featured: true,
   },
@@ -124,6 +128,10 @@ The free plan includes the Safe and Balanced auto-follow paces, sources and core
       { kind: "STORE_LISTING", url: "https://chromewebstore.google.com/detail/ofiancichfcakbdgekhcahflpoglfgbh" },
       { kind: "PRIVACY_POLICY", url: "https://www.growxapp.org/privacy" },
     ],
+    seo: {
+      title: "GrowX: X (Twitter) Growth Tool for Chrome",
+      description: "GrowX is an all-in-one X (Twitter) growth extension for Chrome: smart auto follow, a post scheduler, an on-device AI writer and an unfollower tracker.",
+    },
     accentColor: "#f0405a",
     featured: true,
   },
@@ -161,6 +169,10 @@ Every file is processed in your browser — nothing is uploaded, there is no acc
       { kind: "WEBSITE", url: "https://pdf.uniquelabs.org" },
       { kind: "STORE_LISTING", url: "https://chromewebstore.google.com/detail/ogajiapfmheeiadeflajlkikpfkoobfl" },
     ],
+    seo: {
+      title: "Unique PDF: Free PDF Editor Chrome Extension",
+      description: "Unique PDF puts 20 free PDF tools in Chrome: merge, split, compress, edit, sign and protect, plus AI chat with any PDF. Files never leave your browser.",
+    },
     accentColor: "#7b61ff",
     featured: true,
   },
@@ -198,6 +210,10 @@ Every feature is available to everyone: no paid plans, subscriptions, watermarks
       { kind: "WEBSITE", url: "https://frameshot.uniquelabs.org" },
       { kind: "STORE_LISTING", url: "https://chromewebstore.google.com/detail/adcgjmghjagflmmndoajdidcopodacac" },
     ],
+    seo: {
+      title: "FrameShot: Free Screen Recorder for Chrome",
+      description: "FrameShot is a free Chrome screen recorder and full-page screenshot tool. Record with sound and camera, annotate and blur. No watermark, stays on device.",
+    },
     accentColor: "#6d4cf6",
     featured: true,
   },
@@ -235,6 +251,10 @@ Backups are password-encrypted, and sync through Chrome Sync or Google Drive is 
       { kind: "WEBSITE", url: "https://twofold.uniquelabs.org" },
       { kind: "STORE_LISTING", url: "https://chromewebstore.google.com/detail/kgjmfhcleplfocnbpfklmejgemkgmpfb" },
     ],
+    seo: {
+      title: "Twofold: Free 2FA Authenticator for Chrome",
+      description: "Twofold is a free 2FA authenticator for Chrome: one-click codes, phishing-aware autofill, passkeys, QR scanning and encrypted sync. No ads, works offline.",
+    },
     accentColor: "#6e6afc",
     featured: true,
   },
@@ -283,6 +303,10 @@ Pagination, infinite scroll and batch runs over a list of URLs are always starte
       { kind: "WEBSITE", url: "https://rowlio.uniquelabs.org" },
       { kind: "PRIVACY_POLICY", url: "https://rowlio.uniquelabs.org/privacy" },
     ],
+    seo: {
+      title: "Rowlio: Free Web Scraper Chrome Extension",
+      description: "Rowlio is a free web scraper for Chrome. Extract tables, listings, links, images and contacts into clean rows, then export to CSV, Excel or JSON locally.",
+    },
     accentColor: "#0d9467",
     featured: true,
   },
@@ -335,6 +359,10 @@ ScoreX is invite only for now and needs a license key from Unique Labs. Replies 
       { kind: "WEBSITE", url: "https://scorex.uniquelabs.org" },
       { kind: "PRIVACY_POLICY", url: "https://scorex.uniquelabs.org/privacy" },
     ],
+    seo: {
+      title: "ScoreX: Grow Your Influencer Score on X",
+      description: "ScoreX is a Chrome extension that replies to the smart accounts you pick on X, in your own voice, to grow your influencer score. Invite-only early access.",
+    },
     accentColor: "#a3d900",
     featured: true,
   },
@@ -409,6 +437,10 @@ XAICG reads only the post you click — never your messages, followers or passwo
       { kind: "PRIVACY_POLICY", url: "https://xaicg.uniquelabs.org/privacy" },
       { kind: "SUPPORT", url: "https://xaicg.uniquelabs.org/support" },
     ],
+    seo: {
+      title: "XAICG: Free AI Reply Generator for X (Twitter)",
+      description: "XAICG is a free, unlimited AI reply generator for X (Twitter). Replies, questions, posts and threads in your voice, written privately on your own computer.",
+    },
     accentColor: "#fcd535",
   },
   {
@@ -469,6 +501,10 @@ UniqueFarm is proprietary software for private use. The extension is live on the
       { kind: "WEBSITE", url: "https://farm.uniquelabs.org" },
       { kind: "PRIVACY_POLICY", url: "https://farm.uniquelabs.org/privacy" },
     ],
+    seo: {
+      title: "UniqueFarm: X Engagement Side Panel (Private)",
+      description: "UniqueFarm is a private Chrome side panel for X that drafts replies in your voice with human timing and a review hold. No external licences are sold yet.",
+    },
     accentColor: "#ff2e88",
   },
 ];

@@ -73,11 +73,24 @@ test.describe("public website", () => {
     expect(jsonLd.some((text) => text.includes('"Organization"'))).toBe(true);
     const sitemap = await request.get("/sitemap.xml");
     expect(sitemap.status()).toBe(200);
-    expect(await sitemap.text()).toContain("/projects</loc>");
+    const sitemapXml = await sitemap.text();
+    expect(sitemapXml).toContain("/products</loc>");
+    expect(sitemapXml).not.toContain("?status=");
     const robots = await request.get("/robots.txt");
     expect(await robots.text()).toMatch(/Sitemap: /);
+    const favicon = await request.get("/favicon.ico");
+    expect(favicon.status()).toBe(200);
     const og = await request.get("/og/projects");
     expect(og.headers()["content-type"]).toBe("image/png");
+  });
+
+  test("an empty Projects page stays out of search results", async ({ page, request }) => {
+    const sitemap = await (await request.get("/sitemap.xml")).text();
+    await page.goto("/projects");
+    const robots = await page.locator('meta[name="robots"]').getAttribute("content");
+    // While there are no case studies the page is noindex and not in the sitemap.
+    if (!sitemap.includes("/projects</loc>")) expect(robots).toContain("noindex");
+    else expect(robots ?? "").not.toContain("noindex");
   });
 
   test("navigation works on every viewport", async ({ page, isMobile }) => {

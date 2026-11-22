@@ -8,11 +8,11 @@ import type { SiteInput } from "./schema";
  */
 export const site: SiteInput = {
   seo: {
-    title: "Unique Labs — KOC, consultancy, digital marketing & blockchain development",
+    title: "Unique Labs: Web3 Marketing, KOC & Blockchain Development",
     titleTemplate: "%s — Unique Labs",
     description:
-      "Unique Labs offers KOC and consultancy services, digital marketing and blockchain development — helping brands and Web3 projects build, launch and grow. We also build our own software and AI products.",
-    keywords: ["Unique Labs", "KOC marketing", "consultancy", "digital marketing", "Web3 marketing", "blockchain development", "Web3 development", "AI", "Chrome extensions"],
+      "Unique Labs is a Web3 growth agency from Bangladesh: KOC and KOL campaigns, consultancy, digital marketing and blockchain development since 2019.",
+    keywords: ["Unique Labs", "Web3 marketing agency", "crypto KOC marketing", "KOL marketing", "Web3 consultancy", "digital marketing", "blockchain development", "Chrome extension development", "Bangladesh"],
     // twitterHandle: "@uniquelabs",
     // googleSiteVerification: "…",
     // bingSiteVerification: "…",

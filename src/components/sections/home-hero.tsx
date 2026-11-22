@@ -5,14 +5,16 @@ import { CountUp } from "@/components/motion/count-up";
 import { PauseOffscreen } from "@/components/motion/pause-offscreen";
 import { Spotlight } from "@/components/motion/spotlight";
 import { ButtonLink } from "@/components/ui/button";
-import { MediaImage } from "@/components/ui/media-image";
+import { PartnerLogo } from "@/components/ui/partner-logo";
 import { Aurora } from "@/components/visuals/aurora";
 import { HeroVisual } from "@/components/visuals/hero-visual";
 import type { CompanyDTO, PartnerDTO } from "@/lib/content/types";
 
 /**
  * Splits a headline into words that rise into view. The final word gets the
- * brand gradient; a trailing "." becomes the signal dot.
+ * brand gradient; a trailing "." becomes the signal dot. The words themselves
+ * are the heading text (no hidden duplicate), so search engines and screen
+ * readers read it once.
  */
 function AnimatedHeadline({ text }: { text: string }) {
   const trimmed = text.trim();
@@ -20,24 +22,21 @@ function AnimatedHeadline({ text }: { text: string }) {
   const words = (endsWithPeriod ? trimmed.slice(0, -1) : trimmed).split(/\s+/);
   return (
     <>
-      <span className="sr-only">{trimmed}</span>
-      <span aria-hidden>
-        {words.map((word, index) => {
-          const last = index === words.length - 1;
-          return (
-            <Fragment key={`${word}-${index}`}>
-              <span className="-mb-[0.16em] inline-block overflow-hidden pb-[0.16em] align-bottom">
-                <span className="inline-block animate-word-rise" style={{ animationDelay: `${120 + index * 70}ms` }}>
-                  <span className={last ? "text-gradient" : undefined}>{word}</span>
-                  {last && endsWithPeriod ? <span className="text-signal-500">.</span> : null}
-                </span>
+      {words.map((word, index) => {
+        const last = index === words.length - 1;
+        return (
+          <Fragment key={`${word}-${index}`}>
+            <span className="-mb-[0.16em] inline-block overflow-hidden pb-[0.16em] align-bottom">
+              <span className="inline-block animate-word-rise" style={{ animationDelay: `${120 + index * 70}ms` }}>
+                <span className={last ? "text-gradient" : undefined}>{word}</span>
+                {last && endsWithPeriod ? <span className="text-signal-500">.</span> : null}
               </span>
-              {/* The space lives between the word boxes: inside an inline-block it would be dropped. */}
-              {last ? null : " "}
-            </Fragment>
-          );
-        })}
-      </span>
+            </span>
+            {/* The space lives between the word boxes: inside an inline-block it would be dropped. */}
+            {last ? null : " "}
+          </Fragment>
+        );
+      })}
     </>
   );
 }
@@ -104,7 +103,7 @@ export function HomeHero({
                       key={partner.slug}
                       className="relative h-9 w-9 overflow-hidden rounded-full border-2 border-ink-900 bg-ink-800 transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:-translate-y-0.5"
                     >
-                      <MediaImage media={partner.logo} alt="" fill sizes="36px" priority />
+                      <PartnerLogo logo={partner.logo} alt="" eager />
                     </span>
                   ) : null,
                 )}

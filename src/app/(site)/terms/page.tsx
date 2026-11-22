@@ -8,7 +8,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const company = await getCompany();
   return pageMetadata({
     title: "Terms of Use",
-    description: `The terms that govern your use of the ${company.name} website.`,
+    description: `The terms of use for the ${company.name} website: our services and products, intellectual property, external links, disclaimers and changes.`,
     path: "/terms",
   });
 }

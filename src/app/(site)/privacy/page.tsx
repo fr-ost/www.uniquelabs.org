@@ -8,7 +8,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const company = await getCompany();
   return pageMetadata({
     title: "Privacy Policy",
-    description: `How ${company.name} handles personal information on ${new URL(siteUrl()).host}.`,
+    description: `How ${company.name} handles personal information on ${new URL(siteUrl()).host}: no cookies or analytics, what happens when you email us, and your rights.`,
     path: "/privacy",
   });
 }

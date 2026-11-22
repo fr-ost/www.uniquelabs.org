@@ -12,8 +12,8 @@ import { pluralize } from "@/lib/utils";
 export async function generateMetadata(): Promise<Metadata> {
   const company = await getCompany();
   return pageMetadata({
-    title: "Our Team",
-    description: `Meet the people behind ${company.name} — the team behind our services and products.`,
+    title: "Our Team: Web3 Growth & Marketing Leaders",
+    description: `Meet the ${company.name} leadership team: the founders and heads of growth, partnerships and marketing behind our Web3 campaigns and products.`,
     path: "/team",
   });
 }

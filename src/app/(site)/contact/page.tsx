@@ -12,8 +12,8 @@ import { pageMetadata } from "@/lib/seo/metadata";
 export async function generateMetadata(): Promise<Metadata> {
   const company = await getCompany();
   return pageMetadata({
-    title: "Contact",
-    description: `Get in touch with ${company.name} by email or on Telegram — business inquiries, partnership ideas, press and general questions.`,
+    title: "Contact Us: Web3 Marketing & KOC Enquiries",
+    description: `Contact ${company.name} at contact@uniquelabs.org or message our admins on Telegram about KOC campaigns, Web3 marketing or blockchain development.`,
     path: "/contact",
   });
 }
@@ -43,7 +43,7 @@ export default async function ContactPage() {
         eyebrow="Contact"
         title={
           <>
-            Let&apos;s talk<span className="text-signal-500">.</span>
+            Contact Unique Labs<span className="text-signal-500">.</span>
           </>
         }
         description={contact.intro ?? "Tell us what you're working on — we read every message."}

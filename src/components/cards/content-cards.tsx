@@ -4,6 +4,7 @@ import { PointerGlow } from "@/components/motion/pointer-glow";
 import { CapabilityIconView } from "@/components/visuals/capability-icon";
 import { SocialIcon } from "@/components/visuals/social-icon";
 import { MediaImage } from "@/components/ui/media-image";
+import { PartnerLogo } from "@/components/ui/partner-logo";
 import type { CapabilityDTO, CollaborationCardDTO, PartnerDTO, TeamMemberDTO } from "@/lib/content/types";
 import { COLLABORATION_CATEGORY_LABELS } from "@/lib/labels";
 import { cn, formatDate } from "@/lib/utils";
@@ -227,7 +228,7 @@ export function PartnerTile({ partner, size = "default" }: { partner: PartnerDTO
         )}
       >
         {partner.logo ? (
-          <MediaImage media={partner.logo} alt={`${partner.name} logo`} fill sizes={compact ? "40px" : "56px"} />
+          <PartnerLogo logo={partner.logo} alt={`${partner.name} logo`} />
         ) : (
           <span aria-hidden className="font-display text-sm font-medium text-ink-200">
             {initials}

@@ -1,3 +1,4 @@
+import { JsonLdScript } from "@/components/seo/json-ld-script";
 import type { Metadata } from "next";
 import { TeamCard } from "@/components/cards/content-cards";
 import { CountUp } from "@/components/motion/count-up";
@@ -7,16 +8,18 @@ import { StructureSection } from "@/components/sections/structure-section";
 import { Markdown } from "@/components/ui/markdown";
 import { TextLink } from "@/components/ui/button";
 import { PageHero, SectionHeader } from "@/components/ui/section";
-import { getCapabilities, getCompany, getDepartments, getMilestones, getPartners, getPrinciples, getProducts, getTeamPreview } from "@/lib/content/public";
+import { getCapabilities, getCompany, getDepartments, getMilestones, getPartners, getPrinciples, getProducts, getSocialLinks, getTeamPreview } from "@/lib/content/public";
 import { clampDescription, pageMetadata } from "@/lib/seo/metadata";
+import { breadcrumbJsonLd, organizationJsonLd } from "@/lib/seo/json-ld";
 import { cn, indexLabel, yearOf } from "@/lib/utils";
 
 export async function generateMetadata(): Promise<Metadata> {
   const company = await getCompany();
   return pageMetadata({
-    title: "About",
+    title: `About ${company.name}: Web3 Growth Company Since 2019`,
+    absoluteTitle: true,
     description: clampDescription(
-      `${company.name}: a group of friends who started with airdrops in 2019 and grew into a Web3 growth and software company. ${company.shortDescription}`,
+      `${company.name} is a Web3 growth and software company from Bangladesh. Founded in 2019 by friends who hunted airdrops, now a partner to 240+ Web3 projects.`,
     ),
     path: "/about",
   });
@@ -50,7 +53,7 @@ function Chapter({
 }
 
 export default async function AboutPage() {
-  const [company, principles, departments, partners, products, capabilities, milestones, team] = await Promise.all([
+  const [company, principles, departments, partners, products, capabilities, milestones, team, socials] = await Promise.all([
     getCompany(),
     getPrinciples(),
     getDepartments(),
@@ -59,6 +62,7 @@ export default async function AboutPage() {
     getCapabilities(),
     getMilestones(),
     getTeamPreview(5),
+    getSocialLinks(),
   ]);
   // Numbers come from the content files, never typed in.
   const firstYear = milestones.length > 0 ? Math.min(...milestones.map((m) => Number(yearOf(m.date)))) : null;
@@ -224,6 +228,7 @@ export default async function AboutPage() {
       <StructureSection departments={departments} intro={company.structureIntro} />
 
       <ClosingCta headline={company.closingHeadline} body={company.closingBody} />
+      <JsonLdScript data={[organizationJsonLd(company, socials, team, capabilities), breadcrumbJsonLd([{ name: "Home", path: "/" }, { name: "About", path: "/about" }])]} />
     </>
   );
 }

@@ -1,3 +1,4 @@
+import { JsonLdScript } from "@/components/seo/json-ld-script";
 import type { Metadata } from "next";
 import { ProductCard } from "@/components/cards/product-card";
 import { Reveal } from "@/components/motion/reveal";
@@ -7,12 +8,13 @@ import { PageHero } from "@/components/ui/section";
 import { getCompany, getProductCategories, getProductPlatforms, getProducts } from "@/lib/content/public";
 import { PLATFORM_LABELS, RELEASE_STAGE_LABELS } from "@/lib/labels";
 import { pageMetadata } from "@/lib/seo/metadata";
+import { breadcrumbJsonLd, productListJsonLd } from "@/lib/seo/json-ld";
 
 export async function generateMetadata(): Promise<Metadata> {
   const company = await getCompany();
   return pageMetadata({
-    title: "Products",
-    description: `Software built in-house by ${company.name} — Chrome extensions including UnfollowX Pro, GrowX, Unique PDF, FrameShot, Twofold, Rowlio, ScoreX, XAICG and UniqueFarm.`,
+    title: "Free Chrome Extensions for X, PDF & More",
+    description: `Chrome extensions built in-house by ${company.name}: UnfollowX Pro, GrowX, Unique PDF, FrameShot, Twofold, Rowlio, ScoreX, XAICG and UniqueFarm.`,
     path: "/products",
   });
 }
@@ -32,7 +34,7 @@ export default async function ProductsPage() {
         eyebrow="Products"
         title={
           <>
-            The product directory<span className="text-signal-500">.</span>
+            Chrome extensions, built in-house<span className="text-signal-500">.</span>
           </>
         }
         description={`Software we build in-house at ${company.name} — Chrome extensions for X (Twitter), PDFs, screen capture, security and web data.`}
@@ -79,6 +81,7 @@ export default async function ProductsPage() {
         primary={{ href: "/contact", label: "Get in touch" }}
         secondary={{ href: "/services", label: "Our services" }}
       />
+      <JsonLdScript data={[productListJsonLd(products), breadcrumbJsonLd([{ name: "Home", path: "/" }, { name: "Products", path: "/products" }])]} />
     </>
   );
 }

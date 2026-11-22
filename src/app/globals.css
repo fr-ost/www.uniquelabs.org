@@ -565,7 +565,7 @@
   /* The looping classes are listed one by one on purpose: a catch-all
      (`[data-offscreen] *`) would make the browser re-check every element in
      the section each time it enters or leaves the screen. */
-  [data-offscreen] .marquee__track,
+  [data-offscreen] .marquee__strip,
   [data-offscreen] .animate-aurora,
   [data-offscreen] .animate-glow-pulse,
   [data-offscreen] .animate-orbit,
@@ -615,20 +615,27 @@
     contain: content;
     mask-image: linear-gradient(to right, transparent, black 7%, black 93%, transparent);
   }
+  /* The strip holds the track and its copy and is what moves: one full
+     track width plus one gap per loop. */
+  .marquee__strip {
+    display: flex;
+    flex-shrink: 0;
+    gap: var(--marquee-gap, 1rem);
+    animation: marquee-x var(--marquee-duration, 60s) linear infinite;
+    will-change: transform;
+  }
   .marquee__track {
     display: flex;
     flex-shrink: 0;
     align-items: stretch;
     gap: var(--marquee-gap, 1rem);
-    min-width: 100%;
-    animation: marquee-x var(--marquee-duration, 60s) linear infinite;
-    will-change: transform;
+    min-width: 100vw;
   }
-  .marquee[data-reverse] .marquee__track {
+  .marquee[data-reverse] .marquee__strip {
     animation-direction: reverse;
   }
-  .marquee:hover .marquee__track,
-  .marquee:focus-within .marquee__track {
+  .marquee:hover .marquee__strip,
+  .marquee:focus-within .marquee__strip {
     animation-play-state: paused;
   }
 
@@ -798,8 +805,9 @@
   }
 }
 @keyframes marquee-x {
+  /* Half the strip (one track) plus half a gap = one track plus one gap. */
   to {
-    transform: translate3d(calc(-100% - var(--marquee-gap, 1rem)), 0, 0);
+    transform: translate3d(calc(-50% - var(--marquee-gap, 1rem) / 2), 0, 0);
   }
 }
 
@@ -824,8 +832,11 @@
     overflow-x: auto;
     mask-image: none;
   }
-  .marquee__track {
+  .marquee__strip {
     animation: none !important;
+  }
+  .marquee__track {
+    min-width: 0;
   }
   .marquee__track[aria-hidden="true"] {
     display: none;

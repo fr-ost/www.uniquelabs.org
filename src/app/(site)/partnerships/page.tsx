@@ -6,7 +6,7 @@ import { Reveal } from "@/components/motion/reveal";
 import { ClosingCta, EmptyState } from "@/components/sections/shared-sections";
 import { Expandable } from "@/components/ui/expandable";
 import { Eyebrow, PageHero } from "@/components/ui/section";
-import { getCollaborations, getCompany, getPartnerTiers } from "@/lib/content/public";
+import { getCollaborations, getCompany, getPartners, getPartnerTiers } from "@/lib/content/public";
 import type { PartnerDTO } from "@/lib/content/types";
 import type { CollaborationCardDTO } from "@/lib/content/types";
 import { COLLABORATION_CATEGORY_LABELS } from "@/lib/labels";
@@ -14,10 +14,11 @@ import { pageMetadata } from "@/lib/seo/metadata";
 import { cn, formatDate, pluralize, yearOf } from "@/lib/utils";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const company = await getCompany();
+  const [company, partners] = await Promise.all([getCompany(), getPartners()]);
   return pageMetadata({
-    title: "Partnerships",
-    description: `Exchanges, launchpads, ecosystems and Web3 projects ${company.name} has worked with — as ambassadors, KOC and KOL partners and campaign partners.`,
+    title: `${partners.length} Web3 Partners: Exchanges & Launchpads — ${company.name}`,
+    absoluteTitle: true,
+    description: `${partners.length} exchanges, launchpads, ecosystems and Web3 projects ${company.name} has worked with as ambassadors, KOC and KOL partners and campaign partners.`,
     path: "/partnerships",
   });
 }
@@ -45,7 +46,7 @@ export default async function PartnershipsPage() {
         eyebrow="Partnerships"
         title={
           <>
-            Partners & collaborations<span className="text-signal-500">.</span>
+            Web3 partners: exchanges, launchpads and chains<span className="text-signal-500">.</span>
           </>
         }
         description="Exchanges, launchpads, ecosystems and Web3 projects we've worked with — as ambassadors, KOC and KOL partners, launch partners and campaign partners."

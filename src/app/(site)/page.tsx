@@ -6,7 +6,7 @@ import { CountUp } from "@/components/motion/count-up";
 import { Marquee } from "@/components/motion/marquee";
 import { PauseOffscreen } from "@/components/motion/pause-offscreen";
 import { Reveal } from "@/components/motion/reveal";
-import { MediaImage } from "@/components/ui/media-image";
+import { PartnerLogo } from "@/components/ui/partner-logo";
 import { HomeHero } from "@/components/sections/home-hero";
 import { ClosingCta, DirectionStrip, PrinciplesSection } from "@/components/sections/shared-sections";
 import { JsonLdScript } from "@/components/seo/json-ld-script";
@@ -73,19 +73,18 @@ function ProductsBento({ products }: { products: ProductCardDTO[] }) {
 }
 
 /** A partner as it appears in the moving rows on the home page. */
-function PartnerChip({ partner, duplicate }: { partner: PartnerDTO; duplicate: boolean }) {
+function PartnerChip({ partner }: { partner: PartnerDTO }) {
   const external = Boolean(partner.xHandle);
   return (
     <a
       href={partner.xHandle ? `https://x.com/${partner.xHandle}` : "/partnerships"}
       target={external ? "_blank" : undefined}
       rel={external ? "noopener noreferrer" : undefined}
-      tabIndex={duplicate ? -1 : undefined}
       className="group flex items-center gap-3 rounded-2xl border border-white/[0.08] bg-white/[0.025] py-2.5 pr-5 pl-2.5 transition-colors duration-300 hover:border-white/20 hover:bg-white/[0.07]"
     >
       <span className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-ink-800">
         {partner.logo ? (
-          <MediaImage media={partner.logo} alt="" fill sizes="44px" eager />
+          <PartnerLogo logo={partner.logo} alt="" />
         ) : (
           <span aria-hidden className="font-display text-sm text-ink-200">
             {partner.name.slice(0, 2).toUpperCase()}
@@ -226,7 +225,7 @@ export default async function HomePage() {
                 reverse={index === 1}
                 duration={[78, 92, 84][index]}
                 gap="0.875rem"
-                renderItem={(partner, duplicate) => <PartnerChip partner={partner} duplicate={duplicate} />}
+                renderItem={(partner) => <PartnerChip partner={partner} />}
               />
             ))}
           </Reveal>
@@ -374,7 +373,7 @@ export default async function HomePage() {
 
       <ClosingCta headline={company.closingHeadline} body={company.closingBody} />
 
-      <JsonLdScript data={[organizationJsonLd(company, socials), websiteJsonLd(company)]} />
+      <JsonLdScript data={[organizationJsonLd(company, socials, team, capabilities), websiteJsonLd(company)]} />
     </>
   );
 }

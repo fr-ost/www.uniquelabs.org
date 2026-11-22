@@ -1,3 +1,4 @@
+import { JsonLdScript } from "@/components/seo/json-ld-script";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ProductCard } from "@/components/cards/product-card";
@@ -9,15 +10,14 @@ import { Eyebrow, PageHero, SectionHeader } from "@/components/ui/section";
 import { CapabilityIllustration } from "@/components/visuals/capability-illustration";
 import { getCapabilities, getCompany, getFeaturedProducts } from "@/lib/content/public";
 import { pageMetadata } from "@/lib/seo/metadata";
+import { breadcrumbJsonLd, servicesJsonLd } from "@/lib/seo/json-ld";
 import { cn, indexLabel } from "@/lib/utils";
 
 export async function generateMetadata(): Promise<Metadata> {
   const company = await getCompany();
   return pageMetadata({
-    title: "Services",
-    description:
-      company.whatWeDoIntro ??
-      `${company.name} offers KOC and consultancy services, digital marketing and blockchain development.`,
+    title: "Web3 Marketing, KOC & Blockchain Services",
+    description: `${company.name} services: crypto KOC and KOL campaigns, Web3 consultancy, digital marketing, blockchain development and Chrome extension builds.`,
     path: "/services",
   });
 }
@@ -31,7 +31,7 @@ export default async function ServicesPage() {
         eyebrow="Services"
         title={
           <>
-            Services to build, launch and grow<span className="text-signal-500">.</span>
+            Web3 marketing and development services<span className="text-signal-500">.</span>
           </>
         }
         description={company.whatWeDoIntro}
@@ -157,6 +157,7 @@ export default async function ServicesPage() {
       ) : null}
 
       <ClosingCta headline={company.closingHeadline} body={company.closingBody} />
+      <JsonLdScript data={[servicesJsonLd(capabilities, company.name), breadcrumbJsonLd([{ name: "Home", path: "/" }, { name: "Services", path: "/services" }])]} />
     </>
   );
 }

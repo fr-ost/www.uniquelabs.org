@@ -9,8 +9,8 @@ import { yearOf } from "@/lib/utils";
 export async function generateMetadata(): Promise<Metadata> {
   const company = await getCompany();
   return pageMetadata({
-    title: "Our Journey",
-    description: `How ${company.name} grew from a group of friends hunting airdrops in 2019 into a Web3 growth and software company.`,
+    title: "Our Story: From Airdrop Hunters to Web3 Agency",
+    description: `How ${company.name} grew from a group of friends hunting airdrops in Bangladesh in 2019 into a Web3 growth and software company, year by year.`,
     path: "/journey",
   });
 }
@@ -25,7 +25,7 @@ export default async function JourneyPage() {
         eyebrow="Our journey"
         title={
           <>
-            The story so far<span className="text-signal-500">.</span>
+            The Unique Labs story<span className="text-signal-500">.</span>
           </>
         }
         description={`${company.name} started in 2019 as a group of friends hunting airdrops and doing pay-to-work jobs. We kept exploring — and this is where it led.`}

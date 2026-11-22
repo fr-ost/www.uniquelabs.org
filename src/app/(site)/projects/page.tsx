@@ -8,11 +8,13 @@ import { pageMetadata } from "@/lib/seo/metadata";
 import { cn } from "@/lib/utils";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const company = await getCompany();
+  const [company, projects] = await Promise.all([getCompany(), getProjects()]);
   return pageMetadata({
-    title: "Projects",
-    description: `Projects and work by ${company.name} — what we designed, built and shipped, and what came of it.`,
+    title: "Case studies and projects",
+    description: `Case studies and projects by ${company.name}: Web3 campaigns, launches and software we designed, built and shipped, and what came of them.`,
     path: "/projects",
+    // Kept out of search results until the first case study is published.
+    noIndex: projects.length === 0,
   });
 }
 

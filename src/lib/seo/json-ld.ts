@@ -1,19 +1,29 @@
 import { absoluteUrl } from "@/lib/seo/metadata";
-import type { CompanyDTO, ProductDetailDTO, SocialLinkDTO, TeamMemberDTO } from "@/lib/content/types";
+import type { CapabilityDTO, CompanyDTO, ProductDetailDTO, SocialLinkDTO, TeamMemberDTO } from "@/lib/content/types";
 import { PLATFORM_LABELS } from "@/lib/labels";
 
 type JsonLd = Record<string, unknown>;
 
-export function organizationJsonLd(company: CompanyDTO, socials: SocialLinkDTO[]): JsonLd {
+/**
+ * The company. One node with a stable @id that every other block points to.
+ * `founders` are the team members whose position names them as a founder.
+ */
+export function organizationJsonLd(company: CompanyDTO, socials: SocialLinkDTO[], team: TeamMemberDTO[] = [], services: CapabilityDTO[] = []): JsonLd {
   const email = company.contact.contactEmail ?? company.contact.generalEmail;
+  const founders = team.filter((m) => /founder/i.test(m.position));
+  const address = company.contact.address;
+  const country = address?.country ?? company.contact.country;
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
     "@id": absoluteUrl("/#organization"),
     name: company.name,
+    ...(company.legalName ? { legalName: company.legalName } : {}),
     url: absoluteUrl("/"),
-    logo: company.logo ? absoluteUrl(company.logo.url) : absoluteUrl("/brand/logo-512.png"),
+    logo: { "@type": "ImageObject", url: company.logo ? absoluteUrl(company.logo.url) : absoluteUrl("/brand/logo-512.png"), width: 512, height: 512 },
+    image: absoluteUrl("/brand/logo-512.png"),
     description: company.shortDescription,
+    slogan: company.tagline ?? undefined,
     ...(email ? { email } : {}),
     ...(company.founded
       ? {
@@ -23,19 +33,69 @@ export function organizationJsonLd(company: CompanyDTO, socials: SocialLinkDTO[]
           ),
         }
       : {}),
+    ...(founders.length > 0
+      ? { founder: founders.map((m) => ({ "@type": "Person", "@id": absoluteUrl(`/team/${m.slug}#person`), name: m.name, jobTitle: m.position })) }
+      : {}),
+    ...(team.length > 0 ? { numberOfEmployees: { "@type": "QuantitativeValue", minValue: team.length } } : {}),
     ...(socials.length > 0 ? { sameAs: socials.map((s) => s.url) } : {}),
-    ...(company.contact.address
+    ...(address
       ? {
           address: {
             "@type": "PostalAddress",
-            streetAddress: [company.contact.address.line1, company.contact.address.line2].filter(Boolean).join(", "),
-            addressLocality: company.contact.address.city ?? undefined,
-            addressRegion: company.contact.address.region ?? undefined,
-            postalCode: company.contact.address.postalCode ?? undefined,
-            addressCountry: company.contact.address.country ?? undefined,
+            streetAddress: [address.line1, address.line2].filter(Boolean).join(", "),
+            addressLocality: address.city ?? undefined,
+            addressRegion: address.region ?? undefined,
+            postalCode: address.postalCode ?? undefined,
+            addressCountry: address.country ?? undefined,
           },
         }
+      : country
+        ? { address: { "@type": "PostalAddress", addressCountry: country }, location: { "@type": "Place", name: country } }
+        : {}),
+    areaServed: "Worldwide",
+    ...(email
+      ? { contactPoint: [{ "@type": "ContactPoint", contactType: "customer support", email, availableLanguage: ["English"] }] }
       : {}),
+    ...(services.length > 0 ? { knowsAbout: services.map((c) => c.title) } : {}),
+  };
+}
+
+/** The services as a list of Service items offered by the company (for /services). */
+export function servicesJsonLd(services: CapabilityDTO[], companyName: string): JsonLd {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: `Services by ${companyName}`,
+    itemListElement: services.map((service, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "Service",
+        "@id": absoluteUrl(`/services#${service.slug}`),
+        name: service.title,
+        serviceType: service.title,
+        description: service.description ?? service.summary,
+        url: absoluteUrl(`/services#${service.slug}`),
+        provider: { "@id": absoluteUrl("/#organization") },
+        areaServed: "Worldwide",
+      },
+    })),
+  };
+}
+
+/** The product directory as an ItemList (for /products). */
+export function productListJsonLd(products: Array<{ slug: string; name: string }>): JsonLd {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Products",
+    numberOfItems: products.length,
+    itemListElement: products.map((product, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: absoluteUrl(`/products/${product.slug}`),
+      name: product.name,
+    })),
   };
 }
 
@@ -94,6 +154,7 @@ export function productJsonLd(product: ProductDetailDTO, companyName: string): J
       ? { offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } }
       : {}),
     publisher: { "@type": "Organization", name: companyName, "@id": absoluteUrl("/#organization") },
+    ...(product.websiteUrl ? { sameAs: [product.websiteUrl] } : {}),
     ...(product.primaryCtaUrl ? { installUrl: product.primaryCtaUrl } : {}),
   };
 }
@@ -103,11 +164,14 @@ export function personJsonLd(member: TeamMemberDTO, companyName: string): JsonLd
   return {
     "@context": "https://schema.org",
     "@type": "Person",
+    "@id": absoluteUrl(`/team/${member.slug}#person`),
     name: member.name,
     jobTitle: member.position,
     url: absoluteUrl(`/team/${member.slug}`),
+    ...(member.shortBio ? { description: member.shortBio } : {}),
     ...(member.photo ? { image: absoluteUrl(member.photo.url) } : {}),
     ...(sameAs.length > 0 ? { sameAs } : {}),
+    ...(member.expertise.length > 0 ? { knowsAbout: member.expertise } : {}),
     worksFor: { "@type": "Organization", name: companyName, "@id": absoluteUrl("/#organization") },
   };
 }
