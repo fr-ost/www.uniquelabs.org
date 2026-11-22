@@ -7,6 +7,7 @@ import type { CapabilityInput } from "./schema";
  * or clients. `products` links related product slugs.
  * Icons: puzzle, globe, app-window, zap, code, flask, pen-tool, shield, layers,
  * cpu, compass, sparkles, lock, gauge, boxes, workflow.
+ * `page` links a service to its own page in service-pages.ts.
  */
 export const capabilities: CapabilityInput[] = [
   {
@@ -15,6 +16,7 @@ export const capabilities: CapabilityInput[] = [
     description:
       "We plan and run KOC (key opinion consumer) campaigns for brands and Web3 projects: finding the right voices, shaping the message and coordinating each campaign so authentic recommendations reach the right audience.",
     icon: "sparkles",
+    page: "koc-marketing",
     featured: true,
   },
   {
@@ -23,6 +25,7 @@ export const capabilities: CapabilityInput[] = [
     description:
       "From positioning and go-to-market planning to product and growth strategy, we work alongside founders and teams to turn ideas into a clear plan — and help put that plan into action.",
     icon: "compass",
+    page: "web3-consulting",
     featured: true,
   },
   {
@@ -31,6 +34,7 @@ export const capabilities: CapabilityInput[] = [
     description:
       "Social media, content, community and campaign management — digital marketing that helps brands and Web3 projects reach the right people, launch with momentum and keep growing.",
     icon: "globe",
+    page: "digital-marketing",
     featured: true,
   },
   {
@@ -39,6 +43,7 @@ export const capabilities: CapabilityInput[] = [
     description:
       "We design and develop blockchain solutions for Web3 projects — from smart contracts to decentralised applications and the websites and tools around them.",
     icon: "boxes",
+    page: "blockchain-development",
     featured: true,
   },
   {
@@ -47,6 +52,7 @@ export const capabilities: CapabilityInput[] = [
     description:
       "We build software in-house, including our own Chrome extensions. The same engineering, design and attention to detail goes into the products and tools we build for others.",
     icon: "puzzle",
+    page: "chrome-extension-development",
     featured: true,
     products: ["unfollowx-pro", "growx", "unique-pdf", "frameshot", "twofold", "rowlio", "scorex", "xaicg", "uniquefarm"],
   },

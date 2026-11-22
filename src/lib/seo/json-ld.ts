@@ -1,5 +1,5 @@
 import { absoluteUrl } from "@/lib/seo/metadata";
-import type { CapabilityDTO, CompanyDTO, ProductDetailDTO, SocialLinkDTO, TeamMemberDTO } from "@/lib/content/types";
+import type { CapabilityDTO, CompanyDTO, ProductDetailDTO, ServicePageDTO, SocialLinkDTO, TeamMemberDTO } from "@/lib/content/types";
 import { PLATFORM_LABELS } from "@/lib/labels";
 
 type JsonLd = Record<string, unknown>;
@@ -19,7 +19,8 @@ export function organizationJsonLd(company: CompanyDTO, socials: SocialLinkDTO[]
   const country = address?.country ?? company.contact.country;
   return {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    // With a full street address the company is also a ProfessionalService (a local business with an office).
+    "@type": address?.line1 && address.city ? ["Organization", "ProfessionalService"] : "Organization",
     "@id": absoluteUrl("/#organization"),
     name: company.name,
     ...(company.legalName ? { legalName: company.legalName } : {}),
@@ -65,24 +66,53 @@ export function organizationJsonLd(company: CompanyDTO, socials: SocialLinkDTO[]
 }
 
 /** The services as a list of Service items offered by the company (for /services). */
-export function servicesJsonLd(services: CapabilityDTO[], companyName: string): JsonLd {
+export function servicesJsonLd(pages: ServicePageDTO[], companyName: string): JsonLd {
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: `Services by ${companyName}`,
-    itemListElement: services.map((service, index) => ({
+    itemListElement: pages.map((page, index) => ({
       "@type": "ListItem",
       position: index + 1,
       item: {
         "@type": "Service",
-        "@id": absoluteUrl(`/services#${service.slug}`),
-        name: service.title,
-        serviceType: service.title,
-        description: service.description ?? service.summary,
-        url: absoluteUrl(`/services#${service.slug}`),
+        "@id": absoluteUrl(`/services/${page.slug}#service`),
+        name: page.name,
+        serviceType: page.name,
+        description: page.summary,
+        url: absoluteUrl(`/services/${page.slug}`),
         provider: { "@id": absoluteUrl("/#organization") },
         areaServed: "Worldwide",
       },
+    })),
+  };
+}
+
+/** A service page: the Service itself, provided by the company. */
+export function servicePageJsonLd(page: ServicePageDTO): JsonLd {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": absoluteUrl(`/services/${page.slug}#service`),
+    name: page.name,
+    serviceType: page.name,
+    description: page.quickAnswer,
+    url: absoluteUrl(`/services/${page.slug}`),
+    provider: { "@id": absoluteUrl("/#organization") },
+    areaServed: "Worldwide",
+    ...(page.audience.length > 0 ? { audience: { "@type": "BusinessAudience", audienceType: page.audience.join("; ") } } : {}),
+  };
+}
+
+/** Questions answered on the page. Only use for questions visible on that page. */
+export function faqJsonLd(faqs: Array<{ question: string; answer: string }>): JsonLd {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer },
     })),
   };
 }

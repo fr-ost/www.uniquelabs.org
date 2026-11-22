@@ -17,6 +17,7 @@ import type {
   ProductDetailDTO,
   ProjectCardDTO,
   ProjectDetailDTO,
+  ServicePageDTO,
   SettingsDTO,
   SocialLinkDTO,
   TeamGroupDTO,
@@ -176,6 +177,7 @@ const capabilityDtos: CapabilityDTO[] = content.capabilities.map((c) => {
     icon: c.icon ?? "sparkles",
     featured: c.featured ?? false,
     products: productRefs(c.products),
+    page: c.page ? { slug: c.page, name: content.servicePages.find((sp) => sp.slug === c.page)!.name } : null,
   };
 });
 
@@ -516,5 +518,48 @@ export async function getRecentMilestones(limit = 4): Promise<MilestoneDTO[]> {
 }
 
 export async function getSitemapEntries() {
-  return { products: productSlugs(), projects: projectSlugs(), partnerships: partnershipSlugs(), team: teamProfileSlugs() };
+  return {
+    products: productSlugs(),
+    projects: projectSlugs(),
+    partnerships: partnershipSlugs(),
+    team: teamProfileSlugs(),
+    services: content.servicePages.map((page) => page.slug),
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Service pages (/services/<slug>)
+
+const servicePageDtos: ServicePageDTO[] = content.servicePages.map((page) => {
+  const roles = new Set(page.proofRoles ?? []);
+  const proof = [...partnerDtos.values()]
+    .filter((partner) => partner.role !== null && roles.has(partner.role))
+    .sort((a, b) => (a.tier ?? 3) - (b.tier ?? 3));
+  return {
+    slug: page.slug,
+    name: page.name,
+    title: page.title,
+    summary: page.summary,
+    quickAnswer: page.quickAnswer,
+    icon: page.icon ?? "sparkles",
+    audience: page.audience ?? [],
+    sections: page.sections.map((section) => ({ id: slugify(section.heading), heading: section.heading, body: section.body })),
+    proof,
+    products: (page.products ?? []).map((slug) => productCards.find((p) => p.slug === slug)!),
+    faqs: page.faqs,
+    related: (page.related ?? []).map((slug) => {
+      const other = content.servicePages.find((sp) => sp.slug === slug)!;
+      return { slug, name: other.name, summary: other.summary, icon: other.icon ?? "sparkles" };
+    }),
+    seoTitle: page.seo.title,
+    seoDescription: page.seo.description,
+  };
+});
+
+export async function getServicePages(): Promise<ServicePageDTO[]> {
+  return servicePageDtos;
+}
+
+export async function getServicePage(slug: string): Promise<ServicePageDTO | null> {
+  return servicePageDtos.find((page) => page.slug === slug) ?? null;
 }

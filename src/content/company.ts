@@ -29,7 +29,7 @@ export const company: CompanyInput = {
 
   about: {
 whoWeAre:
-      "Unique Labs is a Web3 growth and software company based in Bangladesh, run by a group of friends. We started in 2019, hunting crypto airdrops and taking pay-to-work jobs together. Years of being the community on the receiving end of campaigns taught us what makes people join, stay and care.\n\nToday we sit on the other side of the table. We offer KOC and consultancy services, digital marketing and blockchain development to brands and Web3 projects — exchanges, launchpads and chains among them — and we build our own software: the Chrome extensions UnfollowX Pro, GrowX, Unique PDF, FrameShot, Twofold, Rowlio, ScoreX, XAICG and UniqueFarm.",
+      "Unique Labs is a Web3 growth and software company based in Dhaka, Bangladesh, run by a group of friends. We started in 2019, hunting crypto airdrops and taking pay-to-work jobs together. Years of being the community on the receiving end of campaigns taught us what makes people join, stay and care.\n\nToday we sit on the other side of the table. We offer KOC and consultancy services, digital marketing and blockchain development to brands and Web3 projects — exchanges, launchpads and chains among them — and we build our own software: the Chrome extensions UnfollowX Pro, GrowX, Unique PDF, FrameShot, Twofold, Rowlio, ScoreX, XAICG and UniqueFarm.",
     whyWeExist:
       "Good ideas still need to be built, launched and seen. We know what a campaign looks like from the user's side, because for years we were the users — joining the quests, the testnets and the launches.\n\nUnique Labs exists to put that experience to work: bringing strategy, marketing and development together, so a team can go from idea to growth with one partner who has stood where its community stands.",
     mission: "To help brands and Web3 projects build, launch and grow — and to make useful technology accessible to everyone.",
@@ -64,6 +64,13 @@ whoWeAre:
       // press: "press@example.com",
     },
     country: "Bangladesh",
+    address: {
+      line1: "#942, Shakila Tower",
+      line2: "Ashkona (Uchartek Water Pump Road), Dakshinkhan",
+      city: "Dhaka",
+      postalCode: "1230",
+      country: "Bangladesh",
+    },
   },
 
   // Social profiles, e.g. { platform: "X", url: "https://x.com/…" }

@@ -30,6 +30,19 @@ export const PRIMARY_NAV: NavEntry[] = [
 
 export const FOOTER_NAV: Array<{ title: string; items: NavItem[] }> = [
   {
+    title: "Services",
+    items: [
+      { href: "/services/koc-marketing", label: "KOC marketing" },
+      { href: "/services/kol-marketing", label: "KOL marketing" },
+      { href: "/services/token-launch-marketing", label: "Token launches" },
+      { href: "/services/web3-consulting", label: "Web3 consultancy" },
+      { href: "/services/digital-marketing", label: "Digital marketing" },
+      { href: "/services/community-management", label: "Community" },
+      { href: "/services/blockchain-development", label: "Blockchain dev" },
+      { href: "/services/chrome-extension-development", label: "Chrome extensions" },
+    ],
+  },
+  {
     title: "Work",
     items: [
       { href: "/services", label: "Services" },

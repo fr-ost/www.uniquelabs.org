@@ -143,5 +143,24 @@ export function validateContent(c: ContentModule): string[] {
 
   for (const cap of c.capabilities) refs(`capability "${cap.title}"`, "product", cap.products, productSlugs);
 
+  const servicePageSlugs = checkSlugs("service page", c.servicePages);
+  for (const cap of c.capabilities) {
+    if (cap.page && !servicePageSlugs.has(cap.page)) add(`capability "${cap.title}"`, `unknown service page "${cap.page}"`);
+  }
+  const partnerRoles = new Set(c.partners.map((p) => p.role).filter(Boolean));
+  for (const page of c.servicePages) {
+    const where = `service page "${page.slug}"`;
+    refs(where, "product", page.products, productSlugs);
+    refs(where, "service page", page.related, servicePageSlugs);
+    if ((page.related ?? []).includes(page.slug)) add(where, "lists itself as related");
+    for (const role of page.proofRoles ?? []) {
+      if (!partnerRoles.has(role)) add(where, `no partner has the role "${role}" (check spelling against partnerships.ts)`);
+    }
+    if (page.seo.title.length > 46) add(where, `search title is ${page.seo.title.length} characters (max 46; " — Unique Labs" is added)`);
+    const d = page.seo.description.length;
+    if (d < 120 || d > 155) add(where, `search description is ${d} characters (keep it between 120 and 155)`);
+    if (page.faqs.length === 0) add(where, "needs at least one FAQ");
+  }
+
   return problems;
 }

@@ -1,14 +1,16 @@
 import { JsonLdScript } from "@/components/seo/json-ld-script";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { ProductCard } from "@/components/cards/product-card";
 import { Reveal } from "@/components/motion/reveal";
 import { ClosingCta, DirectionStrip } from "@/components/sections/shared-sections";
 import { TextLink } from "@/components/ui/button";
 import { Markdown } from "@/components/ui/markdown";
 import { Eyebrow, PageHero, SectionHeader } from "@/components/ui/section";
+import { CapabilityIconView } from "@/components/visuals/capability-icon";
 import { CapabilityIllustration } from "@/components/visuals/capability-illustration";
-import { getCapabilities, getCompany, getFeaturedProducts } from "@/lib/content/public";
+import { getCapabilities, getCompany, getFeaturedProducts, getServicePages } from "@/lib/content/public";
 import { pageMetadata } from "@/lib/seo/metadata";
 import { breadcrumbJsonLd, servicesJsonLd } from "@/lib/seo/json-ld";
 import { cn, indexLabel } from "@/lib/utils";
@@ -23,7 +25,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function ServicesPage() {
-  const [company, capabilities, products] = await Promise.all([getCompany(), getCapabilities(), getFeaturedProducts(3)]);
+  const [company, capabilities, products, servicePages] = await Promise.all([
+    getCompany(),
+    getCapabilities(),
+    getFeaturedProducts(3),
+    getServicePages(),
+  ]);
 
   return (
     <>
@@ -37,23 +44,37 @@ export default async function ServicesPage() {
         description={company.whatWeDoIntro}
       />
 
-      {capabilities.length > 0 ? (
-        <section className="container-site py-16 md:py-24" aria-label="Services">
-          <nav aria-label="Jump to a service" className="mb-16 hidden md:block">
-            <ul className="flex flex-wrap gap-2">
-              {capabilities.map((capability, index) => (
-                <li key={capability.id}>
-                  <a
-                    href={`#${capability.slug}`}
-                    className="inline-flex h-9 items-center gap-2 rounded-full border border-white/10 px-4 text-sm text-ink-300 transition-colors hover:border-white/25 hover:text-ink-50"
-                  >
+      {servicePages.length > 0 ? (
+        <section className="container-site py-16 md:py-24" aria-labelledby="all-services-title">
+          <Eyebrow>All services</Eyebrow>
+          <h2 id="all-services-title" className="text-display-sm mt-5 max-w-[22ch] text-ink-50">
+            Choose a service to see how we work.
+          </h2>
+          <ul className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {servicePages.map((page, index) => (
+              <Reveal as="li" key={page.slug} delay={(index % 4) * 70}>
+                <Link href={`/services/${page.slug}`} className="surface-card lift group flex h-full flex-col p-6 hover:border-white/20">
+                  <span className="flex items-center justify-between">
+                    <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-ink-800 text-ink-50 transition-colors group-hover:text-signal-400">
+                      <CapabilityIconView name={page.icon} className="h-5 w-5" />
+                    </span>
                     <span className="font-mono text-[0.6875rem] text-ink-600">{indexLabel(index + 1)}</span>
-                    {capability.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
+                  </span>
+                  <span className="mt-6 font-display text-lg font-medium tracking-[-0.02em] text-ink-50">{page.name}</span>
+                  <span className="mt-2 text-sm text-ink-300">{page.summary}</span>
+                  <span className="mt-auto inline-flex items-center gap-1.5 pt-6 text-sm text-ink-200 group-hover:text-ink-50">
+                    Learn more
+                    <ArrowRight aria-hidden className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </Link>
+              </Reveal>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
+      {capabilities.length > 0 ? (
+        <section className="container-site border-t border-white/[0.07] py-16 md:py-24" aria-label="What we do">
           <div className="space-y-20 md:space-y-32">
             {capabilities.map((capability, index) => {
               const flip = index % 2 === 1;
@@ -76,6 +97,11 @@ export default async function ServicesPage() {
                     </h2>
                     <p className="text-lede mt-5 text-ink-200">{capability.summary}</p>
                     {capability.description ? <Markdown source={capability.description} className="mt-5 text-base text-ink-300" /> : null}
+                    {capability.page ? (
+                      <div className="mt-6">
+                        <TextLink href={`/services/${capability.page.slug}`}>More about {capability.page.name}</TextLink>
+                      </div>
+                    ) : null}
                     {capability.products.length > 0 ? (
                       <div className="mt-8">
                         <p className="text-eyebrow text-ink-500">Related products</p>
@@ -157,7 +183,7 @@ export default async function ServicesPage() {
       ) : null}
 
       <ClosingCta headline={company.closingHeadline} body={company.closingBody} />
-      <JsonLdScript data={[servicesJsonLd(capabilities, company.name), breadcrumbJsonLd([{ name: "Home", path: "/" }, { name: "Services", path: "/services" }])]} />
+      <JsonLdScript data={[servicesJsonLd(servicePages, company.name), breadcrumbJsonLd([{ name: "Home", path: "/" }, { name: "Services", path: "/services" }])]} />
     </>
   );
 }

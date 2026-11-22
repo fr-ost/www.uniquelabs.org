@@ -171,7 +171,7 @@ export default async function ContactPage() {
                   <MapPin aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-ink-400" />
                   <span>
                     {address
-                      ? [address.line1, address.line2, [address.postalCode, address.city].filter(Boolean).join(" "), address.region, address.country]
+                      ? [address.line1, address.line2, [address.city, address.postalCode].filter(Boolean).join(" "), address.region, address.country]
                           .filter(Boolean)
                           .join(", ")
                       : contact.country}

@@ -210,6 +210,17 @@ export function CapabilityCard({ capability, index }: { capability: CapabilityDT
       </div>
       <h3 className="mt-8 font-display text-xl font-medium tracking-[-0.03em] text-ink-50">{capability.title}</h3>
       <p className="mt-3 text-[0.9375rem] text-ink-300">{capability.summary}</p>
+      {capability.page ? (
+        <>
+          <span aria-hidden className="mt-auto inline-flex items-center gap-1.5 pt-6 text-sm text-ink-300 transition-colors group-hover:text-ink-50">
+            Learn more
+            <ArrowRight className="h-4 w-4 transition-transform duration-500 group-hover:translate-x-1" />
+          </span>
+          <Link href={`/services/${capability.page.slug}`} className="absolute inset-0 z-[3] rounded-[inherit]">
+            <span className="sr-only">{capability.page.name}</span>
+          </Link>
+        </>
+      ) : null}
     </PointerGlow>
   );
 }

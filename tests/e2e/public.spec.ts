@@ -144,6 +144,19 @@ test.describe("public website", () => {
     await expect(cards).toHaveCount(filtered);
   });
 
+  test("every service has its own page, linked from /services", async ({ page }) => {
+    await page.goto("/services");
+    const cards = page.locator('a[href^="/services/"]');
+    expect(await cards.count()).toBeGreaterThanOrEqual(8);
+    await page.locator('a[href="/services/koc-marketing"]').first().click();
+    await expect(page).toHaveURL(/\/services\/koc-marketing$/);
+    await expect(page.locator("h1")).toContainText(/KOC marketing/i);
+    await expect(page.getByRole("heading", { name: /Priced per project/ })).toBeVisible();
+    const jsonLd = (await page.locator('script[type="application/ld+json"]').allTextContents()).join(" ");
+    expect(jsonLd).toContain('"FAQPage"');
+    expect(jsonLd).toContain('"Service"');
+  });
+
   test("keyboard users can skip to the content", async ({ page, isMobile }) => {
     test.skip(isMobile, "Keyboard navigation is a desktop concern");
     await page.goto("/about");

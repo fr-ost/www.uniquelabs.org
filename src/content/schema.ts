@@ -128,6 +128,41 @@ export interface CapabilityInput {
   featured?: boolean;
   /** Product slugs related to this focus area. */
   products?: string[];
+  /** Slug of this service's own page in service-pages.ts (linked from /services and the home page). */
+  page?: string;
+}
+
+/**
+ * A service's own page: /services/<slug>. Write facts only — what the service
+ * is, what we do, who it is for. Proof comes from partners.ts (by role), never
+ * from invented results.
+ */
+export interface ServicePageInput {
+  /** URL: /services/<slug> */
+  slug: string;
+  /** Short name for lists, breadcrumbs and the footer, e.g. "KOC marketing". */
+  name: string;
+  /** The page heading (H1). */
+  title: string;
+  /** One line for the service cards. */
+  summary: string;
+  /** 40–70 words under the heading: the direct answer to "what is it and what do you do?" */
+  quickAnswer: string;
+  icon?: CapabilityIcon;
+  /** Who the service is for (short items). */
+  audience?: string[];
+  /** The body, section by section (Markdown). */
+  sections: Array<{ heading: string; body: string }>;
+  /** Partner roles, exactly as written in partnerships.ts, whose partners are shown as proof. */
+  proofRoles?: string[];
+  /** Product slugs shown on the page. */
+  products?: string[];
+  /** Questions answered on the page (also used for FAQ structured data). */
+  faqs: Array<{ question: string; answer: string }>;
+  /** Slugs of related service pages. */
+  related?: string[];
+  /** Search title (at most 46 characters; " — Unique Labs" is added) and description (140–155 characters). */
+  seo: { title: string; description: string };
 }
 
 export interface CategoryInput {

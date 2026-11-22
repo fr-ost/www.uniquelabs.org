@@ -1,6 +1,6 @@
 # SEO program — www.uniquelabs.org
 
-Prepared 22 Nov 2026 from the brief in the owner's "mega prompt" and the live code in this repository.
+Prepared 22 Nov 2026 from the brief in the owner's "mega prompt" and the live code in this repository. Updated the same day after the owner's answers: all eight services are sold, every service is priced per project, results exist but are not published, and the office is in Dhaka.
 
 How to read this document:
 
@@ -34,13 +34,13 @@ How to read this document:
 | 3 | Generic titles on 24/25 pages | High | Keyword-led titles ≤ 60 chars | S | **Done** |
 | 4 | Slogan H1s | High | Keyword H1s on Services, Products, Partnerships, Journey, Contact | S | **Done** (home keeps its slogan; keyword is in its title) |
 | 5 | Home H1 text duplicated in HTML | High | Render the animated words as the heading text once | S | **Done** |
-| 6 | All services on one URL | High | `/services/{slug}` pages (§4–5) | L | To do (needs owner input) |
+| 6 | All services on one URL | High | `/services/{slug}` pages (§4–5) | L | **Done** — 8 pages in `src/content/service-pages.ts`; process details still to confirm |
 | 7 | No editorial content / case studies | High | Blog + case studies (§6–7) | L | To do |
 | 8 | Thin Organization schema | High | `sameAs`, `founder`, `foundingDate`, `address`, `areaServed`, `contactPoint`, `knowsAbout` | S | **Done** |
 | 9 | No Service / ItemList schema | High | Service list on /services, ItemList on /products | S | **Done** |
 | 10 | Truncated product meta descriptions | Medium | Hand-written `seo.description` per product | S | **Done** |
 | 11 | Empty /projects indexable | Medium | `noindex, follow` and out of sitemap while empty | S | **Done** |
-| 12 | No social links / location | Medium | LinkedIn in footer and Contact; "Bangladesh" on About, Contact and in schema | S | **Done** (X/Telegram company profiles: [needs owner input]) |
+| 12 | No social links / location | Medium | LinkedIn in footer and Contact; Dhaka office address on Contact, About and in schema | S | **Done** (X/Telegram company profiles: [needs owner input]) |
 | 13 | Thin team pages | Medium | Real bios, expertise, highlights (§9) | M | To do (needs owner input) |
 | 14 | Product sites don't link back | Medium | Footer "A product of Unique Labs" link on each product site (§8, §10) | S | To do (in the product repos) |
 | 15 | `/favicon.ico` 404 | Low | `src/app/favicon.ico` (16/32/48 px) | S | **Done** |
@@ -154,7 +154,7 @@ Implemented builders live in `src/lib/seo/json-ld.ts`; pages render them with `<
 | `/products` | ItemList, BreadcrumbList | **Done** |
 | `/products/{slug}` | SoftwareApplication (with `sameAs` → product site, `installUrl`, `offers` when free), BreadcrumbList | **Done** |
 | `/team/{slug}` | Person (`@id`, `sameAs`, `worksFor`), BreadcrumbList | **Done** |
-| `/services/{slug}` | Service, FAQPage, BreadcrumbList | To do |
+| `/services/{slug}` | Service, FAQPage, BreadcrumbList | **Done** |
 | `/blog/{slug}` | BlogPosting, BreadcrumbList | To do |
 | `/case-studies/{slug}` | Article (or CreativeWork), BreadcrumbList | To do |
 
@@ -195,7 +195,7 @@ When the owner confirms a street address and city, add them in `src/content/comp
 { "@context": "https://schema.org", "@type": "WebSite", "@id": "https://www.uniquelabs.org/#website", "name": "Unique Labs", "url": "https://www.uniquelabs.org/", "publisher": { "@id": "https://www.uniquelabs.org/#organization" } }
 ```
 
-**ProfessionalService** — add only once a full address is confirmed (Google treats it as a local business and expects a street address):
+**ProfessionalService** — **done**: with the Dhaka office address in `company.ts`, the Organization node is typed `["Organization", "ProfessionalService"]` and carries the full address (#942, Shakila Tower, Ashkona (Uchartek Water Pump Road), Dakshinkhan, Dhaka 1230, BD). The standalone form, for reference:
 
 ```json
 {
@@ -207,9 +207,8 @@ When the owner confirms a street address and city, add them in `src/content/comp
   "parentOrganization": { "@id": "https://www.uniquelabs.org/#organization" },
   "image": "https://www.uniquelabs.org/brand/logo-512.png",
   "email": "contact@uniquelabs.org",
-  "address": { "@type": "PostalAddress", "streetAddress": "[needs owner input]", "addressLocality": "Rajshahi", "postalCode": "[needs owner input]", "addressCountry": "BD" },
-  "areaServed": "Worldwide",
-  "priceRange": "[needs owner input — omit if not public]"
+  "address": { "@type": "PostalAddress", "streetAddress": "#942, Shakila Tower, Ashkona (Uchartek Water Pump Road), Dakshinkhan", "addressLocality": "Dhaka", "postalCode": "1230", "addressCountry": "BD" },
+  "areaServed": "Worldwide"
 }
 ```
 
@@ -696,18 +695,18 @@ Avoid: paid link packages, PBNs, sitewide footer links from unrelated sites, and
 
 ## 11. Local SEO (Bangladesh)
 
-- **Should you create a Google Business Profile?** Only if there is a real address where the team works and can receive a postcard (GBP verification), or you register as a service-area business with the address hidden. If the team is remote across Rajshahi and Dhaka, choose the registered office. **[needs owner input]**
+- **Google Business Profile: yes.** There is now a published office (Dhaka). Create the profile with exactly the NAP below, category "Marketing agency" (secondary: "Software company"), the website `https://www.uniquelabs.org`, and verify it at that address.
 - **NAP format** (use exactly the same everywhere once confirmed):
 
   ```
   Unique Labs
-  [Street address], [Area], Rajshahi [postcode], Bangladesh   ← [needs owner input]
+  #942, Shakila Tower, Ashkona (Uchartek Water Pump Road), Dakshinkhan, Dhaka 1230, Bangladesh
   contact@uniquelabs.org
   [Phone with +880 prefix, if you want one published]
   https://www.uniquelabs.org
   ```
 
-- **Location page** (only if local clients matter): `/bangladesh` — H1 "Web3 marketing and blockchain development in Bangladesh"; sections: who we are locally, services for Bangladeshi companies, team in Rajshahi/Dhaka, how to visit/meet, FAQ; ProfessionalService schema with the address. Otherwise keep location to About/Contact (done) and the schema.
+- **Location page** (only if local clients matter): `/bangladesh` — H1 "Web3 marketing and blockchain development in Bangladesh"; sections: who we are locally, services for Bangladeshi companies, the Dhaka office, how to meet, FAQ. Otherwise keep location to About/Contact (done) and the schema (done).
 - **Local citations:** GBP, Bing Places, Apple Business Connect, BASIS (if eligible), Bangladesh startup directories, LinkedIn location field.
 
 ---
@@ -758,13 +757,13 @@ Owner roles: **Dev** (site changes — Claude/maintainer), **Owner** (facts, app
 ## 14. Open questions for the owner
 
 1. **Search Console / Bing:** can you add the DNS TXT record for a Domain property, or send the HTML-tag codes so I add them to `src/content/site.ts`?
-2. **Address:** is there an office address (street, area, city, postcode) you are happy to publish? Rajshahi or Dhaka? This unlocks ProfessionalService schema, Google Business Profile and local citations.
+2. ~~Address~~ — answered: Dhaka office, now on the site and in the schema.
 3. **Company social profiles:** company X account, Telegram channel/group, any YouTube/Medium? (Only LinkedIn is on the site now.)
-4. **Services:** do you sell all eight proposed services — in particular KOL marketing, token launch marketing and community management as separate offers?
-5. **Pricing:** may service pages show starting prices or ranges, or only "scoped per project"?
+4. ~~Services~~ — answered: yes, all eight. Pages are live.
+5. ~~Pricing~~ — answered: priced per project (shown on every service page).
 6. **Process:** how does a typical KOC/KOL campaign run for you (steps, timeline, how many creators, reporting)? This is the core of each service page.
 7. **Blockchain development:** which chains and languages (EVM/Solidity, Solana/Rust, TON…)? Any delivered projects you can name? Do you arrange audits?
-8. **Case studies:** which 6–10 partners would agree to a case study, and who is the contact for each? Any numbers you already have permission to share?
+8. **Case studies:** results exist but are not public. Which partners would agree to a case study without numbers, or with numbers they approve? Until then, service pages say results are discussed privately.
 9. **Team bios:** 80–150 words each, LinkedIn URLs, and 2–3 dated highlights per person.
 10. **Analytics:** OK to add cookie-free analytics (Vercel Web Analytics or Plausible) and update the privacy policy?
 11. **Blog authors:** who writes or approves posts, and in what language/voice?

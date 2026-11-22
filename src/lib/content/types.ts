@@ -249,6 +249,26 @@ export interface CapabilityDTO {
   icon: string;
   featured: boolean;
   products: Array<{ slug: string; name: string }>;
+  /** The service's own page, when it has one. */
+  page: { slug: string; name: string } | null;
+}
+
+export interface ServicePageDTO {
+  slug: string;
+  name: string;
+  title: string;
+  summary: string;
+  quickAnswer: string;
+  icon: string;
+  audience: string[];
+  sections: Array<{ id: string; heading: string; body: string }>;
+  /** Partners whose role matches the page, Tier 1 first. */
+  proof: PartnerDTO[];
+  products: ProductCardDTO[];
+  faqs: Array<{ question: string; answer: string }>;
+  related: Array<{ slug: string; name: string; summary: string; icon: string }>;
+  seoTitle: string;
+  seoDescription: string;
 }
 
 export interface PrincipleDTO {

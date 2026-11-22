@@ -3,6 +3,7 @@ export { company } from "./company";
 export { site } from "./site";
 export { principles } from "./principles";
 export { capabilities } from "./capabilities";
+export { servicePages } from "./service-pages";
 export { categories, products } from "./products";
 export { projects } from "./projects";
 export { partners, partnerships } from "./partnerships";

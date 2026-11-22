@@ -44,6 +44,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...(projects.length > 0
       ? [{ url: `${base}/projects`, changeFrequency: "weekly" as const, priority: 0.8, ...withDate(["src/content/projects.ts"]) }]
       : []),
+    ...detail("services", entries.services, 0.9, ["src/app/(site)/services/[slug]", "src/content/service-pages.ts"]),
     ...detail("products", entries.products, 0.8, ["src/app/(site)/products/[slug]", "src/content/products.ts"]),
     ...detail("projects", entries.projects, 0.8, ["src/app/(site)/projects/[slug]", "src/content/projects.ts"]),
     ...detail("partnerships", entries.partnerships, 0.6, ["src/content/partnerships.ts"]),
