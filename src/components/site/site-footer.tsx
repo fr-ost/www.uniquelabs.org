@@ -42,6 +42,13 @@ export function SiteFooter({
                 </a>
               ) : null}
             </div>
+            {company.contact.address ? (
+              <address className="mt-6 max-w-sm text-sm leading-relaxed text-ink-400 not-italic">
+                {company.name}, {[company.contact.address.line1, company.contact.address.line2].filter(Boolean).join(", ")},{" "}
+                {[company.contact.address.city, company.contact.address.postalCode].filter(Boolean).join(" ")}
+                {company.contact.address.country ? `, ${company.contact.address.country}` : ""}
+              </address>
+            ) : null}
           </div>
 
           <nav aria-label="Footer" className="grid grid-cols-2 gap-10 sm:grid-cols-4 lg:col-span-7">

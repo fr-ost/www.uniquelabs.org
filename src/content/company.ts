@@ -24,7 +24,7 @@ export const company: CompanyInput = {
 
   intro: {
     heading: "At the intersection of technology, AI and experimentation.",
-    body: "Unique Labs is not just a software company. We offer KOC and consultancy services, digital marketing and blockchain development, helping brands and Web3 projects build, launch and grow. Alongside our services, we build our own software — Chrome extensions such as UnfollowX Pro, GrowX and Unique PDF.",
+    body: "Unique Labs is not just a software company. Based in Dhaka, Bangladesh, we offer KOC and consultancy services, digital marketing and blockchain development, helping brands and Web3 projects build, launch and grow. Alongside our services, we build our own software — Chrome extensions such as UnfollowX Pro, GrowX and Unique PDF.",
   },
 
   about: {

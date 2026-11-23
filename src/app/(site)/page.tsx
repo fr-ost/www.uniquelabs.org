@@ -57,7 +57,7 @@ function ProductsBento({ products }: { products: ProductCardDTO[] }) {
   return (
     <div className="space-y-4 md:space-y-5">
       <Reveal kind="scale">
-        <ProductCard product={first} variant="wide" priority />
+        <ProductCard product={first} variant="wide" />
       </Reveal>
       {rest.length > 0 ? (
         <div className={cn("grid grid-cols-1 gap-4 md:gap-5", columns)}>

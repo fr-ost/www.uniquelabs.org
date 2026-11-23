@@ -41,7 +41,7 @@ export default async function ServicesPage() {
             Web3 marketing and development services<span className="text-signal-500">.</span>
           </>
         }
-        description={company.whatWeDoIntro}
+        description={`${company.whatWeDoIntro} From our office in ${[company.contact.address?.city, company.contact.country].filter(Boolean).join(", ")}, we work with projects worldwide.`}
       />
 
       {servicePages.length > 0 ? (

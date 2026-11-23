@@ -66,6 +66,25 @@ We work mainly on X (Twitter) and Telegram, where crypto audiences spend their t
 
 Today we are a KOC partner to exchanges and wallets including Gate, Bybit and Bitget Wallet, and have run KOC campaigns for Binance and many Web3 projects. The partners we have worked with are listed below and on our [partners page](/partnerships).`,
       },
+      {
+        heading: "How to measure a KOC campaign",
+        body: `KOC campaigns are judged by what people do, not just how many saw a post:
+
+- **Reach and engagement** — views, replies and quotes, and whether the replies are real questions from real people.
+- **Clicks and sign-ups** — tracked links and referral codes per KOC show which voices actually drive action.
+- **Activation** — first trades, deposits or feature use, where the exchange or app can share them.
+- **Quality** — how long new users stay. A KOC who brings fewer but more active users is often the better choice.
+
+Agreeing on these measures before the campaign starts makes the results easy to read afterwards.`,
+      },
+      {
+        heading: "Common mistakes in KOC campaigns",
+        body: `- **Treating KOCs like KOLs** — asking for scripted, ad-like posts removes the authenticity that makes KOC marketing work.
+- **Choosing by follower count alone** — a small, engaged audience that matches your users beats a large, unrelated one.
+- **One-off posts** — trust builds through repeated, honest use; a single post is easily forgotten.
+- **No clear next step** — every post should make it easy to try the product, with a link or code.
+- **Skipping disclosure** — undisclosed paid posts damage trust and can break platform rules.`,
+      },
     ],
     proofRoles: ["KOC Partner", "KOC Campaigns", "KOC Campaign"],
     faqs: [
@@ -96,6 +115,16 @@ Today we are a KOC partner to exchanges and wallets including Gate, Bybit and Bi
         question: "Can we see results from past campaigns?",
         answer:
           "We do not publish campaign results, out of respect for our partners. Get in touch and we can talk about the work we have done that is closest to yours.",
+      },
+      {
+        question: "How long does a KOC campaign last?",
+        answer:
+          "It depends on the goal. A push around a launch or feature can run for a week or two; programmes that keep real users talking about a product run for months.",
+      },
+      {
+        question: "Can KOC marketing work for a new token?",
+        answer:
+          "Yes, especially before and after launch, when people want to see real users trying the product rather than only announcements and paid promotion.",
       },
     ],
     related: ["kol-marketing", "token-launch-marketing", "community-management"],
@@ -146,6 +175,24 @@ Done well, a KOL campaign creates a moment: several trusted voices talking about
 
 We are a KOL partner to exchanges including KuCoin and OKX, and have run KOL campaigns for many Web3 projects — they are listed below.`,
       },
+      {
+        heading: "How to measure a KOL campaign",
+        body: `- **Reach** — impressions and views on each post or session.
+- **Engagement quality** — replies with real questions and discussion, not only emojis.
+- **Traffic and sign-ups** — tracked links per KOL show who sends visitors that act.
+- **Community growth** — new members in your Telegram or followers on X during the campaign.
+- **Cost per result** — comparing KOLs on what they delivered, not on their follower counts.
+
+Measuring each KOL separately makes the next campaign better: you keep the voices that worked and drop the ones that did not.`,
+      },
+      {
+        heading: "Red flags when choosing crypto KOLs",
+        body: `- Sudden follower jumps or engagement that does not match audience size.
+- Replies that are generic, repetitive or clearly from bots.
+- A feed made almost entirely of paid promotions.
+- No disclosure on sponsored posts.
+- Promoting projects that collapsed or turned out to be scams, without comment.`,
+      },
     ],
     proofRoles: ["KOL Partner", "KOL Campaign", "Creator Campaigns"],
     faqs: [
@@ -175,6 +222,16 @@ We are a KOL partner to exchanges including KuCoin and OKX, and have run KOL cam
       {
         question: "Can we see results from past campaigns?",
         answer: "We do not publish campaign results. Get in touch and we can talk about past work similar to yours.",
+      },
+      {
+        question: "What is the difference between a KOL and an influencer?",
+        answer:
+          "They overlap. In crypto, KOL usually means a voice people follow for expertise or analysis, while influencer is a broader term for anyone with a large audience.",
+      },
+      {
+        question: "How far ahead should a KOL campaign be planned?",
+        answer:
+          "Ideally a few weeks before the moment it supports, so the right KOLs are available and posts can be timed around your announcements.",
       },
     ],
     related: ["koc-marketing", "token-launch-marketing", "digital-marketing"],
@@ -222,6 +279,28 @@ The most common mistake is starting marketing too late, or stopping the day afte
         heading: "Launchpads and IDO platforms we have worked with",
         body: `Our partners include launchpads such as TrustFi, SeaFi, Tenset, Vision Launch, RedKite, Nova Labs and Alpha Launcher, and IDO platforms such as OpenPad, BSCS, DAO Maker, DeXe and Fjord Foundry. We have also run token sale campaigns for CoinList, and are a core contributor to Seedify, whose community we joined in 2021.`,
       },
+      {
+        heading: "A simple 12-week launch timeline",
+        body: `Every launch is different, but a 12-week runway is a useful starting point:
+
+| Weeks | Focus |
+| --- | --- |
+| 1–4 | Story, website and docs; community channels and moderation; first content |
+| 5–8 | Announcement; KOL wave; AMAs; quests and engagement campaigns |
+| 9–11 | Sale or whitelist; KOC wave showing real use; launchpad activity |
+| 12 | TGE and listing; live updates; support for new holders |
+| After | Weekly updates, community events and campaigns that keep holders involved |
+
+The timeline shortens or stretches with your launchpad schedule and listing dates.`,
+      },
+      {
+        heading: "Common token launch mistakes",
+        body: `- **Starting late** — announcing a sale before there is a community to receive it.
+- **Rewarding farmers** — quests and airdrops that attract bots rather than real users.
+- **All noise, no product** — paid posts without anything for people to try or understand.
+- **Silence after TGE** — the first weeks after listing decide whether holders stay.
+- **Unclear official channels** — scammers impersonate projects during launches; make the official links obvious everywhere.`,
+      },
     ],
     proofRoles: ["Launchpad Partner", "IDO Partner", "Token Sale Campaigns", "Core Contributor", "Launch Support"],
     faqs: [
@@ -253,6 +332,16 @@ The most common mistake is starting marketing too late, or stopping the day afte
       {
         question: "How is launch marketing priced?",
         answer: "It is priced per project, based on the launch timeline, the channels involved and the scale of the campaigns.",
+      },
+      {
+        question: "What is an IDO?",
+        answer:
+          "An initial DEX offering: a token sale run through a decentralised platform or launchpad, where participants buy tokens before they are listed for trading.",
+      },
+      {
+        question: "What does a launchpad do?",
+        answer:
+          "A launchpad hosts token sales for new projects, vets them to some degree and gives them access to its community of participants.",
       },
     ],
     related: ["koc-marketing", "kol-marketing", "community-management", "web3-consulting"],
@@ -299,6 +388,22 @@ The most common mistake is starting marketing too late, or stopping the day afte
         heading: "Where our perspective comes from",
         body: `We have been in Web3 since 2019 — first as users hunting airdrops, then as community contributors and ambassadors, and now as partners to exchanges, launchpads and ecosystems. That includes a strategic partnership with LBank, an ambassador role with Bitget and ecosystem campaigns on Base, Solana and BNB Chain. Read [our story](/journey).`,
       },
+      {
+        heading: "Questions a good consultancy helps you answer",
+        body: `- Who exactly is the first user, and why would they care now?
+- What should the launch look like — and what should happen in the six months after it?
+- Which channels deserve budget, and which are habits rather than results?
+- Which partnerships, exchanges or ecosystems make sense at this stage?
+- What does the community need to see to trust the project?`,
+      },
+      {
+        heading: "Signs your go-to-market needs work",
+        body: `- Announcements get likes but no sign-ups.
+- Your community is large but quiet, or active only when there are rewards.
+- Every launch date slips because marketing and product are planned separately.
+- You cannot explain what makes the project different in one sentence.
+- Spend is rising while results are flat.`,
+      },
     ],
     proofRoles: ["Strategic Partnership", "Ambassador", "Ecosystem Campaigns", "Ecosystem Advocate"],
     faqs: [
@@ -319,6 +424,16 @@ The most common mistake is starting marketing too late, or stopping the day afte
       {
         question: "How is consultancy priced?",
         answer: "It is priced per project, depending on the scope and how long you need us.",
+      },
+      {
+        question: "What is a go-to-market strategy in Web3?",
+        answer:
+          "A plan for how a project reaches its first users and grows: positioning, the order of announcements and campaigns, community building, partnerships and listings.",
+      },
+      {
+        question: "How is Web3 marketing different from traditional marketing?",
+        answer:
+          "Communities, KOLs and on-chain incentives play a much larger role, trust is harder to earn, and launches are tied to token events such as sales and listings.",
       },
     ],
     related: ["token-launch-marketing", "digital-marketing", "koc-marketing"],
@@ -353,6 +468,26 @@ The most common mistake is starting marketing too late, or stopping the day afte
         heading: "Working with KOCs and KOLs",
         body: `Digital marketing rarely works on its own in crypto. It works best alongside [KOC](/services/koc-marketing) and [KOL campaigns](/services/kol-marketing), so the people talking about a project and the project's own channels say the same thing at the same time.`,
       },
+      {
+        heading: "Planning content for a Web3 project",
+        body: `A steady content plan beats bursts of activity. A simple weekly rhythm might mix:
+
+- **Product updates** — what shipped, what is next.
+- **Education** — how the product works, explained simply.
+- **Community** — highlights, events, AMAs and user stories.
+- **Ecosystem** — partners, integrations and the wider conversation in your space.
+
+Planning a few weeks ahead leaves room to react to news without losing the thread.`,
+      },
+      {
+        heading: "Measuring digital marketing",
+        body: `- **Audience growth** — followers and community members, and how many stay.
+- **Engagement** — replies, shares and conversations, not just likes.
+- **Traffic** — visits from each channel and campaign, using tracked links.
+- **Conversions** — sign-ups, wallet connections or other actions that matter to the project.
+
+The right measures depend on the stage: awareness early on, conversions closer to launch.`,
+      },
     ],
     proofRoles: ["Quest Campaign Partner", "Engagement Campaign", "Growth Campaign", "Trading Campaign Partner", "Campaign Partner", "Promotional Partner"],
     faqs: [
@@ -371,6 +506,16 @@ The most common mistake is starting marketing too late, or stopping the day afte
       {
         question: "How is digital marketing priced?",
         answer: "It is priced per project, based on the channels, the amount of content and the length of the engagement.",
+      },
+      {
+        question: "How often should a crypto project post?",
+        answer:
+          "Consistency matters more than volume. A steady rhythm that the team can keep up is better than daily posting for a month followed by silence.",
+      },
+      {
+        question: "Can crypto projects run paid ads?",
+        answer:
+          "Many ad platforms restrict or require approval for crypto ads, and the rules vary by platform and country, so most crypto marketing relies on organic channels, communities and KOLs.",
       },
     ],
     related: ["community-management", "kol-marketing", "koc-marketing"],
@@ -408,6 +553,22 @@ We know these programmes from the inside: one of us was part of the Seedify amba
         heading: "Why it matters at launch",
         body: `Launchpads, exchanges and investors look at a project's community. An active, well-run community is also where a [token launch](/services/token-launch-marketing) gets its first real holders — and where they decide whether to stay.`,
       },
+      {
+        heading: "Moderation basics for crypto communities",
+        body: `- **Pin the official links** and repeat them often, so members can spot impersonators.
+- **Make admins easy to identify** and remind members that admins never message first.
+- **Filter bots and spam** before they reach the conversation.
+- **Answer questions quickly** — unanswered questions are where misinformation starts.
+- **Write down the rules** and apply them consistently.`,
+      },
+      {
+        heading: "Measuring community health",
+        body: `- **Active members**, not just total members.
+- **Questions answered** and how quickly.
+- **Organic conversation** — members talking to each other without prompts or rewards.
+- **Retention** — how many people from a campaign are still active weeks later.
+- **Sentiment** — how members talk about the project when the team is not in the room.`,
+      },
     ],
     proofRoles: ["Community Campaign", "Community Partner", "Core Contributor", "Ambassador", "Early-Access Community", "Community Advocate"],
     faqs: [
@@ -432,6 +593,16 @@ We know these programmes from the inside: one of us was part of the Seedify amba
       {
         question: "How is community management priced?",
         answer: "It is priced per project, based on the channels, the size of the community and the hours of cover needed.",
+      },
+      {
+        question: "Telegram or Discord: which is better for a crypto community?",
+        answer:
+          "Telegram is the default for most crypto communities and announcements; Discord suits projects that need many topic channels, roles or gaming-style communities. Many projects use both.",
+      },
+      {
+        question: "What is a crypto ambassador programme?",
+        answer:
+          "A structured way for active community members to help a project — welcoming newcomers, answering questions, creating content — in return for recognition and rewards.",
       },
     ],
     related: ["token-launch-marketing", "digital-marketing", "koc-marketing"],
@@ -471,6 +642,22 @@ Every project is priced per project once the scope is clear.`,
         heading: "Development and launch together",
         body: `Building the product and launching it are usually handled by different teams that rarely talk. At Unique Labs they sit under one roof: the people who build your contracts and site work alongside the people running your [launch](/services/token-launch-marketing), [community](/services/community-management) and [campaigns](/services/koc-marketing).`,
       },
+      {
+        heading: "Smart contract security basics",
+        body: `- **Keep contracts simple** — less code means fewer places for bugs.
+- **Test thoroughly** — automated tests for every function and edge case.
+- **Get an independent review** — for contracts that hold real value, an external audit is standard practice.
+- **Be clear about admin powers** — who can pause, upgrade or change parameters, and how that is controlled.
+- **Plan for incidents** — what happens, and who acts, if something goes wrong after launch.`,
+      },
+      {
+        heading: "Questions to answer before a build",
+        body: `- What must happen on-chain, and what can stay off-chain?
+- Which chain fits the users, the costs and the ecosystem you want to join?
+- Who will hold admin keys, and how?
+- What does the product around the contracts need — a dApp, a website, documentation?
+- When is the launch, and what has to be ready for it?`,
+      },
     ],
     faqs: [
       {
@@ -490,6 +677,16 @@ Every project is priced per project once the scope is clear.`,
       {
         question: "Where is your team based?",
         answer: "In Bangladesh, with our office in Dhaka. We work with projects worldwide.",
+      },
+      {
+        question: "What is a smart contract?",
+        answer:
+          "A program stored on a blockchain that runs exactly as written when its conditions are met — for example, transferring tokens or handling a sale.",
+      },
+      {
+        question: "Do smart contracts need an audit?",
+        answer:
+          "Contracts that hold or move real value should be reviewed by an independent auditor before launch, in addition to the developers' own testing.",
       },
     ],
     related: ["chrome-extension-development", "web3-consulting", "token-launch-marketing"],
@@ -524,6 +721,18 @@ Every project is priced per project once the scope is clear.`,
         heading: "What we deliver",
         body: `We take an extension from idea to the Chrome Web Store: design, development, the privacy policy and the store listing. Every project is priced per project once the scope is clear.`,
       },
+      {
+        heading: "What a Chrome extension can do",
+        body: `- **Add features to websites** — buttons, panels and tools on the pages people already use.
+- **Work with files and content** — editing PDFs, capturing screens, extracting data.
+- **Automate repetitive tasks** — with the user in control.
+- **Run AI in the browser** — drafting, summarising or analysing, sometimes entirely on the user's device.
+- **Keep things secure** — authenticators and password-related tools that live in the browser.`,
+      },
+      {
+        heading: "Permissions and privacy",
+        body: `Every permission an extension asks for is shown to users and checked by Chrome Web Store reviewers. Asking only for what the extension needs makes approval smoother and earns users' trust. A privacy policy has to describe exactly what the extension does with data — and the simplest policy to write, and to believe, is one where the data never leaves the user's device.`,
+      },
     ],
     products: ["unique-pdf", "frameshot", "twofold", "rowlio", "xaicg", "unfollowx-pro", "growx", "scorex", "uniquefarm"],
     faqs: [
@@ -548,6 +757,16 @@ Every project is priced per project once the scope is clear.`,
       {
         question: "How is extension development priced?",
         answer: "It is priced per project, depending on features, integrations and design.",
+      },
+      {
+        question: "How long does Chrome Web Store review take?",
+        answer:
+          "Review times vary. Many submissions are reviewed within days, but extensions with broad permissions or sensitive features can take longer.",
+      },
+      {
+        question: "Will a Chrome extension work in other browsers?",
+        answer:
+          "Chromium-based browsers such as Microsoft Edge, Brave and Opera can usually run Chrome extensions. Firefox and Safari need some adaptation.",
       },
     ],
     related: ["blockchain-development", "web3-consulting", "digital-marketing"],

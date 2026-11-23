@@ -70,7 +70,7 @@ export function HomeHero({
       <div className="container-site relative grid min-h-[min(100svh,62rem)] grid-cols-1 items-center gap-12 pt-[calc(var(--header-height)+2.5rem)] pb-12 lg:grid-cols-12 lg:gap-10 lg:pb-14">
         <div className="relative z-10 lg:col-span-7">
           {company.heroEyebrow ? (
-            <p className="inline-flex max-w-full animate-fade-in items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.045] py-2 pr-4 pl-3 font-mono text-[0.625rem] leading-relaxed font-medium tracking-[0.14em] text-ink-200 uppercase shadow-[0_1px_0_0_rgba(255,255,255,0.06)_inset] sm:text-[0.6875rem] sm:tracking-[0.16em]">
+            <p className="inline-flex max-w-full items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.045] py-2 pr-4 pl-3 font-mono text-[0.625rem] leading-relaxed font-medium tracking-[0.14em] text-ink-200 uppercase shadow-[0_1px_0_0_rgba(255,255,255,0.06)_inset] sm:text-[0.6875rem] sm:tracking-[0.16em]">
               <span aria-hidden className="relative flex h-2 w-2 shrink-0">
                 <span className="absolute inline-flex h-full w-full animate-ping-slow rounded-full bg-signal-500/70" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-signal-500" />
@@ -103,7 +103,7 @@ export function HomeHero({
                       key={partner.slug}
                       className="relative h-9 w-9 overflow-hidden rounded-full border-2 border-ink-900 bg-ink-800 transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:-translate-y-0.5"
                     >
-                      <PartnerLogo logo={partner.logo} alt="" eager />
+                      <PartnerLogo logo={partner.logo} alt="" />
                     </span>
                   ) : null,
                 )}
